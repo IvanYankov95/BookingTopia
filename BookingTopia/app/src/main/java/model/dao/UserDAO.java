@@ -1,6 +1,9 @@
 package model.dao;
 
+import com.google.gson.Gson;
+
 import model.User;
+import model.connectionhelper.ConnectionHelper;
 
 /**
  * Created by user-17 on 4/2/16.
@@ -19,7 +22,15 @@ public class UserDAO {
     }
 
     public User registerUser(User user){
-        return null;
+
+        Gson gson = new Gson();
+        String userJson = gson.toJson(user);
+
+        String returnJson = ConnectionHelper.registerUser(userJson);
+
+        return gson.fromJson(returnJson, User.class);
+
+
     }
 
     public void deleteUser(User user){

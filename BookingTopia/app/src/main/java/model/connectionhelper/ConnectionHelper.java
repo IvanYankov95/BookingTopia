@@ -16,14 +16,23 @@ import model.User;
  */
 public class ConnectionHelper {
 
+    private static String REGISTER = "register";
+    private static String DELETE   = "delete";
+    private static String UPDATE   = "update";
+
+    private static String TYPE_EMAIL = "email";
+
     private ConnectionHelper() {
     }
 
+    public static String registerUser(String userJson){
+        alterUser(userJson, REGISTER);
+        return getUserJson(userJson, TYPE_EMAIL);
+    }
 
-
-    public static void alterUser(String userJson, String type) {
+    private static void alterUser(String userJson, String type) {
         try {
-            URL url = new URL("http://10.0.3.2:8080/Server/PostUserServlet");
+            URL url = new URL("http://192.168.6.239:8080/Server/PostUserServlet");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
             con.setRequestMethod("POST");
@@ -49,10 +58,10 @@ public class ConnectionHelper {
     }
 
 
-    public static String getUserJson(String type, String value) {
+    private static String getUserJson(String value, String type) {
         StringBuilder data = new StringBuilder("");
         try {
-            URL url = new URL("http://10.0.3.2:8080/Server/GetUserServlet?col=" + type + "&value=" + value);
+            URL url = new URL("http://192.168.6.239/:8080/Server/PostUserServlet?col=" + type + "&value=" + value);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
