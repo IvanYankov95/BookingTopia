@@ -69,10 +69,6 @@ public class UserManager {
         return userDAO.login(email, password);
     }
 
-    public boolean checkPassword(long userId, String password){
-        password = md5(password);
-        return userDAO.checkPassword(userId, password);
-    }
 
     private static String md5(String password) {
         try {
@@ -99,10 +95,6 @@ public class UserManager {
 
     public User getUser(long id){
         return userDAO.getUser(id);
-    }
-
-    public long updateUser(User user){
-        return userDAO.changeUserData(user);
     }
 
 }

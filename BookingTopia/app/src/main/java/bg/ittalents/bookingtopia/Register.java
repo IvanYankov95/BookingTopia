@@ -68,6 +68,12 @@ public class Register extends CustomActivityWithMenu {
 
     private static String selectedGender;
 
+    private static byte[] avatarPic;
+
+    private static Calendar calendar;
+
+    private boolean usernameCheck;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +95,6 @@ public class Register extends CustomActivityWithMenu {
         smokerCheckBox  = (CheckBox) findViewById(R.id.register_smoker_checkbox);
         dateOfBirth     = (EditText) findViewById(R.id.register_date_of_birth_text);
         avatar          = (ImageButton) findViewById(R.id.register_image_button);
-
 
         ArrayList<String> categories = new ArrayList<>();
         categories.add("Prefer not to say");
@@ -137,81 +142,98 @@ public class Register extends CustomActivityWithMenu {
                 String emailTxt = email.getText().toString();
                 String firstNameTxt = firstName.getText().toString();
                 String lastNameTxt = lastName.getText().toString();
-                String cityTxt = city.getText().toString();
                 String addressTxt = address.getText().toString();
                 String phoneTxt = phone.getText().toString();
+                String dateOfBirthTxt = dateOfBirth.getText().toString();
 
-                boolean usernameCheck = false;
+
                 boolean emailCheck = false;
                 boolean passwordCheck = false;
                 boolean passwordMatch = false;
 
-                if (userManager.existUsername(usernameTxt)) {
-                    username.setError("Username already exists");
-                } else if (usernameTxt.isEmpty()) {
-                    username.setError("This field is required");
-                } else
-                    usernameCheck = true;
-
-                if (userManager.existEmail(emailTxt)) {
-                    email.setError("Email already exists");
-                } else if (emailTxt.isEmpty()) {
-                    email.setError("This field is required");
-                } else if (!isEmailValid(emailTxt)) {
-                    email.setError("Please enter a valid email");
-                } else
-                    emailCheck = true;
-
-                if (password.getText().toString().isEmpty()) {
-                    password.setError("This field is required.");
-                } else {
-                    if (!userManager.checkPasswordStrength(password.getText().toString())) {
-                        password.setError("Password is too weak\n At least 8 symbols \n At least 1 lowercase and uppercase \n At least 1 number");
-                    } else
-                        passwordCheck = true;
-
-                    if (userManager.checkPasswordStrength(password.getText().toString()) && !password.getText().toString().equals(confirmPassword.getText().toString())) {
-                        confirmPassword.setError("Passwords don't match");
-                    } else
-                        passwordMatch = true;
-                }
+//                if (userManager.existUsername(usernameTxt)) {
+//                    username.setError("Username already exists");
+//                } else if (usernameTxt.isEmpty()) {
+//                    username.setError("This field is required");
+//                } else
+//                    usernameCheck = true;
+                new GetRequest().execute(emailTxt, passwordTxt);
+//                if (userManager.existEmail(emailTxt)) {
+//                    email.setError("Email already exists");
+//                } else if (emailTxt.isEmpty()) {
+//                    email.setError("This field is required");
+//                } else if (!isEmailValid(emailTxt)) {
+//                    email.setError("Please enter a valid email");
+//                } else
+//                    emailCheck = true;
+//
+//                if (password.getText().toString().isEmpty()) {
+//                    password.setError("This field is required.");
+//                } else {
+//                    if (!userManager.checkPasswordStrength(password.getText().toString())) {
+//                        password.setError("Password is too weak\n At least 8 symbols \n At least 1 lowercase and uppercase \n At least 1 number");
+//                    } else
+//                        passwordCheck = true;
+//
+//                    if (userManager.checkPasswordStrength(password.getText().toString()) && !password.getText().toString().equals(confirmPassword.getText().toString())) {
+//                        confirmPassword.setError("Passwords don't match");
+//                    } else
+//                        passwordMatch = true;
+//                }
 
                 if (usernameCheck && emailCheck && passwordCheck && passwordMatch) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(1995, 7, 4);
+                    String names = firstNameTxt + " " + lastNameTxt;
+                    User user = new User(names, passwordTxt, avatarPic, emailTxt, usernameTxt, phoneTxt, calendar, selectedGender, addressTxt, smokerCheckBox.isChecked());
                     //User user = new User(emailTxt, passwordTxt, usernameTxt, firstNameTxt, lastNameTxt, phoneTxt, cityTxt, addressTxt);
                     //User regedUser = userManager.register(user);
                     //if(regedUser != null)
+
                     Toast.makeText(getApplicationContext(), "register successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(Register.this, LogIn.class));
                 }
+
             }
         });
 
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                picDate((EditText)v);
+                picDate((EditText) v);
             }
         });
+        Calendar cal = Calendar.getInstance();
+        cal.set(1995, 7, 4);
+        User user = new User("Gosho", "BahQkataParolaXx95xX", new byte[2], "1 235FUCK YOU 99", "XxN0_SC0P3RxX", "964635953", cal, "male", "Bulgaria", true);
 
-        new GetRequest().execute("hi");
+
     }
 
-    private class GetRequest extends AsyncTask<String, Void, User> {
+    private class GetRequest extends AsyncTask<String, Void, Boolean> {
 //
         @Override
-        protected User doInBackground(String... params) {
-            Calendar cal = Calendar.getInstance();
-            cal.set(1995, 7,4);
-            User user = new User("Gosho", "BahQkataParolaXx95xX", new byte[2], "1 235FUCK YOU 99", "XxN0_SC0P3RxX", "964635953", cal, "male", "Bulgaria", true);
-            User reged = UserDAO.getInstance().registerUser(user);
-
-            return reged;
+        protected Boolean doInBackground(String... params) {
+            //Calendar cal = Calendar.getInstance();
+            //cal.set(1995, 7,4);
+            //User user = new User(20, "Pesho", "BahQkataParolaXx95xX", new byte[2], "qkmail@qkmail" , "XxN0_SC0P3RxX", "964635953", cal, "male", "UK", false);
+            //UserDAO.getInstance().changeUserData(user);
+            if(UserDAO.getInstance().login(params[0], params[1]) == null)
+              return false;
+            else
+                return true;
         }
 
         @Override
-        protected void onPostExecute(User user) {
-               password.setText(user.toString());
+        protected void onPostExecute(Boolean b) {
+               //email.setText(user.toString());
+            makeToast(b);
         }
+
+    }
+
+    public void makeToast(Boolean b){
+        Toast.makeText(Register.this, "RESULT " + b, Toast.LENGTH_SHORT).show();
     }
 
     private void picDate(final EditText edt) {
@@ -225,6 +247,7 @@ public class Register extends CustomActivityWithMenu {
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
+                calendar = c;
 
                 return new DatePickerDialog(getActivity(), this, year, month, day);
             }
@@ -290,6 +313,7 @@ public class Register extends CustomActivityWithMenu {
 
             image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 
+            avatarPic = stream.toByteArray();
             //user.set(stream.toByteArray());
 
             button.setImageBitmap(image);

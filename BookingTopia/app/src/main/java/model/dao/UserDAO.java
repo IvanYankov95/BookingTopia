@@ -29,35 +29,48 @@ public class UserDAO {
         String returnJson = ConnectionHelper.registerUser(userJson);
 
         return gson.fromJson(returnJson, User.class);
-
-
     }
 
     public void deleteUser(User user){
+        Gson gson = new Gson();
+        String userJson = gson.toJson(user);
 
+        ConnectionHelper.deleteUser(userJson);
     }
 
-    public long changeUserData(User user){
-        return 0;
+    public void changeUserData(User user){
+        Gson gson = new Gson();
+        String userJson = gson.toJson(user);
+
+        ConnectionHelper.updateUser(userJson);
     }
 
     public boolean checkUsername(String username){
-        return true;
+        return ConnectionHelper.checkUsername(username);
     }
 
     public boolean checkUserEmail(String email){
-        return true;
-    }
-
-    public boolean checkPassword(long userId, String password){
-        return true;
+        return ConnectionHelper.checkEmail(email);
     }
 
     public User login (String email, String password){
-        return null;
+        User user = new User(0, null,password,null,email,null,null,null,null,null,false);
+        Gson gson = new Gson();
+        String userJson = gson.toJson(user);
+
+        if(ConnectionHelper.login(email, password)) {
+            String returnJson = ConnectionHelper.getUserByEmail(userJson);
+            return gson.fromJson(returnJson, User.class);
+        }
+        else
+            return null;
     }
 
     public User getUser (long id){
-        return null;
+        User user = new User(id, null,null,null,null,null,null,null,null,null,false);
+        Gson gson = new Gson();
+        String userJson = gson.toJson(user);
+
+        return gson.fromJson(ConnectionHelper.getUserById(userJson), User.class);
     }
 }

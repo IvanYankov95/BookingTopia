@@ -18,6 +18,11 @@ public class ConnectionHelper {
     private static String UPDATE   = "update";
 
     private static String TYPE_EMAIL = "email";
+    private static String TYPE_ID    = "user_id";
+
+    private static String CHECK_USERNAME = "username";
+    private static String CHECK_EMAIL    = "email";
+    private static String CHECK_LOGIN    = "login";
 
     private ConnectionHelper() {
     }
@@ -25,6 +30,37 @@ public class ConnectionHelper {
     public static String registerUser(String userJson){
         alterUser(userJson, REGISTER);
         return getUserJson(userJson, TYPE_EMAIL);
+    }
+
+    public static void deleteUser(String userJson){
+        alterUser(userJson, DELETE);
+    }
+
+    public static void updateUser(String userJson){
+        alterUser(userJson, UPDATE);
+    }
+
+    public static String getUserById(String userJson){
+        return getUserJson(userJson, TYPE_ID);
+    }
+
+    public static String getUserByEmail(String userJson){
+        return getUserJson(userJson, TYPE_EMAIL);
+    }
+
+    public static boolean checkUsername(String username){
+        String[] args = {username, null, null};
+        return checkUserData(args, CHECK_USERNAME);
+    }
+
+    public static boolean checkEmail(String email){
+        String[] args = {null, email, null};
+        return checkUserData(args, CHECK_EMAIL);
+    }
+
+    public static boolean login(String email, String password){
+        String[] args = {null, email, password};
+        return checkUserData(args, CHECK_LOGIN);
     }
 
     private static void alterUser(String userJson, String type) {
@@ -58,7 +94,7 @@ public class ConnectionHelper {
     private static String getUserJson(String userJson, String type) {
         StringBuilder data = new StringBuilder("");
         try {
-            URL url = new URL("http://192.168.6.239/:8080/Server/GetUserServlet?type=" + type + "&userJson=" + userJson);
+            URL url = new URL("http://192.168.6.239:8080/Server/GetUserServlet?type=" + type + "&userJson=" + userJson.trim());
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
@@ -72,40 +108,30 @@ public class ConnectionHelper {
         }  catch (IOException e) {
             Log.e(e.toString(), " ");
         }
+
         return data.toString();
     }
 
-//    private class GetRequest extends AsyncTask<String, Void, String> {
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            StringBuilder data = new StringBuilder("");
-//            try {
-//                Log.e("-------da", "http://10.0.3.2:8080/Server/GetUserServlet?type=" + params[0] + "&col=" + params[1] + "&value=" + params[2]);
-//                    URL url = new URL("http://10.0.3.2:8080/Server/GetUserServlet?type=" + params[0] + "&col=" + params[1] + "&value=" + params[2]);
-//                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//                    con.setRequestMethod("GET");
-//
-//                    con.connect();
-//
-//                    Scanner scanner = new Scanner(con.getInputStream());
-//
-//                    while (scanner.hasNextLine()) {
-//                        data.append(scanner.nextLine());
-//                }
-//
-//            } catch (MalformedURLException e) {
-//                Log.e(e.toString(), " ");
-//            } catch (IOException e) {
-//                Log.e(e.toString(), " ");
-//            }
-//            return data.toString();
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String text) {
-//
-//        }
-//    }
+    private static boolean checkUserData(String[] args, String type){
+        StringBuilder data = new StringBuilder("");
+        try {
+            Log.e("log5", args[0]+ " 1 =" + args[1] + " 2=" + args[2]);
+            URL url = new URL("http://192.168.6.239:8080/Server/CheckUserDataServlet?type=" + type + "&username=" + args[0] + "&email=" + args[1] + "&password=" + args[2]);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+
+            con.connect();
+
+            Scanner scanner = new Scanner(con.getInputStream());
+
+            while (scanner.hasNextLine()) {
+                data.append(scanner.nextLine());
+            }
+        }  catch (IOException e) {
+            Log.e(e.toString(), " ");
+        }
+        Log.e("log5", data.toString());
+        return data.toString().equalsIgnoreCase("true");
+    }
 
 }
