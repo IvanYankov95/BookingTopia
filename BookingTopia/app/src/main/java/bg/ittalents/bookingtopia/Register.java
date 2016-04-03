@@ -202,7 +202,7 @@ public class Register extends CustomActivityWithMenu {
         protected User doInBackground(String... params) {
             Calendar cal = Calendar.getInstance();
             cal.set(1995, 7,4);
-            User user = new User("Ivan", "BahQkataParolaXx95xX", new byte[2], "mailche", "usernamche", "935953", cal, "male", "Bulgaria", false);
+            User user = new User("Gosho", "BahQkataParolaXx95xX", new byte[2], "1 235FUCK YOU 99", "XxN0_SC0P3RxX", "964635953", cal, "male", "Bulgaria", true);
             User reged = UserDAO.getInstance().registerUser(user);
 
             return reged;

@@ -5,11 +5,8 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
-
-import model.User;
 
 /**
  * Created by user-17 on 4/2/16.
@@ -58,10 +55,10 @@ public class ConnectionHelper {
     }
 
 
-    private static String getUserJson(String value, String type) {
+    private static String getUserJson(String userJson, String type) {
         StringBuilder data = new StringBuilder("");
         try {
-            URL url = new URL("http://192.168.6.239/:8080/Server/PostUserServlet?col=" + type + "&value=" + value);
+            URL url = new URL("http://192.168.6.239/:8080/Server/GetUserServlet?type=" + type + "&userJson=" + userJson);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
