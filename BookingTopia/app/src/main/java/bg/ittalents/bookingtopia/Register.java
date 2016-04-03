@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ import java.util.regex.Pattern;
 import model.User;
 import model.UserManager;
 import model.UserSessionManager;
+import model.dao.UserDAO;
 
 public class Register extends CustomActivityWithMenu {
 
@@ -190,6 +192,26 @@ public class Register extends CustomActivityWithMenu {
                 picDate((EditText)v);
             }
         });
+
+        new GetRequest().execute("hi");
+    }
+
+    private class GetRequest extends AsyncTask<String, Void, User> {
+//
+        @Override
+        protected User doInBackground(String... params) {
+            Calendar cal = Calendar.getInstance();
+            cal.set(1995, 7,4);
+            User user = new User("Ivan", "BahQkataParolaXx95xX", new byte[2], "mailche", "usernamche", "935953", cal, "male", "Bulgaria", false);
+            User reged = UserDAO.getInstance().registerUser(user);
+
+            return reged;
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+               password.setText(user.toString());
+        }
     }
 
     private void picDate(final EditText edt) {
