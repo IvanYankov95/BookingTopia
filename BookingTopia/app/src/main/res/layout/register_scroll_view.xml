@@ -139,13 +139,23 @@
             android:layout_alignRight="@+id/lastNameField"
             android:layout_alignEnd="@+id/lastNameField"
             android:layout_weight="1" />
-
-        <Spinner
-            android:id="@+id/register_gender_spinner"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:text="Gendre: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Spinner
+                android:id="@+id/register_gender_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        </Spinner>
+            </Spinner>
+
+        </LinearLayout>
+
 
         <CheckBox
             android:id="@+id/register_smoker_checkbox"
