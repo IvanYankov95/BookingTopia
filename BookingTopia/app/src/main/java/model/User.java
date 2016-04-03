@@ -1,26 +1,25 @@
 package model;
 
-import java.util.Date;
+import java.util.Calendar;
 
-/**
- * Created by user-17 on 4/2/16.
- */
 public class User {
 
-    private long    userId;
-    private String  names;
-    private byte[]  avatar;
-    private String  email;
-    private String  username;
-    private String  mobilePhone;
-    private Date    dateOfBirth;
-    private String  gender;
-    private String  country;
-    private boolean smoking;
+    private long     userId;
+    private String   names;
+    private String   password;
+    private byte[]   avatar;
+    private String   email;
+    private String   username;
+    private String   mobilePhone;
+    private Calendar dateOfBirth;
+    private String   gender;
+    private String   country;
+    private boolean  smoking;
 
-    public User(long userId, String names, byte[] avatar, String email, String username, String mobilePhone, Date dateOfBirth, String gender, String country, boolean smoking) {
+    public User(long userId, String names, String password, byte[] avatar, String email, String username, String mobilePhone, Calendar dateOfBirth, String gender, String country, boolean smoking) {
         this.userId = userId;
         this.names = names;
+        this.password = password;
         this.avatar = avatar;
         this.email = email;
         this.username = username;
@@ -31,8 +30,9 @@ public class User {
         this.smoking = smoking;
     }
 
-    public User(String names, byte[] avatar, String email, String username, String mobilePhone, Date dateOfBirth, String gender, String country, boolean smoking) {
+    public User(String names, String password, byte[] avatar, String email, String username, String mobilePhone, Calendar dateOfBirth, String gender, String country, boolean smoking) {
         this.names = names;
+        this.password = password;
         this.avatar = avatar;
         this.email = email;
         this.username = username;

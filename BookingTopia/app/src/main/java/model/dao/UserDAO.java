@@ -7,8 +7,19 @@ import model.User;
  */
 public class UserDAO {
 
-    public long registerUser(User user){
-        return 0;
+    private static UserDAO instance;
+
+    private UserDAO(){}
+
+    public static UserDAO getInstance(){
+        if(instance == null)
+            instance = new UserDAO();
+
+        return instance;
+    }
+
+    public User registerUser(User user){
+        return null;
     }
 
     public void deleteUser(User user){
@@ -19,19 +30,23 @@ public class UserDAO {
         return 0;
     }
 
-    boolean checkUsername(String username){
+    public boolean checkUsername(String username){
         return true;
     }
 
-    boolean checkUserEmail(String email){
+    public boolean checkUserEmail(String email){
         return true;
     }
 
-    boolean checkPassword(long userId, String password){
+    public boolean checkPassword(long userId, String password){
         return true;
     }
 
-    User login (String email, String password){
+    public User login (String email, String password){
+        return null;
+    }
+
+    public User getUser (long id){
         return null;
     }
 }
