@@ -3,6 +3,10 @@ package bg.ittalents.bookingtopia;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,9 +21,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Matcher;
@@ -31,9 +40,15 @@ import model.UserSessionManager;
 
 public class Register extends CustomActivityWithMenu {
 
+    protected static final int IMAGE_GALLERY_REQUEST_1 = 21;
+    protected static final int REQ_WIDTH = 500;
+    protected static final int REQ_HEIGHT = 500;
+
     private UserManager userManager;
 
     private static Button register;
+
+    private static ImageButton avatar;
 
     private static EditText username;
     private static EditText password;
@@ -71,6 +86,7 @@ public class Register extends CustomActivityWithMenu {
         genderSpinner   = (Spinner)  findViewById(R.id.register_gender_spinner);
         smokerCheckBox  = (CheckBox) findViewById(R.id.register_smoker_checkbox);
         dateOfBirth     = (EditText) findViewById(R.id.register_date_of_birth_text);
+        avatar          = (ImageButton) findViewById(R.id.register_image_button);
 
 
         ArrayList<String> categories = new ArrayList<>();
@@ -94,6 +110,20 @@ public class Register extends CustomActivityWithMenu {
             }
         });
 
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                String pictureDirectoryPath = pictureDirectory.getPath();
+                Uri data = Uri.parse(pictureDirectoryPath);
+
+                photoPickerIntent.setDataAndType(data, "image/*");
+
+                startActivityForResult(photoPickerIntent, IMAGE_GALLERY_REQUEST_1);
+
+            }
+        });
 
 
 
@@ -207,6 +237,94 @@ public class Register extends CustomActivityWithMenu {
             isValid = true;
         }
         return isValid;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK){
+
+            switch (requestCode){
+                case IMAGE_GALLERY_REQUEST_1:
+                    setPicture(avatar,data);
+                    break;
+
+            }
+        }
+    }
+
+    private void setPicture(ImageButton button, Intent data){
+        Uri imageUrl = data.getData();
+
+        InputStream inputStream = null;
+        InputStream inputStream2 = null;
+        ByteArrayOutputStream stream = null;
+        try {
+            inputStream = getContentResolver().openInputStream(imageUrl);
+            inputStream2 = getContentResolver().openInputStream(imageUrl);
+
+            Bitmap image = decodeSampledBitmapFromStream(inputStream,inputStream2, REQ_WIDTH, REQ_HEIGHT);
+
+            stream = new ByteArrayOutputStream();
+
+            image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+            //user.set(stream.toByteArray());
+
+            button.setImageBitmap(image);
+
+        } catch (FileNotFoundException e) {
+            Toast.makeText(Register.this, "Unable to open image", Toast.LENGTH_SHORT).show();
+        } finally {
+            try {
+                if (inputStream != null)
+                    inputStream.close();
+            } catch (Exception e){}
+            try {
+                if (inputStream2 != null)
+                    inputStream2.close();
+            } catch (Exception e){}
+            try {
+                if (stream != null)
+                    stream.close();
+            } catch (Exception e){}
+        }
+    }
+
+    protected static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
+    protected static Bitmap decodeSampledBitmapFromStream(InputStream inputStream, InputStream inputStream2,int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream(inputStream, null, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeStream(inputStream2, null, options);
     }
 
 }

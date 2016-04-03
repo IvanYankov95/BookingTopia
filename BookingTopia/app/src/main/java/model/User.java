@@ -42,4 +42,8 @@ public class User {
         this.country = country;
         this.smoking = smoking;
     }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
 }
