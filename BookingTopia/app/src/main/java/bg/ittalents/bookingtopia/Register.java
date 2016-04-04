@@ -9,12 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -35,21 +31,18 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import model.RegisterHelper;
 import model.User;
-import model.UserManager;
-import model.UserSessionManager;
 import model.dao.UserDAO;
 
 public class Register extends CustomActivityWithMenu {
 
+    // constants
     protected static final int IMAGE_GALLERY_REQUEST_1 = 21;
     protected static final int REQ_WIDTH = 500;
     protected static final int REQ_HEIGHT = 500;
 
-    private UserManager userManager;
-
-    private static Button register;
-
+    // views start
     private static ImageButton avatar;
 
     private static EditText username;
@@ -58,43 +51,47 @@ public class Register extends CustomActivityWithMenu {
     private static EditText email;
     private static EditText firstName;
     private static EditText lastName;
-    private static EditText city;
-    private static EditText address;
+    private static EditText country;
     private static EditText phone;
     private static EditText dateOfBirth;
 
     private static Spinner  genderSpinner;
     private static CheckBox smokerCheckBox;
 
+    private static Button register;
+    private static ProgressBar progressBar;
+    // views end
+
+    // helpers
     private static String selectedGender;
 
-    private static byte[] avatarPic;
+    private static byte[]  avatarPic;
+    private static boolean avatarCheck;
 
     private static Calendar calendar;
 
-    private boolean usernameCheck;
+    private boolean usernameCheck = false;
+    private boolean emailCheck = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        userManager = UserManager.getInstance();
-
-        register        = (Button)   findViewById(R.id.registerButton);
-        username        = (EditText) findViewById(R.id.usernameField);
-        password        = (EditText) findViewById(R.id.passwordField);
-        confirmPassword = (EditText) findViewById(R.id.confirmPasswordField);
-        email           = (EditText) findViewById(R.id.emailField);
-        firstName       = (EditText) findViewById(R.id.firstNameField);
-        lastName        = (EditText) findViewById(R.id.lastNameField);
-        city            = (EditText) findViewById(R.id.cityField);
-        address         = (EditText) findViewById(R.id.addressField);
-        phone           = (EditText) findViewById(R.id.phoneField);
-        genderSpinner   = (Spinner)  findViewById(R.id.register_gender_spinner);
-        smokerCheckBox  = (CheckBox) findViewById(R.id.register_smoker_checkbox);
-        dateOfBirth     = (EditText) findViewById(R.id.register_date_of_birth_text);
-        avatar          = (ImageButton) findViewById(R.id.register_image_button);
+        register        = (Button)   findViewById(R.id.register_user_register_button);
+        username        = (EditText) findViewById(R.id.register_user_username);
+        password        = (EditText) findViewById(R.id.register_user_password);
+        confirmPassword = (EditText) findViewById(R.id.register_user_confirm_password);
+        email           = (EditText) findViewById(R.id.register_user_email);
+        firstName       = (EditText) findViewById(R.id.register_user_first_name);
+        lastName        = (EditText) findViewById(R.id.register_user_last_name);
+        country         = (EditText) findViewById(R.id.register_user_country);
+        phone           = (EditText) findViewById(R.id.register_user_phone);
+        genderSpinner   = (Spinner)  findViewById(R.id.register_user_gender_spinner);
+        smokerCheckBox  = (CheckBox) findViewById(R.id.register_user_smoker_checkbox);
+        dateOfBirth     = (EditText) findViewById(R.id.register_user_date_of_birth_text);
+        avatar          = (ImageButton) findViewById(R.id.register_user_avatar_button);
+        progressBar     = (ProgressBar) findViewById(R.id.register_user_progress_bar);
 
         ArrayList<String> categories = new ArrayList<>();
         categories.add("Prefer not to say");
@@ -137,61 +134,74 @@ public class Register extends CustomActivityWithMenu {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RegisterHelper helper = RegisterHelper.getInstance();
+                UserDAO dao = UserDAO.getInstance();
+
                 String usernameTxt = username.getText().toString();
                 String passwordTxt = password.getText().toString();
+                String confirmPasswordTxt = Register.confirmPassword.getText().toString();
                 String emailTxt = email.getText().toString();
                 String firstNameTxt = firstName.getText().toString();
                 String lastNameTxt = lastName.getText().toString();
-                String addressTxt = address.getText().toString();
                 String phoneTxt = phone.getText().toString();
-                String dateOfBirthTxt = dateOfBirth.getText().toString();
+                String countryTxt = country.getText().toString();
 
-
-                boolean emailCheck = false;
                 boolean passwordCheck = false;
-                boolean passwordMatch = false;
+                boolean nameCheck = false;
 
-//                if (userManager.existUsername(usernameTxt)) {
-//                    username.setError("Username already exists");
-//                } else if (usernameTxt.isEmpty()) {
-//                    username.setError("This field is required");
-//                } else
-//                    usernameCheck = true;
-                new GetRequest().execute(emailTxt, passwordTxt);
-//                if (userManager.existEmail(emailTxt)) {
-//                    email.setError("Email already exists");
-//                } else if (emailTxt.isEmpty()) {
-//                    email.setError("This field is required");
-//                } else if (!isEmailValid(emailTxt)) {
-//                    email.setError("Please enter a valid email");
-//                } else
-//                    emailCheck = true;
-//
-//                if (password.getText().toString().isEmpty()) {
-//                    password.setError("This field is required.");
-//                } else {
-//                    if (!userManager.checkPasswordStrength(password.getText().toString())) {
-//                        password.setError("Password is too weak\n At least 8 symbols \n At least 1 lowercase and uppercase \n At least 1 number");
-//                    } else
-//                        passwordCheck = true;
-//
-//                    if (userManager.checkPasswordStrength(password.getText().toString()) && !password.getText().toString().equals(confirmPassword.getText().toString())) {
-//                        confirmPassword.setError("Passwords don't match");
-//                    } else
-//                        passwordMatch = true;
-//                }
+                // username check
+                boolean usernameReadyForCheck = false;
+                if(usernameTxt.isEmpty())
+                    username.setError("This field is required");
+                else
+                    usernameReadyForCheck = true;
+                // username check
 
-                if (usernameCheck && emailCheck && passwordCheck && passwordMatch) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.set(1995, 7, 4);
+                // email check
+                boolean emailReadyForCheck = false;
+                if(emailTxt.isEmpty())
+                    email.setError("This field is required");
+                else if(!helper.isEmailValid(emailTxt))
+                    email.setError("Please enter a valid email");
+                else
+                    emailReadyForCheck = true;
+                // email check
+
+                if(emailReadyForCheck && usernameReadyForCheck)
+                    new CheckForTaken().execute(usernameTxt, emailTxt);
+
+                // password check
+                if(passwordTxt.isEmpty())
+                    password.setError("This field is required");
+                else if (!helper.checkPasswordStrength(passwordTxt))
+                    password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
+                else if(!passwordTxt.equals(confirmPasswordTxt))
+                    confirmPassword.setError("Passwords don't match");
+                else
+                    passwordCheck = true;
+                // password check
+
+                // names check
+                if(firstNameTxt.isEmpty())
+                    firstName.setError("This field is required");
+                else if(lastNameTxt.isEmpty())
+                    lastName.setText("This field is required");
+                else
+                    nameCheck = true;
+                // names check
+
+                if (usernameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
+
+
                     String names = firstNameTxt + " " + lastNameTxt;
-                    User user = new User(names, passwordTxt, avatarPic, emailTxt, usernameTxt, phoneTxt, calendar, selectedGender, addressTxt, smokerCheckBox.isChecked());
-                    //User user = new User(emailTxt, passwordTxt, usernameTxt, firstNameTxt, lastNameTxt, phoneTxt, cityTxt, addressTxt);
-                    //User regedUser = userManager.register(user);
-                    //if(regedUser != null)
+                    User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, calendar, selectedGender, countryTxt , smokerCheckBox.isChecked());
 
-                    Toast.makeText(getApplicationContext(), "register successful", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Register.this, LogIn.class));
+                    user = dao.registerUser(user);
+                    if(user != null)
+                        Toast.makeText(Register.this, "Register failed", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                    //startActivity(new Intent(Register.this, LogIn.class));
                 }
 
             }
@@ -203,25 +213,45 @@ public class Register extends CustomActivityWithMenu {
                 picDate((EditText) v);
             }
         });
-        Calendar cal = Calendar.getInstance();
-        cal.set(1995, 7, 4);
-        User user = new User("Gosho", "BahQkataParolaXx95xX", new byte[2], "1 235FUCK YOU 99", "XxN0_SC0P3RxX", "964635953", cal, "male", "Bulgaria", true);
-
 
     }
 
-    private class GetRequest extends AsyncTask<String, Void, Boolean> {
+    private class CheckForTaken extends AsyncTask<String, Void, Boolean[]>{
+
+        @Override
+        protected Boolean[] doInBackground(String... params) {
+            UserDAO dao = UserDAO.getInstance();
+
+            Boolean[] bool = new Boolean[2];
+            bool[0] = dao.checkUsername(params[0]);
+            bool[1] = dao.checkUserEmail(params[1]);
+
+            return bool;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean[] booleans) {
+            if(booleans[0])
+                usernameCheck = true;
+            else
+                username.setError("Username is already taken");
+
+            if(booleans[1])
+                emailCheck = true;
+            else
+                username.setError("Email is already taken");
+        }
+    }
+
+    private class sendRequest extends AsyncTask<User, Void, Boolean> {
 //
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Boolean doInBackground(User... params) {
             //Calendar cal = Calendar.getInstance();
             //cal.set(1995, 7,4);
             //User user = new User(20, "Pesho", "BahQkataParolaXx95xX", new byte[2], "qkmail@qkmail" , "XxN0_SC0P3RxX", "964635953", cal, "male", "UK", false);
             //UserDAO.getInstance().changeUserData(user);
-            if(UserDAO.getInstance().login(params[0], params[1]) == null)
-              return false;
-            else
-                return true;
+            return true;
         }
 
         @Override
@@ -270,20 +300,6 @@ public class Register extends CustomActivityWithMenu {
 
     }
 
-    public static boolean isEmailValid(String email) {
-        boolean isValid = false;
-
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        CharSequence inputStr = email;
-
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(inputStr);
-        if (matcher.matches()) {
-            isValid = true;
-        }
-        return isValid;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK){
@@ -292,7 +308,6 @@ public class Register extends CustomActivityWithMenu {
                 case IMAGE_GALLERY_REQUEST_1:
                     setPicture(avatar,data);
                     break;
-
             }
         }
     }
@@ -314,7 +329,7 @@ public class Register extends CustomActivityWithMenu {
             image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 
             avatarPic = stream.toByteArray();
-            //user.set(stream.toByteArray());
+            avatarCheck = true;
 
             button.setImageBitmap(image);
 

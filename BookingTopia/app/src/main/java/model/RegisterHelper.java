@@ -2,37 +2,21 @@ package model;
 
 import model.dao.UserDAO;
 
-import android.content.Context;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class UserManager {
-    private static UserManager ourInstance;
+public class RegisterHelper {
+    private static RegisterHelper ourInstance;
 
-    private static UserDAO userDAO;
+    private RegisterHelper() {}
 
-    private UserManager() {
-        userDAO = UserDAO.getInstance();
-    }
-
-    public static UserManager getInstance() {
+    public static RegisterHelper getInstance() {
         if(ourInstance == null)
-            ourInstance = new UserManager();
+            ourInstance = new RegisterHelper();
         return ourInstance;
     }
-
-    public boolean existUsername(String username){
-
-        return userDAO.checkUsername(username);
-    }
-
-    public boolean existEmail(String email){
-
-        return userDAO.checkUserEmail(email);
-    }
-
 
     public boolean checkPasswordStrength(String password) {
         char[] test = password.toCharArray();
@@ -57,20 +41,7 @@ public class UserManager {
 
     }
 
-    public User register(User user){
-        User user1 = userDAO.registerUser(user);
-
-        return user1;
-    }
-
-    public User login(String email, String password){
-        password = md5(password);
-
-        return userDAO.login(email, password);
-    }
-
-
-    private static String md5(String password) {
+    public static String md5(String password) {
         try {
 
             MessageDigest digest = java.security.MessageDigest
@@ -93,8 +64,17 @@ public class UserManager {
         return "";
     }
 
-    public User getUser(long id){
-        return userDAO.getUser(id);
-    }
+    public static boolean isEmailValid(String email) {
+        boolean isValid = false;
 
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
+    }
 }

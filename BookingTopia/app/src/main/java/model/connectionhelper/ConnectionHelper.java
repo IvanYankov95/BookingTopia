@@ -130,7 +130,7 @@ public class ConnectionHelper {
         }  catch (IOException e) {
             Log.e(e.toString(), " ");
         }
-        Log.e("log5", data.toString());
+        //Log.e("log5", data.toString());
         return data.toString().equalsIgnoreCase("true");
     }
 

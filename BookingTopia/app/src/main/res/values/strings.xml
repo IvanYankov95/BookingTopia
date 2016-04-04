@@ -16,5 +16,5 @@
     <string name="passwordHintLogIn">Password</string>
     <string name="emailHintLogIn">Email</string>
     <string name="signInButton">Sign in</string>
-    <string name="register_date_of_birth">Date of birth</string>
+    <string name="register_date_of_birth">Date of birth (click twice for selection)</string>
 </resources>

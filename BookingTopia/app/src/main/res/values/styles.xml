@@ -9,7 +9,7 @@
     </style>
 
     <style name="register_scroll_view">
-        <item name="android:layout_above">@id/registerButton</item>
+        <item name="android:layout_above">@id/register_user_register_button</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>

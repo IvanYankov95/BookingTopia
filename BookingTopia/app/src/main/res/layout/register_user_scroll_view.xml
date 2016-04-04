@@ -14,14 +14,12 @@
             android:layout_height="0dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/registerIntroText"
-            android:id="@+id/registerIntroText"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:id="@+id/register_user_register_intro_text"
             android:textSize="20sp"
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/register_image_button"
+            android:id="@+id/register_user_avatar_button"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
@@ -31,13 +29,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/usernameField"
-            android:layout_below="@+id/registerIntroText"
+            android:id="@+id/register_user_username"
             android:layout_marginTop="10dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:hint="@string/usernameHint"
             android:layout_weight="1" />
 
@@ -46,12 +39,7 @@
             android:layout_height="0dp"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/emailField"
-            android:layout_below="@+id/usernameField"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/usernameField"
-            android:layout_alignEnd="@+id/usernameField"
+            android:id="@+id/register_user_email"
             android:hint="@string/emailHint"
             android:layout_weight="1" />
 
@@ -60,12 +48,7 @@
             android:layout_height="0dp"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/passwordField"
-            android:layout_below="@+id/emailField"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
+            android:id="@+id/register_user_password"
             android:hint="@string/passwordHint"
             android:layout_weight="1" />
 
@@ -74,41 +57,27 @@
             android:layout_height="0dp"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/confirmPasswordField"
+            android:id="@+id/register_user_confirm_password"
             android:hint="@string/confirmPasswordHint"
-            android:layout_below="@+id/passwordField"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/passwordField"
-            android:layout_alignEnd="@+id/passwordField"
             android:layout_weight="1" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/firstNameField"
+            android:id="@+id/register_user_first_name"
             android:hint="@string/firstNameHint"
-            android:layout_below="@+id/confirmPasswordField"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:layout_weight="1" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/lastNameField"
+            android:id="@+id/register_user_last_name"
             android:hint="@string/lastNameHint"
-            android:layout_below="@+id/firstNameField"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:layout_weight="1" />
 
         <EditText
-            android:id="@+id/register_date_of_birth_text"
+            android:editable="false"
+            android:id="@+id/register_user_date_of_birth_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/register_date_of_birth"/>
@@ -116,13 +85,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/addressField"
+            android:id="@+id/register_user_country"
             android:hint="@string/addressHint"
-            android:layout_below="@+id/cityField"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/cityField"
-            android:layout_alignEnd="@+id/cityField"
             android:layout_weight="1" />
 
         <EditText
@@ -130,25 +94,19 @@
             android:layout_height="0dp"
             android:inputType="phone"
             android:ems="10"
-            android:id="@+id/phoneField"
+            android:id="@+id/register_user_phone"
             android:hint="@string/phoneHint"
-            android:layout_below="@+id/addressField"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="5dp"
-            android:layout_alignRight="@+id/lastNameField"
-            android:layout_alignEnd="@+id/lastNameField"
             android:layout_weight="1" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:text="Gendre: "
+                android:text="Gender: "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Spinner
-                android:id="@+id/register_gender_spinner"
+                android:id="@+id/register_user_gender_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -158,7 +116,7 @@
 
 
         <CheckBox
-            android:id="@+id/register_smoker_checkbox"
+            android:id="@+id/register_user_smoker_checkbox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Smoker"/>

@@ -10,15 +10,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="bg.ittalents.olxlike.Register">
 
-    <include layout="@layout/register_scroll_view" />
+    <include layout="@layout/register_user_scroll_view" />
 
     <Button
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:text="@string/registerButton"
-        android:id="@+id/registerButton"
+        android:id="@+id/register_user_register_button"
         android:layout_centerHorizontal="true"/>
 
+    <ProgressBar
+        android:id="@+id/register_user_progress_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
 </RelativeLayout>
