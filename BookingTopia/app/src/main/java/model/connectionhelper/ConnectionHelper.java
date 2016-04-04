@@ -56,7 +56,10 @@ public class ConnectionHelper {
 
     private static String[] alterUser(String userJson, String type) {
         String[] strs = new String[4];
-
+        strs[0] = "";
+        strs[1] = "";
+        strs[2] = "";
+        strs[3] = "";
         try {
             URL url = new URL("http://192.168.6.239:8080/Server/PostUserServlet");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();

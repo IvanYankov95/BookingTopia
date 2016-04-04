@@ -191,13 +191,11 @@ public class Register extends CustomActivityWithMenu {
                     String names = firstNameTxt + " " + lastNameTxt;
                     User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, calendar, selectedGender, countryTxt , smokerCheckBox.isChecked());
 
-                    String[] strs = dao.registerUser(user);
-
-
-                    if(user != null)
-                        Toast.makeText(Register.this, "Register failed", Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                    new SendRegister().execute(user);
+//                    if(user != null)
+//                        Toast.makeText(Register.this, "Register failed", Toast.LENGTH_SHORT).show();
+//                    else
+//                        Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
                     //startActivity(new Intent(Register.this, LogIn.class));
                 }
 
@@ -233,6 +231,8 @@ public class Register extends CustomActivityWithMenu {
 
         @Override
         protected void onPostExecute(String[] b) {
+            register.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
             if(b[0].equalsIgnoreCase("true"))
                 Toast.makeText(Register.this, "Register sucssefull", Toast.LENGTH_SHORT).show();
             if(b[1].equalsIgnoreCase("false"))
