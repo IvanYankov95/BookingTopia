@@ -21,14 +21,14 @@ public class UserDAO {
         return instance;
     }
 
-    public User registerUser(User user){
+    public String[] registerUser(User user){
 
         Gson gson = new Gson();
         String userJson = gson.toJson(user);
 
-        String returnJson = ConnectionHelper.registerUser(userJson);
+        String[] strs = ConnectionHelper.registerUser(userJson);
 
-        return gson.fromJson(returnJson, User.class);
+        return strs;
     }
 
     public void deleteUser(User user){
@@ -43,14 +43,6 @@ public class UserDAO {
         String userJson = gson.toJson(user);
 
         ConnectionHelper.updateUser(userJson);
-    }
-
-    public boolean checkUsername(String username){
-        return ConnectionHelper.checkUsername(username);
-    }
-
-    public boolean checkUserEmail(String email){
-        return ConnectionHelper.checkEmail(email);
     }
 
     public User login (String email, String password){

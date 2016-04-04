@@ -70,9 +70,6 @@ public class Register extends CustomActivityWithMenu {
 
     private static Calendar calendar;
 
-    private boolean usernameCheck = false;
-    private boolean emailCheck = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,29 +143,26 @@ public class Register extends CustomActivityWithMenu {
                 String phoneTxt = phone.getText().toString();
                 String countryTxt = country.getText().toString();
 
+                boolean usernameCheck = false;
+                boolean emailCheck = false;
                 boolean passwordCheck = false;
                 boolean nameCheck = false;
 
                 // username check
-                boolean usernameReadyForCheck = false;
                 if(usernameTxt.isEmpty())
                     username.setError("This field is required");
                 else
-                    usernameReadyForCheck = true;
+                    usernameCheck = true;
                 // username check
 
                 // email check
-                boolean emailReadyForCheck = false;
                 if(emailTxt.isEmpty())
                     email.setError("This field is required");
                 else if(!helper.isEmailValid(emailTxt))
                     email.setError("Please enter a valid email");
                 else
-                    emailReadyForCheck = true;
+                    emailCheck = true;
                 // email check
-
-                if(emailReadyForCheck && usernameReadyForCheck)
-                    new CheckForTaken().execute(usernameTxt, emailTxt);
 
                 // password check
                 if(passwordTxt.isEmpty())
@@ -190,13 +184,16 @@ public class Register extends CustomActivityWithMenu {
                     nameCheck = true;
                 // names check
 
+                if(!avatarCheck)
+                    Toast.makeText(Register.this, "Avatar is required", Toast.LENGTH_SHORT).show();
                 if (usernameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
-
 
                     String names = firstNameTxt + " " + lastNameTxt;
                     User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, calendar, selectedGender, countryTxt , smokerCheckBox.isChecked());
 
-                    user = dao.registerUser(user);
+                    String[] strs = dao.registerUser(user);
+
+
                     if(user != null)
                         Toast.makeText(Register.this, "Register failed", Toast.LENGTH_SHORT).show();
                     else
@@ -216,48 +213,35 @@ public class Register extends CustomActivityWithMenu {
 
     }
 
-    private class CheckForTaken extends AsyncTask<String, Void, Boolean[]>{
+    private class SendRegister extends AsyncTask<User, Void, String[]> {
 
         @Override
-        protected Boolean[] doInBackground(String... params) {
+        protected void onPreExecute() {
+            register.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String[] doInBackground(User... params) {
             UserDAO dao = UserDAO.getInstance();
 
-            Boolean[] bool = new Boolean[2];
-            bool[0] = dao.checkUsername(params[0]);
-            bool[1] = dao.checkUserEmail(params[1]);
+            String[] strings = dao.registerUser(params[0]);
 
-            return bool;
+            return strings;
         }
 
         @Override
-        protected void onPostExecute(Boolean[] booleans) {
-            if(booleans[0])
-                usernameCheck = true;
-            else
+        protected void onPostExecute(String[] b) {
+            if(b[0].equalsIgnoreCase("true"))
+                Toast.makeText(Register.this, "Register sucssefull", Toast.LENGTH_SHORT).show();
+            if(b[1].equalsIgnoreCase("false"))
                 username.setError("Username is already taken");
-
-            if(booleans[1])
-                emailCheck = true;
-            else
-                username.setError("Email is already taken");
-        }
-    }
-
-    private class sendRequest extends AsyncTask<User, Void, Boolean> {
-//
-        @Override
-        protected Boolean doInBackground(User... params) {
-            //Calendar cal = Calendar.getInstance();
-            //cal.set(1995, 7,4);
-            //User user = new User(20, "Pesho", "BahQkataParolaXx95xX", new byte[2], "qkmail@qkmail" , "XxN0_SC0P3RxX", "964635953", cal, "male", "UK", false);
-            //UserDAO.getInstance().changeUserData(user);
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean b) {
-               //email.setText(user.toString());
-            makeToast(b);
+            if(b[2].equalsIgnoreCase("false"))
+                email.setError("Email already in use");
+            if(!b[3].isEmpty()) {
+                //TODO startactivity with session in login
+            }
         }
 
     }

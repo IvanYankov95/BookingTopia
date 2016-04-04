@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -20,16 +21,16 @@ public class ConnectionHelper {
     private static String TYPE_EMAIL = "email";
     private static String TYPE_ID    = "user_id";
 
-    private static String CHECK_USERNAME = "username";
-    private static String CHECK_EMAIL    = "email";
     private static String CHECK_LOGIN    = "login";
 
     private ConnectionHelper() {
     }
 
-    public static String registerUser(String userJson){
-        alterUser(userJson, REGISTER);
-        return getUserJson(userJson, TYPE_EMAIL);
+    public static String[] registerUser(String userJson){
+        String[] strs = alterUser(userJson, REGISTER);
+        strs[3] = getUserJson(userJson, TYPE_EMAIL);
+
+        return strs;
     }
 
     public static void deleteUser(String userJson){
@@ -48,22 +49,14 @@ public class ConnectionHelper {
         return getUserJson(userJson, TYPE_EMAIL);
     }
 
-    public static boolean checkUsername(String username){
-        String[] args = {username, null, null};
-        return checkUserData(args, CHECK_USERNAME);
-    }
-
-    public static boolean checkEmail(String email){
-        String[] args = {null, email, null};
-        return checkUserData(args, CHECK_EMAIL);
-    }
-
     public static boolean login(String email, String password){
         String[] args = {null, email, password};
         return checkUserData(args, CHECK_LOGIN);
     }
 
-    private static void alterUser(String userJson, String type) {
+    private static String[] alterUser(String userJson, String type) {
+        String[] strs = new String[4];
+
         try {
             URL url = new URL("http://192.168.6.239:8080/Server/PostUserServlet");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -80,14 +73,22 @@ public class ConnectionHelper {
             con.connect();
 
             final int statusCode = con.getResponseCode();
-            if (statusCode != HttpURLConnection.HTTP_OK) {
-                throw new RuntimeException("error" + statusCode);
+            if(statusCode == HttpURLConnection.HTTP_OK)
+                strs[0] = "true";
+
+            if(statusCode == HttpURLConnection.HTTP_BAD_REQUEST){
+                // username
+                strs[1] = "false";
+            } else  if(statusCode == HttpURLConnection.HTTP_BAD_METHOD){
+                // password
+                strs[2] = "false";
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        return strs;
     }
 
 
