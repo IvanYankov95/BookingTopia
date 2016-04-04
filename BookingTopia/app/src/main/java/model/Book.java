@@ -1,15 +1,23 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Date;
 
-/**
- * Created by user-17 on 4/2/16.
- */
+import java.util.ArrayList;
+
 public class Book {
 
-    private long hotelId;
-    private long userId;
-    private long roomId;
-    private ArrayList<Date> dates;
+    Hotel hotel;
+    ArrayList<Room> rooms = new ArrayList<>();
+
+    Book(Hotel hotel, ArrayList<Room> rooms) {
+        this.hotel = hotel;
+        this.rooms = rooms;
+    }
+
+    public ArrayList<Room> getRooms() {
+        return rooms;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
 }

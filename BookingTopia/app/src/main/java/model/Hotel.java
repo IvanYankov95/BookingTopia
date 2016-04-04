@@ -2,19 +2,20 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by user-17 on 4/2/16.
  */
 public class Hotel {
 
-    private long   hotelId;
+    private long hotelId;
     private String name;
-    private byte   stars;
+    private byte stars;
     private double xCoordinate;
     private double yCoordinate;
-    private Date   workFrom;
-    private Date   workTo;
+    private Date workFrom;
+    private Date workTo;
     private String extras;
     private double rating;
     private String webpage;
@@ -22,6 +23,107 @@ public class Hotel {
     private String description;
     private String policies;
 
-    private ArrayList<byte[]> images;
+    private ArrayList<Room> rooms = new ArrayList<>();
+    private ArrayList<byte[]> images = new ArrayList<>();
+    private ArrayList<Review> reviews = new ArrayList<>();
 
+
+    public Hotel(long hotelId, String name, byte stars, double xCoordinate, double yCoordinate, Date workFrom, Date workTo, String extras, double rating, String webpage, String linkToFacebook, String description, String policies, ArrayList<Room> rooms, ArrayList<byte[]> images, ArrayList<Review> reviews) {
+        this.hotelId = hotelId;
+        this.name = name;
+        this.stars = stars;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+        this.workFrom = workFrom;
+        this.workTo = workTo;
+        this.extras = extras;
+        this.rating = rating;
+        this.webpage = webpage;
+        this.linkToFacebook = linkToFacebook;
+        this.description = description;
+        this.policies = policies;
+        this.rooms = rooms;
+        this.images = images;
+        this.reviews = reviews;
+    }
+
+    public void  addReview(User user, String pros, String cons, double rating){
+        reviews.add(new Review(pros,cons,rating, user));
+    }
+
+    public void addReview(Review review) {
+        getReviews().add(review);
+    }
+
+    public void addRoom(Room room) {
+        this.getRooms().add(room);
+    }
+
+    public void fillHotelRooms(List<Room> rooms) {
+        this.getRooms().addAll(rooms);
+    }
+
+    public long getHotelId() {
+        return hotelId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public byte getStars() {
+        return stars;
+    }
+
+    public double getxCoordinate() {
+        return xCoordinate;
+    }
+
+    public double getyCoordinate() {
+        return yCoordinate;
+    }
+
+    public Date getWorkFrom() {
+        return workFrom;
+    }
+
+    public Date getWorkTo() {
+        return workTo;
+    }
+
+    public String getExtras() {
+        return extras;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public String getWebpage() {
+        return webpage;
+    }
+
+    public String getLinkToFacebook() {
+        return linkToFacebook;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getPolicies() {
+        return policies;
+    }
+
+    public ArrayList<Room> getRooms() {
+        return rooms;
+    }
+
+    public ArrayList<byte[]> getImages() {
+        return images;
+    }
+
+    public ArrayList<Review> getReviews() {
+        return reviews;
+    }
 }

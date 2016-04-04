@@ -1,8 +1,11 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class User {
+
+    private ArrayList<Book> bookings = new ArrayList<>();
 
     private long     userId;
     private String   names;
@@ -15,6 +18,18 @@ public class User {
     private String   gender;
     private String   country;
     private boolean  smoking;
+
+    public void addBook(Hotel hotel, ArrayList<Room> roomsToBeReserve){
+        this.bookings.add(new Book(hotel, roomsToBeReserve));
+    }
+
+//    for(Book booking, user.getBookings()){
+//        for(Room room, booking.getRooms()){
+//            for(Calendar date, room.getReservedDates()){
+//                // 'date' sa vsichki zaeti dati ot tozi potrebitel za 'room' , a rooms sa vs zaeti ot usera stai
+//            }
+//        }
+//    }
 
     public User(long userId, String names, String password, byte[] avatar, String email, String username, String mobilePhone, Calendar dateOfBirth, String gender, String country, boolean smoking) {
         this.userId = userId;
@@ -43,7 +58,64 @@ public class User {
         this.smoking = smoking;
     }
 
+
+
     public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
     }
+
+
+
+    public ArrayList<Book> getBookings() {
+        return bookings;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public String getNames() {
+        return names;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public Calendar getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public boolean isSmoking() {
+        return smoking;
+    }
+
+
+
+
+
 }
