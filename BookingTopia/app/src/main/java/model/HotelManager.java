@@ -28,7 +28,7 @@ public class HotelManager {
             room.reserveDates(dates);
         }
 
-        user.addBook(hotel, rooms);
+        //user.addBook(hotel, rooms);
     }
 
     public ArrayList<Hotel> getAllHotelsByStars(int stars){

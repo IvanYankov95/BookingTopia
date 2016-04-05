@@ -1,23 +1,42 @@
 package model;
 
 
-import java.util.ArrayList;
-
 public class Book {
+    long bookID;
+    long roomID;
+    long userID;
 
-    Hotel hotel;
-    ArrayList<Room> rooms = new ArrayList<>();
 
-    Book(Hotel hotel, ArrayList<Room> rooms) {
-        this.hotel = hotel;
-        this.rooms = rooms;
+    public Book(long bookID, long roomID, long userID) {
+        this.bookID = bookID;
+        this.roomID = roomID;
+        this.userID = userID;
+
     }
 
-    public ArrayList<Room> getRooms() {
-        return rooms;
+    public void setBookID(long bookID) {
+        this.bookID = bookID;
     }
 
-    public Hotel getHotel() {
-        return hotel;
+    public long getBookID() {
+        return bookID;
     }
+
+    public long getRoomID() {
+        return roomID;
+    }
+
+    public long getUserID() {
+        return userID;
+    }
+
+    public void setRoomID(long roomID) {
+        this.roomID = roomID;
+    }
+
+    public void setUserID(long userID) {
+        this.userID = userID;
+    }
+
+
 }

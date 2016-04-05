@@ -19,8 +19,8 @@ public class User {
     private String   country;
     private boolean  smoking;
 
-    public void addBook(Hotel hotel, ArrayList<Room> roomsToBeReserve){
-        this.bookings.add(new Book(hotel, roomsToBeReserve));
+    public void addBook(){
+
     }
 
 //    for(Book booking, user.getBookings()){
