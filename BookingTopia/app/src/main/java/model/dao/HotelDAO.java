@@ -114,17 +114,17 @@ public class HotelDAO {
         return companyId;
     }
 
-    public Hotel login (long hotelId) {
+    public Hotel getHotel (long hotelId) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        String selectQuery = "SELECT * FROM " + mDb.USERS
+        String selectQuery = "SELECT * FROM " + mDb.HOTELS
                 + " WHERE " + mDb.HOTEL_ID + " = \"" + hotelId + "\"";
 
         Cursor c = db.rawQuery(selectQuery, null);
 
 
         Hotel hotel = null;
-
+        //TODO finish
         if(c.moveToFirst()){
             long id = c.getLong(c.getColumnIndex(mDb.USER_ID));
             String uname = c.getString(c.getColumnIndex(mDb.USERNAME));
