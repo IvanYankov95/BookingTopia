@@ -2,9 +2,9 @@ package model.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import java.util.Calendar;
+import java.util.ArrayList;
 
 import model.Hotel;
 import model.Room;
@@ -81,4 +81,59 @@ public class RoomDAO {
 
         return companyId;
     }
+
+    public Room getRoom (long roomId) {
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.ROOMS
+                + " WHERE " + mDb.ROOM_ID + " = \"" + roomId + "\"";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        Room room = null;
+
+        if(c.moveToFirst()){
+            long id = c.getLong(c.getColumnIndex(mDb.ROOM_ID));
+            String hotelId = c.getString(c.getColumnIndex(mDb.HOTEL_ID));
+            String pricePerDay = c.getString(c.getColumnIndex(mDb.ROOM_PRICE_PER_DAY));
+            String description = c.getString(c.getColumnIndex(mDb.ROOM_DESCRIPTION));
+            String maxGuests = c.getString(c.getColumnIndex(mDb.ROOM_MAX_GUESTS));
+            String beds = c.getString(c.getColumnIndex(mDb.ROOM_BEDS));
+            String x = c.getString(c.getColumnIndex(mDb.ROOM_X));
+            String y = c.getString(c.getColumnIndex(mDb.ROOM_Y));
+            String extras = c.getString(c.getColumnIndex(mDb.ROOM_EXTRAS));
+            boolean smoking = (c.getInt(c.getColumnIndex(mDb.ROOM_SMOKING)) == 1) ? true : false;
+
+            ArrayList<byte[]> images = getImages(room.getRoomId());
+
+            //hotel = new User(id, uname, upassword, avatar , email, uname, phone, cal, gender, country, smoking);
+        }
+
+        c.close();
+        db.close();
+        return room;
+    }
+
+    private ArrayList<byte[]> getImages(long roomId){
+        ArrayList<byte[]> images = new ArrayList<byte[]>();
+
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT "+ mDb.CONTENT +" FROM " + mDb.ROOM_IMAGES
+                + " WHERE " + mDb.ROOM_ID + " = \"" + roomId + "\"";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst()){
+            do{
+                byte[] image = c.getBlob(c.getColumnIndex(mDb.CONTENT));
+                images.add(image);
+            }
+            while (c.moveToNext());
+        }
+
+        return images;
+    }
+
+
 }
