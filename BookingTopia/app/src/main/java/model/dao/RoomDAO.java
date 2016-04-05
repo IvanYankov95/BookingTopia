@@ -49,4 +49,34 @@ public class RoomDAO {
 
         return hotelId;
     }
+
+    public void deleteRoom(Room room){
+        SQLiteDatabase db = mDb.getWritableDatabase();
+        db.delete(mDb.ROOMS, mDb.ROOM_ID + " = ?",
+                new String[]{String.valueOf(room.getRoomId())});
+
+        db.close();
+    }
+
+    public long changeRoomData(Room room){
+        SQLiteDatabase db = mDb.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(mDb.ROOM_ID,            room.getRoomId());
+        values.put(mDb.HOTEL_ID,           room.getHotelId());
+        values.put(mDb.ROOM_PRICE_PER_DAY, room.getPricePerDay());
+        values.put(mDb.ROOM_DESCRIPTION,   room.getDescription());
+        values.put(mDb.ROOM_MAX_GUESTS,    room.getMaxGuests());
+        values.put(mDb.ROOM_BEDS,          room.getBeds());
+        values.put(mDb.ROOM_X,             room.getRoomSize()[0]);
+        values.put(mDb.ROOM_Y,             room.getRoomSize()[1]);
+        values.put(mDb.ROOM_EXTRAS,        room.getExtras());
+        values.put(mDb.ROOM_SMOKING,       room.isSmoking() ? 1 : 0);
+
+        long companyId = db.update(mDb.ROOMS, values, mDb.ROOM_ID + " = ? ", new String[]{String.valueOf(room.getRoomId())});
+        db.close();
+
+        return companyId;
+    }
 }
