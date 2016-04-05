@@ -114,8 +114,7 @@ public class User {
         return smoking;
     }
 
-
-
-
-
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 }
