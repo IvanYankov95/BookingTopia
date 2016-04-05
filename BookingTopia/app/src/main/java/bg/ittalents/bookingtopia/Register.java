@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,7 +36,7 @@ import model.RegisterHelper;
 import model.User;
 import model.dao.UserDAO;
 
-public class Register extends CustomActivityWithMenu {
+public class Register extends AbstractDrawerActivity{
 
     // constants
     protected static final int IMAGE_GALLERY_REQUEST_1 = 21;
@@ -73,7 +74,9 @@ public class Register extends CustomActivityWithMenu {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_register_drawer);
+        onCreateDrawer();
+        getSupportActionBar().setTitle("qwesad");
 
         register        = (Button)   findViewById(R.id.register_user_register_button);
         username        = (EditText) findViewById(R.id.register_user_username);

@@ -17,4 +17,8 @@
     <string name="emailHintLogIn">Email</string>
     <string name="signInButton">Sign in</string>
     <string name="register_date_of_birth">Date of birth (click twice for selection)</string>
+    <string name="title_activity_abstract_drawer">AbstractDrawerActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
