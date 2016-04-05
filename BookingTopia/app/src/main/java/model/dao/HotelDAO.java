@@ -2,12 +2,18 @@ package model.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import model.Company;
 import model.Hotel;
+import model.User;
 
 /**
  * Created by user-17 on 4/3/16.
@@ -106,6 +112,47 @@ public class HotelDAO {
         db.close();
 
         return companyId;
+    }
+
+    public Hotel login (long hotelId) {
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.USERS
+                + " WHERE " + mDb.HOTEL_ID + " = \"" + hotelId + "\"";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+
+        Hotel hotel = null;
+
+        if(c.moveToFirst()){
+            long id = c.getLong(c.getColumnIndex(mDb.USER_ID));
+            String uname = c.getString(c.getColumnIndex(mDb.USERNAME));
+            String uemail = c.getString(c.getColumnIndex(mDb.EMAIL));
+            String upassword = c.getString(c.getColumnIndex(mDb.PASSWORD));
+            String name = c.getString(c.getColumnIndex(mDb.USER_NAME));
+            String country = c.getString(c.getColumnIndex(mDb.COUNTRY));
+            String phone = c.getString(c.getColumnIndex(mDb.TELEPHONE));
+            String date = c.getString(c.getColumnIndex(mDb.DATE_OF_BIRTH));
+            DateFormat formater = new SimpleDateFormat("yy-MM-dd");
+            Date date2= null;
+            try {
+                date2 = formater.parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date2);
+            String gender = c.getString(c.getColumnIndex(mDb.GENDER));
+            boolean smoking = (c.getInt(c.getColumnIndex(mDb.SMOKING)) == 1) ? true : false;
+            byte[] avatar = c.getBlob(c.getColumnIndex(mDb.AVATAR));
+
+            //hotel = new User(id, uname, upassword, avatar , email, uname, phone, cal, gender, country, smoking);
+        }
+
+        c.close();
+        db.close();
+        return hotel;
     }
 
 }
