@@ -94,6 +94,7 @@ public class UserDAO {
 
 
         long userId = db.insert(mDb.USERS, null, values);
+        db.close();
 
         return userId;
     }
@@ -166,7 +167,6 @@ public class UserDAO {
             byte[] avatar = c.getBlob(c.getColumnIndex(mDb.AVATAR));
 
             user = new User(id, uname, upassword, avatar , email, uname, phone, cal, gender, country, smoking);
-            user.setUserId(id);
         }
 
         c.close();

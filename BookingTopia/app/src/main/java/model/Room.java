@@ -11,7 +11,6 @@ public class Room {
 
     private long    roomId;
     private long    hotelId;
-
     private double  pricePerDay;
     private String  description;
     private int     maxGuests;
@@ -24,13 +23,16 @@ public class Room {
     private ArrayList<byte[]> images = new ArrayList<>();
 
     //fullconstructor
-    public Room(double pricePerDay, String description, int maxGuests, String beds, double x, double y, String extras, boolean smoking, ArrayList<Calendar> reservedDates, ArrayList<byte[]> images) {
+    public Room(long roomId, long hotelId, double pricePerDay, String description, int maxGuests, String beds, double x, double y, String extras, boolean smoking, ArrayList<Calendar> reservedDates, ArrayList<byte[]> images) {
+        this.roomId = roomId;
+        this.hotelId = hotelId;
         this.pricePerDay = pricePerDay;
         this.description = description;
         this.maxGuests = maxGuests;
         this.beds = beds;
-        roomSize[0] = x;
-        roomSize[1] = y;
+        this.roomSize = new double[2];
+        this.roomSize[0] = x;
+        this.roomSize[1] = y;
         this.extras = extras;
         this.smoking = smoking;
         this.reservedDates = reservedDates;
@@ -94,4 +96,5 @@ public class Room {
     public ArrayList<byte[]> getImages() {
         return images;
     }
+
 }
