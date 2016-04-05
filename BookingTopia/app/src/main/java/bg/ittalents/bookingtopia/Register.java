@@ -76,7 +76,7 @@ public class Register extends AbstractDrawerActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_drawer);
         onCreateDrawer();
-        getSupportActionBar().setTitle("qwesad");
+        getSupportActionBar().setTitle("Register user");
 
         register        = (Button)   findViewById(R.id.register_user_register_button);
         username        = (EditText) findViewById(R.id.register_user_username);
@@ -135,7 +135,7 @@ public class Register extends AbstractDrawerActivity{
             @Override
             public void onClick(View v) {
                 RegisterHelper helper = RegisterHelper.getInstance();
-                UserDAO dao = UserDAO.getInstance();
+                UserDAO dao = UserDAO.getInstance(Register.this);
 
                 String usernameTxt = username.getText().toString();
                 String passwordTxt = password.getText().toString();
@@ -154,6 +154,8 @@ public class Register extends AbstractDrawerActivity{
                 // username check
                 if(usernameTxt.isEmpty())
                     username.setError("This field is required");
+                else if (dao.checkUsername(usernameTxt))
+                    username.setError("Username is already taken");
                 else
                     usernameCheck = true;
                 // username check
@@ -163,6 +165,8 @@ public class Register extends AbstractDrawerActivity{
                     email.setError("This field is required");
                 else if(!helper.isEmailValid(emailTxt))
                     email.setError("Please enter a valid email");
+                else if(dao.checkUserEmail(emailTxt))
+                    email.setError("Email is already in use");
                 else
                     emailCheck = true;
                 // email check
@@ -194,11 +198,14 @@ public class Register extends AbstractDrawerActivity{
                     String names = firstNameTxt + " " + lastNameTxt;
                     User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, calendar, selectedGender, countryTxt , smokerCheckBox.isChecked());
 
-                    new SendRegister().execute(user);
-//                    if(user != null)
-//                        Toast.makeText(Register.this, "Register failed", Toast.LENGTH_SHORT).show();
-//                    else
-//                        Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                    long userId = dao.registerUser(user);
+
+                    if(user == null)
+                        Toast.makeText(Register.this, "Register failed", Toast.LENGTH_SHORT).show();
+                    else {
+                        user.setUserId(userId);
+                        Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                    }
                     //startActivity(new Intent(Register.this, LogIn.class));
                 }
 
@@ -211,41 +218,6 @@ public class Register extends AbstractDrawerActivity{
                 picDate((EditText) v);
             }
         });
-
-    }
-
-    private class SendRegister extends AsyncTask<User, Void, String[]> {
-
-        @Override
-        protected void onPreExecute() {
-            register.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String[] doInBackground(User... params) {
-            UserDAO dao = UserDAO.getInstance();
-
-            String[] strings = dao.registerUser(params[0]);
-
-            return strings;
-        }
-
-        @Override
-        protected void onPostExecute(String[] b) {
-            register.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.GONE);
-            if(b[0].equalsIgnoreCase("true"))
-                Toast.makeText(Register.this, "Register sucssefull", Toast.LENGTH_SHORT).show();
-            if(b[1].equalsIgnoreCase("false"))
-                username.setError("Username is already taken");
-            if(b[2].equalsIgnoreCase("false"))
-                email.setError("Email already in use");
-            if(!b[3].isEmpty()) {
-                //TODO startactivity with session in login
-            }
-        }
 
     }
 
