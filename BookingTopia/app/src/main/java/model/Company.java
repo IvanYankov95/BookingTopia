@@ -30,6 +30,16 @@ public class Company {
         this.description = description;
     }
 
+    public Company(String name, String email, String password, String address, byte[] avatar, String phone, String description) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.avatar = avatar;
+        this.phone = phone;
+        this.description = description;
+    }
+
     //full constructor
     public Company(ArrayList<Hotel> hotels, long companyId, String name, String password, String email, String address, byte[] avatar,String phone, String description) {
         this.hotels = hotels;

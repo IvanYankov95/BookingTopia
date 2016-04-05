@@ -21,4 +21,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="company_name">Name</string>
+    <string name="company_adress">adress</string>
+    <string name="company_description">description</string>
+    <string name="company_phone">company_phone</string>
 </resources>

@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,8 +27,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import model.RegisterHelper;
 import model.User;
@@ -74,7 +70,7 @@ public class Register extends AbstractDrawerActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_drawer);
+        setContentView(R.layout.activity_register_user_drawer);
         onCreateDrawer();
         getSupportActionBar().setTitle("Register user");
 
@@ -205,6 +201,7 @@ public class Register extends AbstractDrawerActivity{
                     else {
                         user.setUserId(userId);
                         Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                     //startActivity(new Intent(Register.this, LogIn.class));
                 }

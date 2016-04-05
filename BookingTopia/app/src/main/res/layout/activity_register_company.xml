@@ -8,23 +8,28 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="bg.ittalents.bookingTopia.Register">
-
-
-
-    <include layout="@layout/register_user_scroll_view" />
-
+    tools:context="bg.ittalents.bookingTopia.RegisterCompany">
 
     <Button
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:text="@string/registerButton"
-        android:id="@+id/register_user_register_button"
+        android:id="@+id/register_company_register_button"
         android:layout_centerHorizontal="true"/>
 
+
+    <include layout="@layout/register_company_scroll_view"
+        android:id="@+id/fucku"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_above="@id/register_company_register_button"
+        />
+
+
+
     <ProgressBar
-        android:id="@+id/register_user_progress_bar"
+        android:id="@+id/register_company_progress_bar"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
@@ -32,5 +37,4 @@
         android:visibility="gone"/>
 
 </RelativeLayout>
-
 

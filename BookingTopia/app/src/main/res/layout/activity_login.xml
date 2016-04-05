@@ -6,19 +6,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/activity_main"
-    android:background="@color/colorAccent"
+    android:id="@+id/activity_login"
+    android:background="#FFAFFA"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.masterycorp.goalprogresstracker.main.HomeActivity">
 
     <include layout="@layout/activity_toolbar"/>
 
-    <FrameLayout
+    <EditText
+        android:id="@+id/login_email"
+        android:hint="@string/emailHint"
+        android:inputType="textEmailAddress"
+        android:layout_margin="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/login_password"
+        android:inputType="textPassword"
+        android:hint="@string/passwordHint"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
+    <CheckBox
+        android:layout_margin="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log as Company"
+        android:id="@+id/login_company_checkbox" />
 
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="8dp"
+        android:id="@+id/login_button"
+        android:text="LogIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/login_register_button"
+        android:text="Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-    </FrameLayout>
 </LinearLayout>

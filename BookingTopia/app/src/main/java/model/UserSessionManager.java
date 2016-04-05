@@ -3,6 +3,8 @@ package model;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import java.util.HashMap;
 import bg.ittalents.bookingtopia.LogIn;
 
@@ -15,7 +17,7 @@ public class UserSessionManager {
     private static final String PREFER_NAME = "AndroidExamplePref";
     private static final String IS_USER_LOGIN = "IsUserLoggedIn";
     public static final String KEY_ID = "id";
-    public static final String KEY_NAME = "user";
+    public static final String IS_USER = "user";
 
 
     public UserSessionManager(Context context){
@@ -33,7 +35,7 @@ public class UserSessionManager {
         editor.putLong(KEY_ID, id);
 
         // Storing name in pref
-        editor.putString(KEY_NAME, name);
+        editor.putString(IS_USER, name);
 
         // commit changes
         editor.commit();
@@ -74,7 +76,9 @@ public class UserSessionManager {
         user.put(KEY_ID, String.valueOf(pref.getLong(KEY_ID, 0)));
 
         // user name
-        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        user.put(IS_USER, String.valueOf(pref.getString(IS_USER, null)));
+
+        Log.e("-----v sesiqta", user.toString());
 
 
 
