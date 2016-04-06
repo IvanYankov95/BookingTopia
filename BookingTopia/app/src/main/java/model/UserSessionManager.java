@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.HashMap;
-import bg.ittalents.bookingtopia.LogIn;
+import bg.ittalents.bookingtopia.LogInActivity;
 
 public class UserSessionManager {
 
@@ -46,7 +46,7 @@ public class UserSessionManager {
         if(!this.isUserLoggedIn()){
 
             // user is not logged in redirect him to LogIn Activity
-            Intent i = new Intent(context, LogIn.class);
+            Intent i = new Intent(context, LogInActivity.class);
 
             // Closing all the Activities from stack
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -94,7 +94,7 @@ public class UserSessionManager {
         editor.commit();
 
         // After logout redirect user to LogIn Activity
-        Intent i = new Intent(context, LogIn.class);
+        Intent i = new Intent(context, LogInActivity.class);
 
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -32,7 +32,7 @@ import model.RegisterHelper;
 import model.User;
 import model.dao.UserDAO;
 
-public class Register extends AbstractDrawerActivity{
+public class RegisterUserActivity extends AbstractDrawerActivity{
 
     // constants
     protected static final int IMAGE_GALLERY_REQUEST_1 = 21;
@@ -131,11 +131,11 @@ public class Register extends AbstractDrawerActivity{
             @Override
             public void onClick(View v) {
                 RegisterHelper helper = RegisterHelper.getInstance();
-                UserDAO dao = UserDAO.getInstance(Register.this);
+                UserDAO dao = UserDAO.getInstance(RegisterUserActivity.this);
 
                 String usernameTxt = username.getText().toString();
                 String passwordTxt = password.getText().toString();
-                String confirmPasswordTxt = Register.confirmPassword.getText().toString();
+                String confirmPasswordTxt = RegisterUserActivity.confirmPassword.getText().toString();
                 String emailTxt = email.getText().toString();
                 String firstNameTxt = firstName.getText().toString();
                 String lastNameTxt = lastName.getText().toString();
@@ -188,7 +188,7 @@ public class Register extends AbstractDrawerActivity{
                 // names check
 
                 if(!avatarCheck)
-                    Toast.makeText(Register.this, "Avatar is required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterUserActivity.this, "Avatar is required", Toast.LENGTH_SHORT).show();
                 if (usernameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
 
                     String names = firstNameTxt + " " + lastNameTxt;
@@ -197,7 +197,7 @@ public class Register extends AbstractDrawerActivity{
                     long userId = dao.registerUser(user);
 
                     if(user == null)
-                        Toast.makeText(Register.this, "Register failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterUserActivity.this, "Register failed", Toast.LENGTH_SHORT).show();
                     else {
                         user.setUserId(userId);
                         Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
@@ -219,7 +219,7 @@ public class Register extends AbstractDrawerActivity{
     }
 
     public void makeToast(Boolean b){
-        Toast.makeText(Register.this, "RESULT " + b, Toast.LENGTH_SHORT).show();
+        Toast.makeText(RegisterUserActivity.this, "RESULT " + b, Toast.LENGTH_SHORT).show();
     }
 
     private void picDate(final EditText edt) {
@@ -290,7 +290,7 @@ public class Register extends AbstractDrawerActivity{
             button.setImageBitmap(image);
 
         } catch (FileNotFoundException e) {
-            Toast.makeText(Register.this, "Unable to open image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterUserActivity.this, "Unable to open image", Toast.LENGTH_SHORT).show();
         } finally {
             try {
                 if (inputStream != null)

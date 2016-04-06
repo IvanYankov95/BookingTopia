@@ -1,12 +1,11 @@
 package bg.ittalents.bookingtopia;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashMap;
 
-public class Home extends AbstractDrawerActivity  {
+public class HomeActivity extends AbstractDrawerActivity  {
 
     HashMap<String, String> user ;
     long logId;
@@ -25,6 +24,6 @@ public class Home extends AbstractDrawerActivity  {
         String s =user.get(session.IS_USER);
         isUser = s.equals("true");
 
-        Toast.makeText(Home.this, "" + isUser, Toast.LENGTH_SHORT).show();
+        Toast.makeText(HomeActivity.this, "" + isUser, Toast.LENGTH_SHORT).show();
     }
 }

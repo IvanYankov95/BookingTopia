@@ -2,8 +2,6 @@ package bg.ittalents.bookingtopia;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.UserManager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -12,10 +10,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
-
 import model.Company;
 import model.RegisterHelper;
 import model.User;
@@ -23,7 +17,7 @@ import model.UserSessionManager;
 import model.dao.CompanyDAO;
 import model.dao.UserDAO;
 
-public class LogIn extends AbstractDrawerActivity {
+public class LogInActivity extends AbstractDrawerActivity {
 
     UserSessionManager session;
 
@@ -64,22 +58,22 @@ public class LogIn extends AbstractDrawerActivity {
                 }
 
                 if (!logInAsCompany.isChecked()) {
-                    User user = UserDAO.getInstance(LogIn.this).login(emailText, RegisterHelper.md5(passwordText));
+                    User user = UserDAO.getInstance(LogInActivity.this).login(emailText, RegisterHelper.md5(passwordText));
                     if (user == null) {
-                        Toast.makeText(LogIn.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LogInActivity.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(LogIn.this, "Login sucssessfull!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LogInActivity.this, "Login sucssessfull!", Toast.LENGTH_SHORT).show();
                         session.createUserLoginSession(user.getUserId(), "true");
-                        startActivity(new Intent(LogIn.this, Home.class));
+                        startActivity(new Intent(LogInActivity.this, HomeActivity.class));
                     }
                 } else {
-                    Company company = CompanyDAO.getInstance(LogIn.this).login(emailText, RegisterHelper.md5(passwordText));
+                    Company company = CompanyDAO.getInstance(LogInActivity.this).login(emailText, RegisterHelper.md5(passwordText));
                     if (company == null) {
-                        Toast.makeText(LogIn.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LogInActivity.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(LogIn.this, "Login sucssessfull!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LogInActivity.this, "Login sucssessfull!", Toast.LENGTH_SHORT).show();
                         session.createUserLoginSession(company.getCompanyId(), "false");
-                        startActivity(new Intent(LogIn.this, Home.class));
+                        startActivity(new Intent(LogInActivity.this, HomeActivity.class));
 
                     }
                 }
@@ -94,14 +88,14 @@ public class LogIn extends AbstractDrawerActivity {
                         .setNegativeButton("Company", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(LogIn.this , RegisterCompanyActivity.class));
+                                startActivity(new Intent(LogInActivity.this , RegisterCompanyActivity.class));
                                 dialog.cancel();
                             }
                         })
                         .setPositiveButton("User", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(LogIn.this, Register.class));
+                                startActivity(new Intent(LogInActivity.this, RegisterUserActivity.class));
                                 dialog.cancel();
                             }
                         }).show();
