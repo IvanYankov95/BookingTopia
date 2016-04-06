@@ -3,14 +3,14 @@ package bg.ittalents.bookingtopia;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ViewHotelActivity extends AbstractDrawerActivity {
+public class ReserveActivity extends AbstractDrawerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_hotel_drawer);
+        setContentView(R.layout.activity_reserve_drawer);
         onCreateDrawer();
-        getSupportActionBar().setTitle("View Hotel");
+        getSupportActionBar().setTitle("Reserve rooms");
 
 
 
