@@ -146,4 +146,38 @@ public class CompanyDAO implements ICompanyDAO{
         db.close();
         return company;
     }
+
+    public byte[] getAvatar(long id){
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.COMPANIES
+                + " WHERE " + mDb.COMPANY_ID + " = \"" + id + "\"";
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        byte[] avatar = null;
+        if(c.moveToFirst()){
+            avatar = c.getBlob(c.getColumnIndex(mDb.AVATAR));
+        }
+
+        c.close();
+        db.close();
+        return avatar;
+    }
+
+    public String getName(long id){
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.COMPANIES
+                + " WHERE " + mDb.COMPANY_ID + " = \"" + id + "\"";
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        String name = null;
+        if(c.moveToFirst()){
+            name = c.getString(c.getColumnIndex(mDb.COMPANY_NAME));
+        }
+
+        c.close();
+        db.close();
+        return name;
+    }
 }

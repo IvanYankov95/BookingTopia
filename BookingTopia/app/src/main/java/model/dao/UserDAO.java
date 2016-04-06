@@ -138,12 +138,9 @@ public class UserDAO implements IUserDAO{
         String selectQuery = "SELECT * FROM " + mDb.USERS
                 + " WHERE " + mDb.EMAIL + " = \"" + email
                 + "\" AND " + mDb.PASSWORD + " = \"" + password + "\"";
-
         Cursor c = db.rawQuery(selectQuery, null);
 
-
         User user = null;
-
         if(c.moveToFirst()){
             long id = c.getLong(c.getColumnIndex(mDb.USER_ID));
             String uname = c.getString(c.getColumnIndex(mDb.USERNAME));
@@ -172,5 +169,39 @@ public class UserDAO implements IUserDAO{
         c.close();
         db.close();
         return user;
+    }
+
+    public byte[] getAvatar(long id){
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.USERS
+                + " WHERE " + mDb.USER_ID + " = \"" + id + "\"";
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        byte[] avatar = null;
+        if(c.moveToFirst()){
+            avatar = c.getBlob(c.getColumnIndex(mDb.AVATAR));
+        }
+
+        c.close();
+        db.close();
+        return avatar;
+    }
+
+    public String getName(long id){
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.USERS
+                + " WHERE " + mDb.USER_ID + " = \"" + id + "\"";
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        String name = null;
+        if(c.moveToFirst()){
+            name = c.getString(c.getColumnIndex(mDb.USERNAME));
+        }
+
+        c.close();
+        db.close();
+        return name;
     }
 }

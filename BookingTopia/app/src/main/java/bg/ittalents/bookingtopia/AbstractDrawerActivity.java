@@ -1,5 +1,7 @@
 package bg.ittalents.bookingtopia;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,13 +14,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.HashMap;
+
+import model.User;
 import model.UserSessionManager;
+import model.dao.CompanyDAO;
+import model.dao.UserDAO;
 
 public class AbstractDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     UserSessionManager session;
+    UserDAO udao = UserDAO.getInstance(this);
+    CompanyDAO cdao = CompanyDAO.getInstance(this);
 
     protected void onCreateDrawer() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -35,6 +47,25 @@ public class AbstractDrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         session = new UserSessionManager(this);
+
+
+
+        if(isUser()){
+            byte[] image = udao.getAvatar(getLoggedId());
+            Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
+            ((ImageView)navigationView.getHeaderView(0).findViewById(R.id.avatar)).setImageBitmap(bmp);
+            ((TextView)navigationView.getHeaderView(0).findViewById(R.id.name)).setText(udao.getName(getLoggedId()));
+            navigationView.getMenu().getItem(1).setVisible(false);
+            navigationView.getMenu().getItem(2).setVisible(false);
+        }
+        else{
+            byte[] image = cdao.getAvatar(getLoggedId());
+            Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
+            ((ImageView)navigationView.getHeaderView(0).findViewById(R.id.avatar)).setImageBitmap(bmp);
+            ((TextView)navigationView.getHeaderView(0).findViewById(R.id.name)).setText(cdao.getName(getLoggedId()));
+            navigationView.getMenu().getItem(3).setVisible(false);
+            navigationView.getMenu().getItem(4).setVisible(false);
+        }
     }
 
     @Override
@@ -49,8 +80,10 @@ public class AbstractDrawerActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.abstract_drawer, menu);
+
+
         return true;
     }
 
@@ -75,17 +108,15 @@ public class AbstractDrawerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_add_hotel) {
+            Toast.makeText(AbstractDrawerActivity.this, "hotel add", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_home) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_my_reservations) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_my_reviews) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_view_my_hotels) {
 
         }
 
@@ -93,4 +124,17 @@ public class AbstractDrawerActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public boolean isUser(){
+        HashMap<String, String> user = session.getUserDetails();
+        String s =user.get(session.IS_USER);
+       return  s.equals("true");
+    }
+
+    public long getLoggedId(){
+        HashMap<String, String> user = session.getUserDetails();
+        return Long.parseLong(user.get(session.KEY_ID));
+    }
+
+
 }
