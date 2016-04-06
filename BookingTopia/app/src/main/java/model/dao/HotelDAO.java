@@ -58,8 +58,6 @@ public class HotelDAO implements IHotelDAO {
                 + calendar2.getInstance().get(Calendar.MONTH) + "-"
                 + calendar2.getInstance().get(Calendar.DAY_OF_MONTH);
 
-
-        values.put(mDb.HOTEL_ID, hotel.getHotelId());
         values.put(mDb.COMPANY_ID, hotel.getCompanyId());
         values.put(mDb.HOTEL_NAME, hotel.getName());
         values.put(mDb.HOTEL_STARS, hotel.getStars());

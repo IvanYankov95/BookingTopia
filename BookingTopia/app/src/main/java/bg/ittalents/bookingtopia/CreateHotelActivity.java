@@ -8,9 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,7 +21,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import model.Hotel;
 import model.dao.HotelDAO;
 import model.dao.IHotelDAO;
 
@@ -207,7 +206,7 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
 
         String[] star = {"1", "2", "3", "4", "5", "6", "7"};
 
-        ArrayAdapter<String> dataAdapter5 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, month);
+        ArrayAdapter<String> dataAdapter5 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, star);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stars.setAdapter(dataAdapter5);
 
@@ -227,6 +226,84 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
             @Override
             public void onClick(View v) {
 
+                boolean nameCheck = false;
+                boolean starsCheck = false;
+                boolean addressCheck = false;
+                boolean cityCheck = false;
+                boolean descriptionCheck = false;
+                boolean extrasCheck = false;
+                boolean policiesCheck = false;
+                boolean workingTimeCheck = false;
+
+
+                String nameTxt = hotelName.getText().toString();
+                String addressTxt = address.getText().toString();
+                String cityTxt = city.getText().toString();
+                String descriptionTxt = hotelDdescription.getText().toString();
+                String extrasTxt = extras.getText().toString();
+                String webPageTxt = webPage.getText().toString();
+                String facebookPageTxt = facebookPage.getText().toString();
+                String policiesTxt = policies.getText().toString();
+
+                if(!mainPictureCheck){
+                    Toast.makeText(CreateHotelActivity.this, "Main picture is required", Toast.LENGTH_SHORT).show();
+                }
+
+                if(nameTxt.isEmpty())
+                    hotelName.setError("This field is required");
+                else if (nameTxt.length() < 3)
+                    hotelName.setError("Name must be at least 3 symbols long");
+                else
+                    nameCheck = true;
+
+                if(selectedStars.equalsIgnoreCase("month"))
+                    Toast.makeText(CreateHotelActivity.this, "Please select the STAR rating of the hotel", Toast.LENGTH_SHORT).show();
+                else
+                    starsCheck = true;
+
+                if(addressTxt.isEmpty())
+                    address.setError("This field is required");
+                else
+                    addressCheck = true;
+
+                if(cityTxt.isEmpty())
+                    city.setError("This field is required");
+                else
+                    cityCheck = true;
+
+                if(descriptionTxt.isEmpty())
+                    hotelDdescription.setText("This field is required");
+                else
+                    descriptionCheck = true;
+
+                if(extrasTxt.isEmpty())
+                    extras.setError("This field is required");
+                else
+                    extrasCheck = true;
+
+                if(policiesTxt.isEmpty())
+                    policies.setError("This field is required");
+                else
+                    policiesCheck = true;
+
+                if(selectedFromDate.equalsIgnoreCase("Work from day") || selectedFromMonth.equalsIgnoreCase("Month")
+                        || selectedToDate.equalsIgnoreCase("Work to day") || selectedToMonth.equalsIgnoreCase("Month")){
+                    Toast.makeText(CreateHotelActivity.this, "Please select from which day and month to which the hotel is working (For example if your hotel is not working in the winter", Toast.LENGTH_LONG).show();
+                } else
+                    workingTimeCheck = true;
+
+                if(nameCheck && starsCheck && addressCheck &&cityCheck && descriptionCheck && extrasCheck && policiesCheck && workingTimeCheck){
+                    Calendar workFromCal = Calendar.getInstance();
+                    workFromCal.set(9999, Integer.valueOf(selectedFromMonth), Integer.valueOf(selectedFromDate));
+
+                    Calendar workToCal = Calendar.getInstance();
+                    workToCal.set(9999, Integer.valueOf(selectedToMonth), Integer.valueOf(selectedToDate));
+
+                    Hotel hotel = new Hotel(0, getLoggedId(), nameTxt, Integer.valueOf(selectedStars), addressTxt, 0,0, workFromCal, workToCal, extrasTxt, 0, webPageTxt, facebookPageTxt, descriptionTxt, policiesTxt, null, pictures, null, cityTxt);
+
+                    hotelDAO.registerHotel(hotel);
+
+                }
             }
         });
 
