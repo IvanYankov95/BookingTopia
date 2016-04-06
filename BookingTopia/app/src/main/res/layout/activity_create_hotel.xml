@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,11 +7,336 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/createHotel"
-    android:background="@color/colorAccent"
+    android:background="@android:color/background_light"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.masterycorp.goalprogresstracker.main.HomeActivity">
+    tools:context="bg.ittalents.bookingtopia.CreateHotelActivity">
 
-    <include layout="@layout/activity_toolbar"/>
+    <include layout="@layout/activity_toolbar"
+        android:id="@+id/toolbar_create_hotel"/>
+
+    <Button
+        android:id="@+id/add_hotel_add_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:layout_alignParentBottom="true"
+        />
+
+    <ScrollView
+        android:layout_below="@id/toolbar_create_hotel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/add_hotel_add_button">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+            <ImageButton
+                android:id="@+id/add_hotel_main_picture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="3">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_margin="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/add_hotel_picture1"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_weight="1"/>
+                <ImageButton
+                    android:layout_margin="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/add_hotel_picture2"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_weight="1"/>
+                <ImageButton
+                    android:layout_margin="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/add_hotel_picture3"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_margin="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/add_hotel_picture4"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_weight="1"/>
+                <ImageButton
+                    android:layout_margin="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/add_hotel_picture5"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_weight="1"/>
+                <ImageButton
+                    android:layout_margin="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/add_hotel_picture6"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Name"
+                android:textSize="25dp"
+                android:gravity="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/add_hotel_name_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="STARS"
+                android:textSize="25dp"
+                android:gravity="center" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/add_hotel_stars_spinner"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Address"
+                android:textSize="25dp"
+                android:gravity="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"
+                android:id="@+id/add_hotel_address_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="City"
+                android:gravity="center"
+                android:textSize="25dp"/>
+
+            <EditText
+                android:id="@+id/add_hotel_city_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
 
-</LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="description (max 2000 symbols)"
+                android:id="@+id/add_offer_description_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Extras"
+                android:textSize="25dp"
+                android:gravity="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/add_hotel_extras_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Webpage"
+                android:textSize="25dp"
+                android:gravity="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/add_hotel_webpage_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Faceook page"
+                android:textSize="25dp"
+                android:gravity="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/add_hotel_facebook_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Policies"
+                android:textSize="25dp"
+                android:gravity="center" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/add_hotel_policies_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Spinner
+                android:id="@+id/add_hotel_from_day"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            </Spinner>
+
+            <Spinner
+                android:id="@+id/add_hotel_from_month"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            </Spinner>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Spinner
+                android:id="@+id/add_hotel_to_day"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            </Spinner>
+
+            <Spinner
+                android:id="@+id/add_hotel_to_month"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            </Spinner>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

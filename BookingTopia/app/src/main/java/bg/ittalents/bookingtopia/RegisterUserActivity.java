@@ -92,7 +92,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
         avatar          = (ImageButton) findViewById(R.id.register_user_avatar_button);
         progressBar     = (ProgressBar) findViewById(R.id.register_user_progress_bar);
 
-        userDAO    = UserDAO.getInstance(RegisterUserActivity.this);
+        userDAO = UserDAO.getInstance(RegisterUserActivity.this);
 
         ArrayList<String> categories = new ArrayList<>();
         categories.add("Prefer not to say");
