@@ -77,6 +77,14 @@ public class HotelDAO implements IHotelDAO {
         long hotelId = db.insert(mDb.HOTELS, null, values);
         db.close();
 
+        for (byte[] image : hotel.getImages()) {
+            ContentValues values2 = new ContentValues();
+
+            values.put(mDb.CONTENT, image);
+
+            db.insert(mDb.HOTEL_IMAGES, null, values2);
+        }
+
         return hotelId;
     }
 
