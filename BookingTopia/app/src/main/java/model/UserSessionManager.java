@@ -111,4 +111,5 @@ public class UserSessionManager {
     public boolean isUserLoggedIn(){
         return pref.getBoolean(IS_USER_LOGIN, false);
     }
+
 }
