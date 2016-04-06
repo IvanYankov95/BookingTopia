@@ -1,17 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/createRoom"
-    android:background="@color/colorAccent"
+    android:id="@+id/create_room"
+    android:background="@android:color/background_light"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.masterycorp.goalprogresstracker.main.HomeActivity">
+    tools:context="bg.ittalents.bookingtopia.CreateHotelActivity">
 
-    <include layout="@layout/activity_toolbar"/>
+    <include layout="@layout/activity_toolbar"
+        android:id="@+id/toolbar_create_room"/>
 
+    <Button
+        android:id="@+id/add_room_add_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:layout_alignParentBottom="true"
+        />
 
-</LinearLayout>
+    <ScrollView
+        android:layout_below="@id/toolbar_create_hotel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/add_hotel_add_button">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2">
+
+                    <ImageButton
+                        android:id="@+id/add_room_main_picture"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="3">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <ImageButton
+                            android:layout_margin="5dp"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/add_room_picture1"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            android:layout_weight="1"/>
+                        <ImageButton
+                            android:layout_margin="5dp"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/add_room_picture2"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            android:layout_weight="1"/>
+                        <ImageButton
+                            android:layout_margin="5dp"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/add_room_picture3"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <ImageButton
+                            android:layout_margin="5dp"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/add_room_picture4"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            android:layout_weight="1"/>
+                        <ImageButton
+                            android:layout_margin="5dp"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/add_room_picture5"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            android:layout_weight="1"/>
+                        <ImageButton
+                            android:layout_margin="5dp"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/add_room_picture6"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Price per day"
+                        android:textSize="25dp"
+                        android:gravity="center" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:inputType="numberDecimal"
+                        android:layout_height="match_parent"
+                        android:id="@+id/add_room_name_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Max Guests"
+                        android:textSize="25dp"
+                        android:gravity="center" />
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/add_room_max_guests_spinner"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Beds description and options"
+                        android:textSize="25dp"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:id="@+id/add_room_beds_text" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:hint="description (max 2000 symbols)"
+                        android:id="@+id/add_room_description_text" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Extras"
+                        android:textSize="25dp"
+                        android:gravity="center" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/add_room_extras_text" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/add_room_smoking_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Smoking"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
