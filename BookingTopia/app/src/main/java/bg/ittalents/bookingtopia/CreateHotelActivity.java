@@ -135,7 +135,7 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
         picture6.setOnClickListener(this);
 
         String[] fromDays  = {"Work from day" , "1" , "2" , "3", "4", "5", "6", "7", "8", "9", "10", "11" , "12" , "13", "14", "15", "16", "17", "18", "19", "20", "21" , "22" , "23", "24", "25", "26", "27", "28", "29", "30" , "31"};
-        String[] month     = {"Month", "January" , "February" , "March", "April", "May", "June", "Jully", "August", "September", "October", "November" , "December"};
+        String[] month     = {"Month", "January" , "February" , "March", "April", "May", "June", "July", "August", "September", "October", "November" , "December"};
         String[] toDays    = {"Work to day" , "1" , "2" , "3", "4", "5", "6", "7", "8", "9", "10", "11" , "12" , "13", "14", "15", "16", "17", "18", "19", "20", "21" , "22" , "23", "24", "25", "26", "27", "28", "29", "30" , "31"};
 
 
@@ -294,10 +294,10 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
 
                 if(nameCheck && starsCheck && addressCheck &&cityCheck && descriptionCheck && extrasCheck && policiesCheck && workingTimeCheck){
                     Calendar workFromCal = Calendar.getInstance();
-                    workFromCal.set(9999, Integer.valueOf(selectedFromMonth), Integer.valueOf(selectedFromDate));
+                    workFromCal.set(9999, getNumberFromMonth(selectedFromMonth), Integer.valueOf(selectedFromDate));
 
                     Calendar workToCal = Calendar.getInstance();
-                    workToCal.set(9999, Integer.valueOf(selectedToMonth), Integer.valueOf(selectedToDate));
+                    workToCal.set(9999, getNumberFromMonth(selectedToMonth), Integer.valueOf(selectedToDate));
 
                     Hotel hotel = new Hotel(0, getLoggedId(), nameTxt, Integer.valueOf(selectedStars), addressTxt, 0,0, workFromCal, workToCal, extrasTxt, 0, webPageTxt, facebookPageTxt, descriptionTxt, policiesTxt, null, pictures, null, cityTxt);
 
@@ -450,6 +450,40 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeStream(inputStream2, null, options);
 
+    }
+
+
+    private int getNumberFromMonth(String month){
+        switch(month){
+            case "January":
+                return 1;
+            case "February":
+                return 2;
+            case "March":
+                return 3;
+            case "April":
+                return 4;
+            case "May":
+                return 5;
+            case "June":
+                return 6;
+            case "July":
+                return 7;
+            case "August":
+                return 8;
+            case "September":
+                return 9;
+            case "October":
+                return 10;
+            case "November":
+                return 11;
+            case "December":
+                return 12;
+
+
+        }
+
+        return 1;
     }
 
 }

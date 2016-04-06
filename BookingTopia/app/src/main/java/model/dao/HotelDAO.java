@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -75,16 +76,18 @@ public class HotelDAO implements IHotelDAO {
         values.put(mDb.HOTEL_CITY, hotel.getCity());
 
         long hotelId = db.insert(mDb.HOTELS, null, values);
-        db.close();
+
 
         for (byte[] image : hotel.getImages()) {
+            Log.e("---image", "" + image.toString());
             ContentValues values2 = new ContentValues();
 
-            values.put(mDb.CONTENT, image);
+            values2.put(mDb.HOTEL_ID, hotelId);
+            values2.put(mDb.CONTENT, image);
 
             db.insert(mDb.HOTEL_IMAGES, null, values2);
         }
-
+        db.close();
         return hotelId;
     }
 

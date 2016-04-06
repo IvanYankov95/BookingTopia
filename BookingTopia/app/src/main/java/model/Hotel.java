@@ -27,7 +27,7 @@ public class Hotel {
     private String policies;
     private String city;
 
-    private ArrayList<Room> rooms = new ArrayList<>();
+    private ArrayList<Room>   rooms = new ArrayList<>();
     private ArrayList<byte[]> images = new ArrayList<>();
     private ArrayList<Review> reviews = new ArrayList<>();
 
@@ -51,6 +51,10 @@ public class Hotel {
         this.images = images;
         this.reviews = reviews;
         this.city = city;
+
+        this.rooms = rooms;
+        this.images = images;
+
     }
 
     public void  addReview(User user, String pros, String cons, double rating){

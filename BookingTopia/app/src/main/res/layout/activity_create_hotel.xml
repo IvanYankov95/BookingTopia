@@ -182,7 +182,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="numberDecimal"
+                android:inputType="text"
                 android:id="@+id/add_hotel_address_text" />
         </LinearLayout>
 
