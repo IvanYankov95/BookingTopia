@@ -12,7 +12,7 @@ import model.User;
 /**
  * Created by user-17 on 4/2/16.
  */
-public class BookDAO {
+public class BookDAO implements IBookDAO {
 
     private DatabaseHelper mDb;
 
@@ -21,7 +21,7 @@ public class BookDAO {
         this.mDb = DatabaseHelper.getInstance(context);
     }
 
-    public long addBook(Book book) {
+    public long book(Book book) {
 
         SQLiteDatabase db = mDb.getWritableDatabase();
 
