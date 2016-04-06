@@ -71,6 +71,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
     public static final String HOTEL_DESCRIPTION = "hotel_description";
     public static final String HOTEL_POLICIES    = "hotel_policies";
     public static final String HOTEL_CITY        = "hotel_city";
+    public static final String HOTEL_COORDINATESx = "hotel_coordinate_x";
+    public static final String HOTEL_COORDINATESy = "hotel_coordinate_y";
+
 
     // COMPANY table columns
     public static final String COMPANY_DESCRIPTION    = "company_description";
@@ -123,8 +126,8 @@ class DatabaseHelper extends SQLiteOpenHelper {
             + HOTEL_NAME        + " VARCHAR(255) NOT NULL, "
             + HOTEL_STARS       + " INTEGER, "
             + HOTEL_ADDRESS     + " VARCHAR(255) NOT NULL, "
-            + HOTEL_WORK_FROM   + " DATA, "
-            + HOTEL_WORK_TO     + " DATA, "
+            + HOTEL_WORK_FROM   + " DATE, "
+            + HOTEL_WORK_TO     + " DATE, "
             + HOTEL_EXTRAS      + " VARCHAR(500) NOT NULL, "
             + HOTEL_RATING      + " DOUBLE, "
             + HOTEL_WEBPAGE     + " VARCHAR(255) NOT NULL, "

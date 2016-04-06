@@ -8,12 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import model.Company;
 import model.Hotel;
-import model.User;
+import model.Review;
+import model.Room;
 
 /**
  * Created by user-17 on 4/3/16.
@@ -21,19 +22,23 @@ import model.User;
 public class HotelDAO {
 
     private static HotelDAO instance;
+    private static RoomDAO roomInstance;
 
     private DatabaseHelper mDb;
 
-    private HotelDAO(Context context){this.mDb = DatabaseHelper.getInstance(context);}
+    private HotelDAO(Context context) {
+        this.mDb = DatabaseHelper.getInstance(context);
+    }
 
-    public static HotelDAO getInstance(Context context){
-        if(instance == null)
+    public static HotelDAO getInstance(Context context) {
+        if (instance == null)
             instance = new HotelDAO(context);
+        roomInstance = RoomDAO.getInstance(context);
 
         return instance;
     }
 
-    public long registerHotel(Hotel hotel){
+    public long registerHotel(Hotel hotel) {
 
         SQLiteDatabase db = mDb.getWritableDatabase();
 
@@ -49,20 +54,20 @@ public class HotelDAO {
                 + calendar.getInstance().get(Calendar.MONTH) + "-"
                 + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
-        values.put(mDb.HOTEL_ID,            hotel.getHotelId());
-        values.put(mDb.COMPANY_ID,          hotel.getCompanyId());
-        values.put(mDb.HOTEL_NAME,          hotel.getName());
-        values.put(mDb.HOTEL_STARS,         hotel.getStars());
-        values.put(mDb.HOTEL_ADDRESS,       hotel.getAddress());
-        values.put(mDb.HOTEL_WORK_FROM,     date);
-        values.put(mDb.HOTEL_WORK_TO,       date2);
-        values.put(mDb.HOTEL_EXTRAS,        hotel.getExtras());
-        values.put(mDb.HOTEL_RATING,        hotel.getRating());
-        values.put(mDb.HOTEL_WEBPAGE,       hotel.getWebpage());
-        values.put(mDb.HOTEL_FACEBOOK,      hotel.getLinkToFacebook());
-        values.put(mDb.HOTEL_DESCRIPTION,   hotel.getDescription());
-        values.put(mDb.HOTEL_POLICIES,      hotel.getPolicies());
-        values.put(mDb.HOTEL_CITY,          hotel.getCity());
+        values.put(mDb.HOTEL_ID, hotel.getHotelId());
+        values.put(mDb.COMPANY_ID, hotel.getCompanyId());
+        values.put(mDb.HOTEL_NAME, hotel.getName());
+        values.put(mDb.HOTEL_STARS, hotel.getStars());
+        values.put(mDb.HOTEL_ADDRESS, hotel.getAddress());
+        values.put(mDb.HOTEL_WORK_FROM, date);
+        values.put(mDb.HOTEL_WORK_TO, date2);
+        values.put(mDb.HOTEL_EXTRAS, hotel.getExtras());
+        values.put(mDb.HOTEL_RATING, hotel.getRating());
+        values.put(mDb.HOTEL_WEBPAGE, hotel.getWebpage());
+        values.put(mDb.HOTEL_FACEBOOK, hotel.getLinkToFacebook());
+        values.put(mDb.HOTEL_DESCRIPTION, hotel.getDescription());
+        values.put(mDb.HOTEL_POLICIES, hotel.getPolicies());
+        values.put(mDb.HOTEL_CITY, hotel.getCity());
 
         long hotelId = db.insert(mDb.HOTELS, null, values);
         db.close();
@@ -70,7 +75,11 @@ public class HotelDAO {
         return hotelId;
     }
 
-    public void deleteHotel(Hotel hotel){
+    public ArrayList<Hotel> getAllHotelsByCompanyID(long companyID) {
+            return null;
+    }
+
+    public void deleteHotel(Hotel hotel) {
         SQLiteDatabase db = mDb.getWritableDatabase();
         db.delete(mDb.HOTELS, mDb.HOTEL_ID + " = ?",
                 new String[]{String.valueOf(hotel.getHotelId())});
@@ -78,7 +87,7 @@ public class HotelDAO {
         db.close();
     }
 
-    public long changeCompanyData(Hotel hotel){
+    public long changeCompanyData(Hotel hotel) {
         SQLiteDatabase db = mDb.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -93,20 +102,23 @@ public class HotelDAO {
                 + calendar.getInstance().get(Calendar.MONTH) + "-"
                 + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
-        values.put(mDb.HOTEL_ID,            hotel.getHotelId());
-        values.put(mDb.COMPANY_ID,          hotel.getCompanyId());
-        values.put(mDb.HOTEL_NAME,          hotel.getName());
-        values.put(mDb.HOTEL_STARS,         hotel.getStars());
-        values.put(mDb.HOTEL_ADDRESS,       hotel.getAddress());
-        values.put(mDb.HOTEL_WORK_FROM,     date);
-        values.put(mDb.HOTEL_WORK_TO,       date2);
-        values.put(mDb.HOTEL_EXTRAS,        hotel.getExtras());
-        values.put(mDb.HOTEL_RATING,        hotel.getRating());
-        values.put(mDb.HOTEL_WEBPAGE,       hotel.getWebpage());
-        values.put(mDb.HOTEL_FACEBOOK,      hotel.getLinkToFacebook());
-        values.put(mDb.HOTEL_DESCRIPTION,   hotel.getDescription());
-        values.put(mDb.HOTEL_POLICIES,      hotel.getPolicies());
-        values.put(mDb.HOTEL_CITY,          hotel.getCity());
+        values.put(mDb.HOTEL_ID, hotel.getHotelId());
+        values.put(mDb.COMPANY_ID, hotel.getCompanyId());
+        values.put(mDb.HOTEL_NAME, hotel.getName());
+        values.put(mDb.HOTEL_STARS, hotel.getStars());
+        values.put(mDb.HOTEL_ADDRESS, hotel.getAddress());
+        values.put(mDb.HOTEL_COORDINATESx, hotel.getxCoordinate());
+        values.put(mDb.HOTEL_COORDINATESy, hotel.getyCoordinate());
+
+        values.put(mDb.HOTEL_WORK_FROM, date);
+        values.put(mDb.HOTEL_WORK_TO, date2);
+        values.put(mDb.HOTEL_EXTRAS, hotel.getExtras());
+        values.put(mDb.HOTEL_RATING, hotel.getRating());
+        values.put(mDb.HOTEL_WEBPAGE, hotel.getWebpage());
+        values.put(mDb.HOTEL_FACEBOOK, hotel.getLinkToFacebook());
+        values.put(mDb.HOTEL_DESCRIPTION, hotel.getDescription());
+        values.put(mDb.HOTEL_POLICIES, hotel.getPolicies());
+        values.put(mDb.HOTEL_CITY, hotel.getCity());
 
         long companyId = db.update(mDb.HOTELS, values, mDb.HOTEL_ID + " = ? ", new String[]{String.valueOf(hotel.getHotelId())});
         db.close();
@@ -114,7 +126,7 @@ public class HotelDAO {
         return companyId;
     }
 
-    public Hotel getHotel (long hotelId) {
+    public Hotel getHotel(long hotelId) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
         String selectQuery = "SELECT * FROM " + mDb.HOTELS
@@ -122,32 +134,56 @@ public class HotelDAO {
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-
         Hotel hotel = null;
-        //TODO finish
-        if(c.moveToFirst()){
-            long id = c.getLong(c.getColumnIndex(mDb.USER_ID));
-            String uname = c.getString(c.getColumnIndex(mDb.USERNAME));
-            String uemail = c.getString(c.getColumnIndex(mDb.EMAIL));
-            String upassword = c.getString(c.getColumnIndex(mDb.PASSWORD));
-            String name = c.getString(c.getColumnIndex(mDb.USER_NAME));
-            String country = c.getString(c.getColumnIndex(mDb.COUNTRY));
-            String phone = c.getString(c.getColumnIndex(mDb.TELEPHONE));
-            String date = c.getString(c.getColumnIndex(mDb.DATE_OF_BIRTH));
-            DateFormat formater = new SimpleDateFormat("yy-MM-dd");
-            Date date2= null;
+
+
+        if (c.moveToFirst()) {
             try {
-                date2 = formater.parse(date);
+                long id = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
+                long companyId = c.getLong(c.getColumnIndex(mDb.COMPANY_ID));
+                String name = c.getString(c.getColumnIndex(mDb.HOTEL_NAME));
+                int stars = c.getInt(c.getColumnIndex(mDb.HOTEL_STARS));
+                String address = c.getString(c.getColumnIndex(mDb.HOTEL_ADDRESS));
+
+
+                String workFrom = c.getString(c.getColumnIndex(mDb.HOTEL_WORK_FROM));
+                DateFormat formater = new SimpleDateFormat("yy-MM-dd");
+                Date date2 = formater.parse(workFrom);
+                Calendar calWorkFrom = Calendar.getInstance();
+                calWorkFrom.setTime(date2);
+
+                String workTo = c.getString(c.getColumnIndex(mDb.HOTEL_WORK_FROM));
+                Date date3 = formater.parse(workTo);
+                Calendar calWorkTo = Calendar.getInstance();
+                calWorkTo.setTime(date3);
+
+                String extras = c.getString(c.getColumnIndex(mDb.HOTEL_EXTRAS));
+                double rating = c.getDouble(c.getColumnIndex(mDb.HOTEL_RATING));
+                String webPage = c.getString(c.getColumnIndex(mDb.HOTEL_WEBPAGE));
+                String facebook = c.getString(c.getColumnIndex(mDb.HOTEL_FACEBOOK));
+                String description = c.getString(c.getColumnIndex(mDb.HOTEL_DESCRIPTION));
+                String policies = c.getString(c.getColumnIndex(mDb.HOTEL_POLICIES));
+                String city = c.getString(c.getColumnIndex(mDb.HOTEL_CITY));
+
+                //TODO fill the hotel object and return it
+                ArrayList<Room> rooms = roomInstance.getAllRoomsByHotelID(hotelId);
+                //ArrayList<Review> reviews = reviewInstance.getAllReviewsByHotelID(hotelId);
+                ArrayList<byte[]> images = getImages(hotelId);
+
+                //TODO fill the hotel object and return it
+               // hotel = new Hotel(hotelId, companyId, String name, stars, address, xCoordinate, double yCoordinate, Calendar workFrom, Calendar workTo, String extras, double rating, String webpage, String linkToFacebook, String description, String policies, ArrayList<Room> rooms, ArrayList<byte[]> images, ArrayList<Review> reviews , String city) ;
+
+
+                    // public Hotel(long hotelId, long companyId, String name, byte stars, String address, double xCoordinate,
+                // double yCoordinate, Calendar workFrom, Calendar workTo, String extras, double rating, String webpage,
+                // String linkToFacebook, String description, String policies, ArrayList<Room> rooms, ArrayList<byte[]> images,
+                // ArrayList<Review> reviews , String city) {
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date2);
-            String gender = c.getString(c.getColumnIndex(mDb.GENDER));
-            boolean smoking = (c.getInt(c.getColumnIndex(mDb.SMOKING)) == 1) ? true : false;
-            byte[] avatar = c.getBlob(c.getColumnIndex(mDb.AVATAR));
 
-            //hotel = new User(id, uname, upassword, avatar , email, uname, phone, cal, gender, country, smoking);
+
         }
 
         c.close();
@@ -155,4 +191,26 @@ public class HotelDAO {
         return hotel;
     }
 
+    private ArrayList<byte[]> getImages(long hotelId){
+        ArrayList<byte[]> images = new ArrayList<byte[]>();
+
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT "+ mDb.CONTENT +" FROM " + mDb.HOTEL_IMAGES
+                + " WHERE " + mDb.HOTEL_ID + " = \"" + hotelId + "\"";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst()){
+            do{
+                byte[] image = c.getBlob(c.getColumnIndex(mDb.CONTENT));
+                images.add(image);
+            }
+            while (c.moveToNext());
+        }
+
+        c.close();
+        db.close();
+        return images;
+    }
 }

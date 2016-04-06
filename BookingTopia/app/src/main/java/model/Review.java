@@ -6,7 +6,6 @@ package model;
 public class Review {
 
     private long reviewId;
-    private long hotelId;
 
     private Hotel hotel;
     private String userName;
@@ -38,8 +37,6 @@ public class Review {
         this.reviewId = reviewId;
     }
 
-    public void setHotelId(long hotelId) {
-        this.hotelId = hotelId;
-    }
+
 
 }

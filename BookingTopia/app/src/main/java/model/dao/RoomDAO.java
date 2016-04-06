@@ -4,7 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import model.Hotel;
 import model.Room;
@@ -82,7 +88,7 @@ public class RoomDAO {
         return companyId;
     }
 
-    public Room getRoom (long roomId) {
+    public Room getRoomById (long roomId) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
         String selectQuery = "SELECT * FROM " + mDb.ROOMS
@@ -94,24 +100,98 @@ public class RoomDAO {
 
         if(c.moveToFirst()){
             long id = c.getLong(c.getColumnIndex(mDb.ROOM_ID));
-            String hotelId = c.getString(c.getColumnIndex(mDb.HOTEL_ID));
-            String pricePerDay = c.getString(c.getColumnIndex(mDb.ROOM_PRICE_PER_DAY));
+            long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
+            double pricePerDay = c.getDouble(c.getColumnIndex(mDb.ROOM_PRICE_PER_DAY));
             String description = c.getString(c.getColumnIndex(mDb.ROOM_DESCRIPTION));
-            String maxGuests = c.getString(c.getColumnIndex(mDb.ROOM_MAX_GUESTS));
+            int maxGuests = c.getInt(c.getColumnIndex(mDb.ROOM_MAX_GUESTS));
             String beds = c.getString(c.getColumnIndex(mDb.ROOM_BEDS));
-            String x = c.getString(c.getColumnIndex(mDb.ROOM_X));
-            String y = c.getString(c.getColumnIndex(mDb.ROOM_Y));
+            double x = c.getDouble(c.getColumnIndex(mDb.ROOM_X));
+            double y = c.getDouble(c.getColumnIndex(mDb.ROOM_Y));
+
             String extras = c.getString(c.getColumnIndex(mDb.ROOM_EXTRAS));
             boolean smoking = (c.getInt(c.getColumnIndex(mDb.ROOM_SMOKING)) == 1) ? true : false;
 
-            ArrayList<byte[]> images = getImages(room.getRoomId());
+            ArrayList<Calendar> dates = getTakenDatesPerRoom(roomId);
 
-            //hotel = new User(id, uname, upassword, avatar , email, uname, phone, cal, gender, country, smoking);
+            ArrayList<byte[]> images = getImages(roomId);
+
+            room = new Room(id,hotelId,pricePerDay,description,maxGuests,beds,x,y,extras,smoking,dates,images);
+
         }
 
         c.close();
         db.close();
         return room;
+    }
+
+    public ArrayList<Room> getAllRoomsByHotelID(long hotelID){
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.ROOMS
+                + " WHERE " + mDb.HOTEL_ID + " = \"" + hotelID + "\"";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        ArrayList<Room> rooms = new ArrayList<>();
+
+        if(c.moveToFirst()){
+            Room room = null;
+
+            long id = c.getLong(c.getColumnIndex(mDb.ROOM_ID));
+            long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
+            double pricePerDay = c.getDouble(c.getColumnIndex(mDb.ROOM_PRICE_PER_DAY));
+            String description = c.getString(c.getColumnIndex(mDb.ROOM_DESCRIPTION));
+            int maxGuests = c.getInt(c.getColumnIndex(mDb.ROOM_MAX_GUESTS));
+            String beds = c.getString(c.getColumnIndex(mDb.ROOM_BEDS));
+            double x = c.getDouble(c.getColumnIndex(mDb.ROOM_X));
+            double y = c.getDouble(c.getColumnIndex(mDb.ROOM_Y));
+
+            String extras = c.getString(c.getColumnIndex(mDb.ROOM_EXTRAS));
+            boolean smoking = (c.getInt(c.getColumnIndex(mDb.ROOM_SMOKING)) == 1) ? true : false;
+
+            ArrayList<Calendar> dates = getTakenDatesPerRoom(id);
+
+            ArrayList<byte[]> images = getImages(id);
+
+            room = new Room(id,hotelId,pricePerDay,description,maxGuests,beds,x,y,extras,smoking,dates,images);
+
+            rooms.add(room);
+        }
+
+        c.close();
+        db.close();
+        return rooms;
+    }
+
+    private ArrayList<Calendar> getTakenDatesPerRoom(long roomID){
+
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.TAKEN_DATES
+                + " WHERE " + mDb.ROOM_ID + " = \"" + roomID + "\"";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        ArrayList<Calendar> dates = new ArrayList<>();
+
+        if(c.moveToFirst()) {
+            String date = c.getString(c.getColumnIndex(mDb.DATE));
+
+            DateFormat formater = new SimpleDateFormat("yy-MM-dd");
+            Date date2 = null;
+            try {
+                date2 = formater.parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date2);
+
+           dates.add(cal);
+        }
+
+        c.close();
+        db.close();
+        return dates;
     }
 
     private ArrayList<byte[]> getImages(long roomId){
@@ -132,6 +212,8 @@ public class RoomDAO {
             while (c.moveToNext());
         }
 
+        c.close();
+        db.close();
         return images;
     }
 

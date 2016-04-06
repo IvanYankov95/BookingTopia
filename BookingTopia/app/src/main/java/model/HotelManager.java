@@ -36,6 +36,7 @@ public class HotelManager {
         return null;
     }
 
+    //hotels with free rooms for those dates
     public ArrayList<Hotel> getAllHotelsByDate(ArrayList<Calendar> dates){
         //vika ot RoomsDao vs hoteli , kudeto ima svobodni stai za tezi dni
         return null;
@@ -46,12 +47,13 @@ public class HotelManager {
         return null;
     }
 
+    //all hotels that can carry the guests in a single room
     public ArrayList<Hotel> getAllHotelsByGuests(int guests){
         //vika ot RoomsDao vs hoteli , kudeto ima stai za tozi broy 'guests'
         return null;
     }
 
-    public ArrayList<Hotel> requestHotels(int stars, ArrayList<Calendar> dates, String city, int quests){
+    public ArrayList<Hotel> requestHotels(int stars, ArrayList<Calendar> dates, String city, int guests){
         // from daos get all hotels which meet the fields
         return null;
     }
