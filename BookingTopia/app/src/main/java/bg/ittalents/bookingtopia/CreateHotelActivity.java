@@ -204,7 +204,7 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
 
         String[] star = {"1", "2", "3", "4", "5", "6", "7"};
 
-        ArrayAdapter<String> dataAdapter5 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, month);
+        ArrayAdapter<String> dataAdapter5 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, star);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stars.setAdapter(dataAdapter5);
 
