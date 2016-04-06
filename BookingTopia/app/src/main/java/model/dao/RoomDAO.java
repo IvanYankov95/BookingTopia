@@ -18,7 +18,7 @@ import model.Room;
 /**
  * Created by user-17 on 4/3/16.
  */
-public class RoomDAO {
+public class RoomDAO implements IRoomDAO {
 
     private static RoomDAO instance;
 

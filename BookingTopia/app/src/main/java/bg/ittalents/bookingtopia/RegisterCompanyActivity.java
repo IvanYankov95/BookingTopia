@@ -22,6 +22,7 @@ import java.util.Calendar;
 import model.Company;
 import model.RegisterHelper;
 import model.dao.CompanyDAO;
+import model.dao.ICompanyDAO;
 
 public class RegisterCompanyActivity extends AbstractDrawerActivity {
 
@@ -29,6 +30,8 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
     protected static final int IMAGE_GALLERY_REQUEST_1 = 21;
     protected static final int REQ_WIDTH = 500;
     protected static final int REQ_HEIGHT = 500;
+
+    private static ICompanyDAO companyDAO;
 
     // views start
     private static ImageButton avatar;
@@ -73,6 +76,7 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
         avatar = (ImageButton) findViewById(R.id.register_company_avatar_button);
         progressBar = (ProgressBar) findViewById(R.id.register_company_progress_bar);
 
+        companyDAO = CompanyDAO.getInstance(RegisterCompanyActivity.this);
 
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +98,6 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
             @Override
             public void onClick(View v) {
                 RegisterHelper helper = RegisterHelper.getInstance();
-                CompanyDAO dao = CompanyDAO.getInstance(RegisterCompanyActivity.this);
 
                 String usernameTxt = name.getText().toString();
                 String passwordTxt = password.getText().toString();
@@ -120,7 +123,7 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
                     email.setError("This field is required");
                 else if (!helper.isEmailValid(emailTxt))
                     email.setError("Please enter a valid email");
-                else if (dao.checkUserEmail(emailTxt))
+                else if (companyDAO.checkUserEmail(emailTxt))
                     email.setError("Email is already in use");
                 else
                     emailCheck = true;
@@ -147,7 +150,7 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
                     //public Company(String name, String email, String password, String address, byte[] avatar, String phone, String description)
                     Company company = new Company(usernameTxt, emailTxt, helper.md5(passwordTxt), addressTxt, avatarPic, phoneTxt, descriptionTxt);
 
-                    long companyID = dao.registerCompany(company);
+                    long companyID = companyDAO.registerCompany(company);
 
                     if (company == null)
                         Toast.makeText(RegisterCompanyActivity.this, "Register failed", Toast.LENGTH_SHORT).show();

@@ -19,7 +19,7 @@ import model.Room;
 /**
  * Created by user-17 on 4/3/16.
  */
-public class HotelDAO {
+public class HotelDAO implements IHotelDAO{
 
     private static HotelDAO instance;
     private static RoomDAO roomInstance;

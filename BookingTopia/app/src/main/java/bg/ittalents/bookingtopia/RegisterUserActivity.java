@@ -30,6 +30,7 @@ import java.util.Calendar;
 
 import model.RegisterHelper;
 import model.User;
+import model.dao.IUserDAO;
 import model.dao.UserDAO;
 
 public class RegisterUserActivity extends AbstractDrawerActivity{
@@ -41,6 +42,8 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
 
     // views start
     private static ImageButton avatar;
+
+    private static IUserDAO userDAO;
 
     private static EditText username;
     private static EditText password;
@@ -89,6 +92,8 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
         avatar          = (ImageButton) findViewById(R.id.register_user_avatar_button);
         progressBar     = (ProgressBar) findViewById(R.id.register_user_progress_bar);
 
+        userDAO    = UserDAO.getInstance(RegisterUserActivity.this);
+
         ArrayList<String> categories = new ArrayList<>();
         categories.add("Prefer not to say");
         categories.add("Male");
@@ -131,7 +136,6 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
             @Override
             public void onClick(View v) {
                 RegisterHelper helper = RegisterHelper.getInstance();
-                UserDAO dao = UserDAO.getInstance(RegisterUserActivity.this);
 
                 String usernameTxt = username.getText().toString();
                 String passwordTxt = password.getText().toString();
@@ -150,7 +154,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
                 // username check
                 if(usernameTxt.isEmpty())
                     username.setError("This field is required");
-                else if (dao.checkUsername(usernameTxt))
+                else if (userDAO.checkUsername(usernameTxt))
                     username.setError("Username is already taken");
                 else
                     usernameCheck = true;
@@ -161,7 +165,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
                     email.setError("This field is required");
                 else if(!helper.isEmailValid(emailTxt))
                     email.setError("Please enter a valid email");
-                else if(dao.checkUserEmail(emailTxt))
+                else if(userDAO.checkUserEmail(emailTxt))
                     email.setError("Email is already in use");
                 else
                     emailCheck = true;
@@ -194,7 +198,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
                     String names = firstNameTxt + " " + lastNameTxt;
                     User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, calendar, selectedGender, countryTxt , smokerCheckBox.isChecked());
 
-                    long userId = dao.registerUser(user);
+                    long userId = userDAO.registerUser(user);
 
                     if(user == null)
                         Toast.makeText(RegisterUserActivity.this, "Register failed", Toast.LENGTH_SHORT).show();
@@ -209,10 +213,11 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
             }
         });
 
-        dateOfBirth.setOnClickListener(new View.OnClickListener() {
+        dateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                picDate((EditText) v);
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                    picDate((EditText) v);
             }
         });
 

@@ -15,11 +15,16 @@ import model.RegisterHelper;
 import model.User;
 import model.UserSessionManager;
 import model.dao.CompanyDAO;
+import model.dao.ICompanyDAO;
+import model.dao.IUserDAO;
 import model.dao.UserDAO;
 
 public class LogInActivity extends AbstractDrawerActivity {
 
     UserSessionManager session;
+
+    private static IUserDAO    userDAO;
+    private static ICompanyDAO companyDAO;
 
     private static CheckBox logInAsCompany;
     private static Button register;
@@ -34,6 +39,9 @@ public class LogInActivity extends AbstractDrawerActivity {
         onCreateDrawer();
         getSupportActionBar().setTitle("Log in");
 
+        userDAO    = UserDAO.getInstance(LogInActivity.this);
+        companyDAO = CompanyDAO.getInstance(LogInActivity.this);
+
         session = new UserSessionManager(getApplicationContext());
         //manager = UserManager.getInstance(LogIn.this);
 
@@ -46,7 +54,7 @@ public class LogInActivity extends AbstractDrawerActivity {
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailText = email.getText().toString();
+                String emailText    = email.getText().toString();
                 String passwordText = password.getText().toString();
                 if (emailText.isEmpty()) {
                     email.setError("This field is required.");
@@ -58,7 +66,7 @@ public class LogInActivity extends AbstractDrawerActivity {
                 }
 
                 if (!logInAsCompany.isChecked()) {
-                    User user = UserDAO.getInstance(LogInActivity.this).login(emailText, RegisterHelper.md5(passwordText));
+                    User user = userDAO.login(emailText, RegisterHelper.md5(passwordText));
                     if (user == null) {
                         Toast.makeText(LogInActivity.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
                     } else {
@@ -67,11 +75,11 @@ public class LogInActivity extends AbstractDrawerActivity {
                         startActivity(new Intent(LogInActivity.this, HomeActivity.class));
                     }
                 } else {
-                    Company company = CompanyDAO.getInstance(LogInActivity.this).login(emailText, RegisterHelper.md5(passwordText));
+                    Company company = companyDAO.login(emailText, RegisterHelper.md5(passwordText));
                     if (company == null) {
                         Toast.makeText(LogInActivity.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(LogInActivity.this, "Login sucssessfull!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                         session.createUserLoginSession(company.getCompanyId(), "false");
                         startActivity(new Intent(LogInActivity.this, HomeActivity.class));
 

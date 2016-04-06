@@ -19,7 +19,7 @@ import model.connectionhelper.ConnectionHelper;
 /**
  * Created by user-17 on 4/2/16.
  */
-public class UserDAO {
+public class UserDAO implements IUserDAO{
 
     private static UserDAO instance;
 

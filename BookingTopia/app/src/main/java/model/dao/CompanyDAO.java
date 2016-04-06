@@ -17,7 +17,7 @@ import model.User;
 /**
  * Created by user-17 on 4/2/16.
  */
-public class CompanyDAO {
+public class CompanyDAO implements ICompanyDAO{
 
     private static CompanyDAO instance;
 
