@@ -152,6 +152,7 @@ public class HotelDAO implements IHotelDAO {
 
         if (c.moveToFirst()) {
             try {
+
                 long id = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
                 long companyId = c.getLong(c.getColumnIndex(mDb.COMPANY_ID));
                 String name = c.getString(c.getColumnIndex(mDb.HOTEL_NAME));
@@ -181,11 +182,13 @@ public class HotelDAO implements IHotelDAO {
 
                 ArrayList<Room> rooms = roomInstance.getAllRoomsByHotelID(hotelId);
                 ArrayList<Review> reviews = reviewInstance.getAllReviewsByHotelId(hotelId);
-                ArrayList<byte[]> images = getImages(hotelId);
-
+                Log.e("log", "ot gore");
+                ArrayList<byte[]> images = this.getHotelImages(hotelId);
+                Log.e("log", "ot dolo");
                 hotel = new Hotel(hotelId, companyId, name, stars, address,
                         xCoordinate, yCoordinate, calWorkFrom, calWorkTo, extras, rating, webPage, linkToFacebook, description, policies,
                         rooms, images, reviews, city);
+                Log.e("----gethotel" , "" + hotel);
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -207,7 +210,7 @@ public class HotelDAO implements IHotelDAO {
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        ArrayList<Hotel> hotels = null;
+        ArrayList<Hotel> hotels = new ArrayList<>();
         if (c.moveToFirst()) {
 
             long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
@@ -222,7 +225,7 @@ public class HotelDAO implements IHotelDAO {
     }
 
 
-    private ArrayList<byte[]> getImages(long hotelId) {
+    private ArrayList<byte[]> getHotelImages(long hotelId) {
         ArrayList<byte[]> images = new ArrayList<byte[]>();
 
         SQLiteDatabase db = mDb.getReadableDatabase();
@@ -236,6 +239,7 @@ public class HotelDAO implements IHotelDAO {
         if (c.moveToFirst()) {
             do {
                 byte[] image = c.getBlob(c.getColumnIndex(mDb.CONTENT));
+                Log.e("----images" , "" + image);
                 images.add(image);
             }
             while (c.moveToNext());

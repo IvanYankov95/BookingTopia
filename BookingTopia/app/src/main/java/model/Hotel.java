@@ -57,6 +57,10 @@ public class Hotel {
 
     }
 
+    public void setImages(ArrayList<byte[]> images) {
+        this.images = images;
+    }
+
     public void  addReview(User user, String pros, String cons, double rating){
        // reviews.add(new Review(pros,cons,rating, user));
     }
