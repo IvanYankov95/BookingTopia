@@ -29,7 +29,7 @@ public class LogInActivity extends AbstractDrawerActivity {
     private static CheckBox logInAsCompany;
     private static Button register;
     private static Button logIn;
-    private static CheckBox keepMeLoggedIn;
+   // private static CheckBox keepMeLoggedIn;
 
     private static EditText email;
     private static EditText password;
@@ -47,8 +47,8 @@ public class LogInActivity extends AbstractDrawerActivity {
         session = new UserSessionManager(getApplicationContext());
 
         logIn = (Button) findViewById(R.id.login_button);
-        keepMeLoggedIn = (CheckBox) findViewById(R.id.keep_me_logged_in);
-        keepMeLoggedIn.setChecked(true);
+       // keepMeLoggedIn = (CheckBox) findViewById(R.id.keep_me_logged_in);
+        //keepMeLoggedIn.setChecked(true);
         register = (Button) findViewById(R.id.login_register_button);
         email = (EditText) findViewById(R.id.login_email);
         password = (EditText) findViewById(R.id.login_password);
@@ -74,9 +74,9 @@ public class LogInActivity extends AbstractDrawerActivity {
                         Toast.makeText(LogInActivity.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(LogInActivity.this, "Login sucssessfull!", Toast.LENGTH_SHORT).show();
-                        if(keepMeLoggedIn.isChecked()){
+                      //  if(keepMeLoggedIn.isChecked()){
                              session.createUserLoginSession(user.getUserId(), "true");
-                        }
+                       // }
                         startActivity(new Intent(LogInActivity.this, SearchResultActivity.class));
                     }
                 } else {
@@ -85,9 +85,9 @@ public class LogInActivity extends AbstractDrawerActivity {
                         Toast.makeText(LogInActivity.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                        if(keepMeLoggedIn.isChecked()){
+                      //  if(keepMeLoggedIn.isChecked()){
                             session.createUserLoginSession(company.getCompanyId(), "false");
-                        }
+                     //   }
                         startActivity(new Intent(LogInActivity.this, SearchResultActivity.class));
 
                     }

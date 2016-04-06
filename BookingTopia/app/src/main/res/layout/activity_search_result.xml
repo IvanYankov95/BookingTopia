@@ -26,6 +26,7 @@
             android:text="Destination / Hotel name" />
 
         <EditText
+            android:inputType="textAutoComplete"
             android:id="@+id/search_field"
             android:layout_marginBottom="5dp"
             android:layout_width="match_parent"

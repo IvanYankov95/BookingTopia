@@ -36,7 +36,8 @@
         <activity android:name=".ViewRoomActivity" />
         <activity android:name=".ReserveActivity" />
         <activity android:name=".CreateHotelActivity" />
-        <activity android:name=".CreateRoomActivity"></activity>
+        <activity android:name=".CreateRoomActivity" />
+        <activity android:name=".HotelListActivity"></activity>
     </application>
 
 </manifest>
