@@ -1,5 +1,6 @@
 package bg.ittalents.bookingtopia;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -49,22 +50,22 @@ public class AbstractDrawerActivity extends AppCompatActivity
         session = new UserSessionManager(this);
 
 
-
-        if(isUser()){
-            byte[] image = udao.getAvatar(getLoggedId());
-            Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
-            ((ImageView)navigationView.getHeaderView(0).findViewById(R.id.avatar)).setImageBitmap(bmp);
-            ((TextView)navigationView.getHeaderView(0).findViewById(R.id.name)).setText(udao.getName(getLoggedId()));
-            navigationView.getMenu().getItem(1).setVisible(false);
-            navigationView.getMenu().getItem(2).setVisible(false);
-        }
-        else{
-            byte[] image = cdao.getAvatar(getLoggedId());
-            Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
-            ((ImageView)navigationView.getHeaderView(0).findViewById(R.id.avatar)).setImageBitmap(bmp);
-            ((TextView)navigationView.getHeaderView(0).findViewById(R.id.name)).setText(cdao.getName(getLoggedId()));
-            navigationView.getMenu().getItem(3).setVisible(false);
-            navigationView.getMenu().getItem(4).setVisible(false);
+        if(session.isUserLoggedIn()) {
+            if (isUser()) {
+                byte[] image = udao.getAvatar(getLoggedId());
+                Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
+                ((ImageView) navigationView.getHeaderView(0).findViewById(R.id.avatar)).setImageBitmap(bmp);
+                ((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(udao.getName(getLoggedId()));
+                navigationView.getMenu().getItem(1).setVisible(false);
+                navigationView.getMenu().getItem(2).setVisible(false);
+            } else {
+                byte[] image = cdao.getAvatar(getLoggedId());
+                Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
+                ((ImageView) navigationView.getHeaderView(0).findViewById(R.id.avatar)).setImageBitmap(bmp);
+                ((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(cdao.getName(getLoggedId()));
+                navigationView.getMenu().getItem(3).setVisible(false);
+                navigationView.getMenu().getItem(4).setVisible(false);
+            }
         }
     }
 
@@ -109,15 +110,15 @@ public class AbstractDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_add_hotel) {
-            Toast.makeText(AbstractDrawerActivity.this, "hotel add", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, CreateHotelActivity.class));
         } else if (id == R.id.nav_home) {
-
+            startActivity(new Intent(this, SearchResultActivity.class));
         } else if (id == R.id.nav_my_reservations) {
 
         } else if (id == R.id.nav_my_reviews) {
 
         } else if (id == R.id.nav_view_my_hotels) {
-
+            startActivity(new Intent(this, SearchResultActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

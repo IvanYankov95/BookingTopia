@@ -19,4 +19,6 @@ public interface IRoomDAO {
     public Room getRoomById (long roomId);
 
     public ArrayList<Room> getAllRoomsByHotelID(long hotelID);
+
+
 }

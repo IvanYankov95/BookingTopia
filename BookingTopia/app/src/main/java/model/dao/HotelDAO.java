@@ -19,10 +19,12 @@ import model.Room;
 /**
  * Created by user-17 on 4/3/16.
  */
-public class HotelDAO implements IHotelDAO{
+public class HotelDAO implements IHotelDAO {
 
     private static HotelDAO instance;
     private static RoomDAO roomInstance;
+    private static ReviewDAO reviewInstance;
+
 
     private DatabaseHelper mDb;
 
@@ -33,7 +35,9 @@ public class HotelDAO implements IHotelDAO{
     public static HotelDAO getInstance(Context context) {
         if (instance == null)
             instance = new HotelDAO(context);
+
         roomInstance = RoomDAO.getInstance(context);
+        reviewInstance = ReviewDAO.getInstance(context);
 
         return instance;
     }
@@ -50,9 +54,10 @@ public class HotelDAO implements IHotelDAO{
                 + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         Calendar calendar2 = hotel.getWorkTo();
-        String date2 = calendar.getInstance().get(Calendar.YEAR) + "-"
-                + calendar.getInstance().get(Calendar.MONTH) + "-"
-                + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        String date2 = calendar2.getInstance().get(Calendar.YEAR) + "-"
+                + calendar2.getInstance().get(Calendar.MONTH) + "-"
+                + calendar2.getInstance().get(Calendar.DAY_OF_MONTH);
+
 
         values.put(mDb.HOTEL_ID, hotel.getHotelId());
         values.put(mDb.COMPANY_ID, hotel.getCompanyId());
@@ -63,6 +68,8 @@ public class HotelDAO implements IHotelDAO{
         values.put(mDb.HOTEL_WORK_TO, date2);
         values.put(mDb.HOTEL_EXTRAS, hotel.getExtras());
         values.put(mDb.HOTEL_RATING, hotel.getRating());
+        values.put(mDb.HOTEL_X, hotel.getxCoordinate());
+        values.put(mDb.HOTEL_Y, hotel.getyCoordinate());
         values.put(mDb.HOTEL_WEBPAGE, hotel.getWebpage());
         values.put(mDb.HOTEL_FACEBOOK, hotel.getLinkToFacebook());
         values.put(mDb.HOTEL_DESCRIPTION, hotel.getDescription());
@@ -75,9 +82,6 @@ public class HotelDAO implements IHotelDAO{
         return hotelId;
     }
 
-    public ArrayList<Hotel> getAllHotelsByCompanyID(long companyID) {
-            return null;
-    }
 
     public void deleteHotel(Hotel hotel) {
         SQLiteDatabase db = mDb.getWritableDatabase();
@@ -98,9 +102,9 @@ public class HotelDAO implements IHotelDAO{
                 + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         Calendar calendar2 = hotel.getWorkTo();
-        String date2 = calendar.getInstance().get(Calendar.YEAR) + "-"
-                + calendar.getInstance().get(Calendar.MONTH) + "-"
-                + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        String date2 = calendar2.getInstance().get(Calendar.YEAR) + "-"
+                + calendar2.getInstance().get(Calendar.MONTH) + "-"
+                + calendar2.getInstance().get(Calendar.DAY_OF_MONTH);
 
         values.put(mDb.HOTEL_ID, hotel.getHotelId());
         values.put(mDb.COMPANY_ID, hotel.getCompanyId());
@@ -145,7 +149,6 @@ public class HotelDAO implements IHotelDAO{
                 int stars = c.getInt(c.getColumnIndex(mDb.HOTEL_STARS));
                 String address = c.getString(c.getColumnIndex(mDb.HOTEL_ADDRESS));
 
-
                 String workFrom = c.getString(c.getColumnIndex(mDb.HOTEL_WORK_FROM));
                 DateFormat formater = new SimpleDateFormat("yy-MM-dd");
                 Date date2 = formater.parse(workFrom);
@@ -159,25 +162,21 @@ public class HotelDAO implements IHotelDAO{
 
                 String extras = c.getString(c.getColumnIndex(mDb.HOTEL_EXTRAS));
                 double rating = c.getDouble(c.getColumnIndex(mDb.HOTEL_RATING));
+                double xCoordinate = c.getDouble(c.getColumnIndex(mDb.HOTEL_X));
+                double yCoordinate = c.getDouble(c.getColumnIndex(mDb.HOTEL_Y));
                 String webPage = c.getString(c.getColumnIndex(mDb.HOTEL_WEBPAGE));
-                String facebook = c.getString(c.getColumnIndex(mDb.HOTEL_FACEBOOK));
+                String linkToFacebook = c.getString(c.getColumnIndex(mDb.HOTEL_FACEBOOK));
                 String description = c.getString(c.getColumnIndex(mDb.HOTEL_DESCRIPTION));
                 String policies = c.getString(c.getColumnIndex(mDb.HOTEL_POLICIES));
                 String city = c.getString(c.getColumnIndex(mDb.HOTEL_CITY));
 
-                //TODO fill the hotel object and return it
                 ArrayList<Room> rooms = roomInstance.getAllRoomsByHotelID(hotelId);
-                //ArrayList<Review> reviews = reviewInstance.getAllReviewsByHotelID(hotelId);
+                ArrayList<Review> reviews = reviewInstance.getAllReviewsByHotelId(hotelId);
                 ArrayList<byte[]> images = getImages(hotelId);
 
-                //TODO fill the hotel object and return it
-               // hotel = new Hotel(hotelId, companyId, String name, stars, address, xCoordinate, double yCoordinate, Calendar workFrom, Calendar workTo, String extras, double rating, String webpage, String linkToFacebook, String description, String policies, ArrayList<Room> rooms, ArrayList<byte[]> images, ArrayList<Review> reviews , String city) ;
-
-
-                    // public Hotel(long hotelId, long companyId, String name, byte stars, String address, double xCoordinate,
-                // double yCoordinate, Calendar workFrom, Calendar workTo, String extras, double rating, String webpage,
-                // String linkToFacebook, String description, String policies, ArrayList<Room> rooms, ArrayList<byte[]> images,
-                // ArrayList<Review> reviews , String city) {
+                hotel = new Hotel(hotelId, companyId, name, stars, address,
+                        xCoordinate, yCoordinate, calWorkFrom, calWorkTo, extras, rating, webPage, linkToFacebook, description, policies,
+                        rooms, images, reviews, city);
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -185,24 +184,48 @@ public class HotelDAO implements IHotelDAO{
 
 
         }
-
         c.close();
         db.close();
         return hotel;
+
     }
 
-    private ArrayList<byte[]> getImages(long hotelId){
+    public ArrayList<Hotel> getAllHotelsByCompanyID(long companyId) {
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.HOTELS
+                + " WHERE " + mDb.COMPANY_ID + " = \"" + companyId + "\"";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        ArrayList<Hotel> hotels = null;
+        if (c.moveToFirst()) {
+
+            long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
+
+            hotels.add(getHotel(hotelId));
+
+        }
+        c.close();
+        db.close();
+        return hotels;
+
+    }
+
+
+    private ArrayList<byte[]> getImages(long hotelId) {
         ArrayList<byte[]> images = new ArrayList<byte[]>();
 
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        String selectQuery = "SELECT "+ mDb.CONTENT +" FROM " + mDb.HOTEL_IMAGES
+        String selectQuery = "SELECT " + mDb.CONTENT + " FROM " + mDb.HOTEL_IMAGES
                 + " WHERE " + mDb.HOTEL_ID + " = \"" + hotelId + "\"";
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if(c.moveToFirst()){
-            do{
+
+        if (c.moveToFirst()) {
+            do {
                 byte[] image = c.getBlob(c.getColumnIndex(mDb.CONTENT));
                 images.add(image);
             }

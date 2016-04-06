@@ -7,15 +7,16 @@ public class Review {
 
     private long reviewId;
 
-    private Hotel hotel;
-    private String userName;
+    private long hotelID;
+    private String writer;
     private String pros;
     private String cons;
     private double rating;
 
-    public Review(String pros, String cons, double rating, User user) {
+    public Review(long hotelID, String writer, String pros, String cons, double rating) {
         //shte se setva direktno pri suzdavane ot lognatiq user
-        this.userName = user.getUsername();
+        this.writer = writer;
+        this.hotelID = hotelID;
         this.pros = pros;
         this.cons = cons;
         this.rating = rating;

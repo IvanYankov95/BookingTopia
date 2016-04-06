@@ -57,6 +57,8 @@ class DatabaseHelper extends SQLiteOpenHelper {
     public static final String REVIEW_PROS   = "review_pros";
     public static final String REVIEW_CONS   = "review_cons";
     public static final String REVIEW_RATING = "review_rating";
+    public static final String REVIEW_WRITER = "review_writer";
+
 
     // HOTEL table columns
     public static final String HOTEL_NAME        = "hotel_name";
@@ -66,6 +68,8 @@ class DatabaseHelper extends SQLiteOpenHelper {
     public static final String HOTEL_WORK_TO     = "hotel_work_to";
     public static final String HOTEL_EXTRAS      = "hotel_extras";
     public static final String HOTEL_RATING      = "hotel_rating";
+    public static final String HOTEL_X           = "hotel_x_coordinate";
+    public static final String HOTEL_Y           = "hotel_y_coordinate";
     public static final String HOTEL_WEBPAGE     = "hotel_webpage";
     public static final String HOTEL_FACEBOOK    = "hotel_facebook";
     public static final String HOTEL_DESCRIPTION = "hotel_description";
@@ -130,6 +134,8 @@ class DatabaseHelper extends SQLiteOpenHelper {
             + HOTEL_WORK_TO     + " DATE, "
             + HOTEL_EXTRAS      + " VARCHAR(500) NOT NULL, "
             + HOTEL_RATING      + " DOUBLE, "
+            + HOTEL_X           + " DOUBLE, "
+            + HOTEL_Y           + " DOUBLE, "
             + HOTEL_WEBPAGE     + " VARCHAR(255) NOT NULL, "
             + HOTEL_FACEBOOK    + " VARCHAR(255) NOT NULL, "
             + HOTEL_DESCRIPTION + " VARCHAR(2000) NOT NULL, "
@@ -189,6 +195,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
             + REVIEW_PROS   + " VARCHAR(255), "
             + REVIEW_CONS   + " VARCHAR(255), "
             + REVIEW_RATING + " DOUBLE, "
+            + REVIEW_WRITER + " VARCHAR(255), "
             + "FOREIGN KEY ("+ HOTEL_ID +") REFERENCES "+ HOTELS +"("+ HOTEL_ID +")"
             +") ";
 

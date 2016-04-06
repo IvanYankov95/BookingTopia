@@ -13,7 +13,7 @@ public class Hotel {
     private long hotelId;
     private long companyId;
     private String name;
-    private byte stars;
+    private int stars;
     private String address;
     private double xCoordinate;
     private double yCoordinate;
@@ -31,7 +31,7 @@ public class Hotel {
     private ArrayList<byte[]> images = new ArrayList<>();
     private ArrayList<Review> reviews = new ArrayList<>();
 
-    public Hotel(long hotelId, long companyId, String name, byte stars, String address, double xCoordinate, double yCoordinate, Calendar workFrom, Calendar workTo, String extras, double rating, String webpage, String linkToFacebook, String description, String policies, ArrayList<Room> rooms, ArrayList<byte[]> images, ArrayList<Review> reviews , String city) {
+    public Hotel(long hotelId, long companyId, String name, int stars, String address, double xCoordinate, double yCoordinate, Calendar workFrom, Calendar workTo, String extras, double rating, String webpage, String linkToFacebook, String description, String policies, ArrayList<Room> rooms, ArrayList<byte[]> images, ArrayList<Review> reviews , String city) {
         this.hotelId = hotelId;
         this.companyId = companyId;
         this.name = name;
@@ -54,7 +54,7 @@ public class Hotel {
     }
 
     public void  addReview(User user, String pros, String cons, double rating){
-        reviews.add(new Review(pros,cons,rating, user));
+       // reviews.add(new Review(pros,cons,rating, user));
     }
 
     public void addReview(Review review) {
@@ -77,7 +77,7 @@ public class Hotel {
         return name;
     }
 
-    public byte getStars() {
+    public int getStars() {
         return stars;
     }
 

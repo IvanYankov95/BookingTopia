@@ -218,4 +218,25 @@ public class RoomDAO implements IRoomDAO {
     }
 
 
+    private long getHotelIdByRoomId(long roomID){
+
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.ROOMS
+                + " WHERE " + mDb.ROOM_ID + " = \"" + roomID + "\"";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        ArrayList<Calendar> dates = new ArrayList<>();
+        long hotelId =0;
+        if(c.moveToFirst()) {
+            hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
+        }
+
+        c.close();
+        db.close();
+        return hotelId;
+    }
+
+
+
 }
