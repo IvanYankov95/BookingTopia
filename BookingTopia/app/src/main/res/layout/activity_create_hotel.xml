@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/createHotel"
+    android:id="@+id/create_hotel"
     android:background="@android:color/background_light"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="bg.ittalents.bookingtopia.CreateHotelActivity">
@@ -215,7 +215,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:hint="description (max 2000 symbols)"
-                android:id="@+id/add_offer_description_text" />
+                android:id="@+id/add_room_description_text" />
 
         </LinearLayout>
 

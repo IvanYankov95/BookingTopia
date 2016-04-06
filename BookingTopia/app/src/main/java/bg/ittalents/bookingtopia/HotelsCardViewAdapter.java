@@ -129,3 +129,4 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
     }
 
 }
+
