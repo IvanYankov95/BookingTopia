@@ -20,5 +20,5 @@ public interface IRoomDAO {
 
     public ArrayList<Room> getAllRoomsByHotelID(long hotelID);
 
-
+    public void registerTakenDate(Room room, long reservationID);
 }

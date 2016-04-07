@@ -14,6 +14,7 @@ import java.util.Date;
 
 import model.Hotel;
 import model.Room;
+import model.User;
 
 /**
  * Created by user-17 on 4/3/16.
@@ -237,6 +238,36 @@ public class RoomDAO implements IRoomDAO {
         return hotelId;
     }
 
+    @Override
+    public void registerTakenDate(Room room, long reservationID) {
+        SQLiteDatabase db = mDb.getReadableDatabase();
 
+        ContentValues values = new ContentValues();
 
+        values.put(mDb.BOOKING_ID, reservationID);
+        values.put(mDb.ROOM_ID, room.getRoomId());
+        Calendar calendar = User.fromDBCal;
+        String date = calendar.getInstance().get(Calendar.YEAR) + "-"
+                + calendar.getInstance().get(Calendar.MONTH) + "-"
+                + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        values.put(mDb.DATE, date);
+
+        db.insert(mDb.TAKEN_DATES, null, values);
+
+        while(!User.fromDBCal.after(User.toDBCal))
+        {
+            ContentValues values2 = new ContentValues();
+
+            values2.put(mDb.BOOKING_ID, reservationID);
+            values2.put(mDb.ROOM_ID, room.getRoomId());
+            User.fromDBCal.add(Calendar.DATE, 1);
+            Calendar calendar2 = User.fromDBCal;
+            String date2 = calendar2.getInstance().get(Calendar.YEAR) + "-"
+                    + calendar2.getInstance().get(Calendar.MONTH) + "-"
+                    + calendar2.getInstance().get(Calendar.DAY_OF_MONTH);
+            values.put(mDb.DATE, date2);
+            db.insert(mDb.TAKEN_DATES, null, values2);
+        }
+
+    }
 }

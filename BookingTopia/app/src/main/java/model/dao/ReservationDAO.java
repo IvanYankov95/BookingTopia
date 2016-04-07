@@ -15,6 +15,15 @@ public class ReservationDAO implements IReservationDAO {
 
     private DatabaseHelper mDb;
 
+    private static ReservationDAO instance;
+
+    public static ReservationDAO getInstance(Context context){
+        if(instance == null)
+            instance = new ReservationDAO(context);
+
+        return instance;
+    }
+
 
     private ReservationDAO(Context context) {
         this.mDb = DatabaseHelper.getInstance(context);

@@ -30,13 +30,4 @@ public class Reservation {
         return userID;
     }
 
-    public void setRoomID(long roomID) {
-        this.roomID = roomID;
-    }
-
-    public void setUserID(long userID) {
-        this.userID = userID;
-    }
-
-
 }
