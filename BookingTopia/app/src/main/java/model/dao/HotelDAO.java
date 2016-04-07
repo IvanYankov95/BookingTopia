@@ -240,6 +240,7 @@ public class HotelDAO implements IHotelDAO {
             do {
                 byte[] image = c.getBlob(c.getColumnIndex(mDb.CONTENT));
                 images.add(image);
+
             }
             while (c.moveToNext());
         }

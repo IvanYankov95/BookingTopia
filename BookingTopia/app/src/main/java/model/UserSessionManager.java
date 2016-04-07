@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.HashMap;
-import bg.ittalents.bookingtopia.LogInActivity;
+import bg.ittalents.bookingtopia.controller.activities.LogInActivity;
 
 public class UserSessionManager {
 

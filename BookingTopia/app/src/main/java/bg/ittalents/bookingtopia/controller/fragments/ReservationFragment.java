@@ -1,4 +1,4 @@
-package bg.ittalents.bookingtopia;
+package bg.ittalents.bookingtopia.controller.fragments;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+import bg.ittalents.bookingtopia.R;
 import model.Hotel;
 import model.Room;
 import model.User;

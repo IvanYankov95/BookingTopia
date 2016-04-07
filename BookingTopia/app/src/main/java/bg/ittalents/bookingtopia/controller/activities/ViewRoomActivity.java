@@ -1,7 +1,8 @@
-package bg.ittalents.bookingtopia;
+package bg.ittalents.bookingtopia.controller.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import bg.ittalents.bookingtopia.R;
 
 public class ViewRoomActivity extends AbstractDrawerActivity {
 

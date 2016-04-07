@@ -1,4 +1,4 @@
-package bg.ittalents.bookingtopia;
+package bg.ittalents.bookingtopia.controller.activities;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -15,6 +15,8 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import bg.ittalents.bookingtopia.R;
 
 public class SearchResultActivity extends AbstractDrawerActivity {
 

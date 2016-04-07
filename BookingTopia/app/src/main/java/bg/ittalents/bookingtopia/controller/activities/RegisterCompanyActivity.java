@@ -1,4 +1,4 @@
-package bg.ittalents.bookingtopia;
+package bg.ittalents.bookingtopia.controller.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Calendar;
 
+import bg.ittalents.bookingtopia.R;
 import model.Company;
 import model.RegisterHelper;
 import model.dao.CompanyDAO;

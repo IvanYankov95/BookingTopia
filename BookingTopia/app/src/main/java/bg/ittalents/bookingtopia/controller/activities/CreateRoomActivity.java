@@ -1,11 +1,10 @@
-package bg.ittalents.bookingtopia;
+package bg.ittalents.bookingtopia.controller.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,12 +21,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 
-import model.Hotel;
+import bg.ittalents.bookingtopia.R;
 import model.Room;
-import model.dao.HotelDAO;
-import model.dao.IHotelDAO;
 import model.dao.IRoomDAO;
 import model.dao.RoomDAO;
 

@@ -1,4 +1,4 @@
-package bg.ittalents.bookingtopia;
+package bg.ittalents.bookingtopia.controller.activities;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -28,12 +28,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import bg.ittalents.bookingtopia.R;
 import model.RegisterHelper;
 import model.User;
 import model.dao.IUserDAO;
 import model.dao.UserDAO;
 
-public class RegisterUserActivity extends AbstractDrawerActivity{
+public class RegisterUserActivity extends AbstractDrawerActivity {
 
     // constants
     protected static final int IMAGE_GALLERY_REQUEST_1 = 21;
@@ -55,7 +56,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
     private static EditText phone;
     private static EditText dateOfBirth;
 
-    private static Spinner  genderSpinner;
+    private static Spinner genderSpinner;
     private static CheckBox smokerCheckBox;
 
     private static Button register;
@@ -65,7 +66,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
     // helpers
     private static String selectedGender;
 
-    private static byte[]  avatarPic;
+    private static byte[] avatarPic;
     private static boolean avatarCheck;
 
     private static Calendar calendar;
@@ -77,20 +78,21 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
         onCreateDrawer();
         getSupportActionBar().setTitle("Register user");
 
-        register        = (Button)   findViewById(R.id.register_user_register_button);
-        username        = (EditText) findViewById(R.id.register_user_username);
-        password        = (EditText) findViewById(R.id.register_user_password);
+        register = (Button) findViewById(R.id.register_user_register_button);
+        register.setVisibility(View.GONE);
+        username = (EditText) findViewById(R.id.register_user_username);
+        password = (EditText) findViewById(R.id.register_user_password);
         confirmPassword = (EditText) findViewById(R.id.register_user_confirm_password);
-        email           = (EditText) findViewById(R.id.register_user_email);
-        firstName       = (EditText) findViewById(R.id.register_user_first_name);
-        lastName        = (EditText) findViewById(R.id.register_user_last_name);
-        country         = (EditText) findViewById(R.id.register_user_country);
-        phone           = (EditText) findViewById(R.id.register_user_phone);
-        genderSpinner   = (Spinner)  findViewById(R.id.register_user_gender_spinner);
-        smokerCheckBox  = (CheckBox) findViewById(R.id.register_user_smoker_checkbox);
-        dateOfBirth     = (EditText) findViewById(R.id.register_user_date_of_birth_text);
-        avatar          = (ImageButton) findViewById(R.id.register_user_avatar_button);
-        progressBar     = (ProgressBar) findViewById(R.id.register_user_progress_bar);
+        email = (EditText) findViewById(R.id.register_user_email);
+        firstName = (EditText) findViewById(R.id.register_user_first_name);
+        lastName = (EditText) findViewById(R.id.register_user_last_name);
+        country = (EditText) findViewById(R.id.register_user_country);
+        phone = (EditText) findViewById(R.id.register_user_phone);
+        genderSpinner = (Spinner) findViewById(R.id.register_user_gender_spinner);
+        smokerCheckBox = (CheckBox) findViewById(R.id.register_user_smoker_checkbox);
+        dateOfBirth = (EditText) findViewById(R.id.register_user_date_of_birth_text);
+        avatar = (ImageButton) findViewById(R.id.register_user_avatar_button);
+        progressBar = (ProgressBar) findViewById(R.id.register_user_progress_bar);
 
         userDAO = UserDAO.getInstance(RegisterUserActivity.this);
 
@@ -131,7 +133,6 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
         });
 
 
-
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +153,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
                 boolean nameCheck = false;
 
                 // username check
-                if(usernameTxt.isEmpty())
+                if (usernameTxt.isEmpty())
                     username.setError("This field is required");
                 else if (userDAO.checkUsername(usernameTxt))
                     username.setError("Username is already taken");
@@ -161,46 +162,46 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
                 // username check
 
                 // email check
-                if(emailTxt.isEmpty())
+                if (emailTxt.isEmpty())
                     email.setError("This field is required");
-                else if(!helper.isEmailValid(emailTxt))
+                else if (!helper.isEmailValid(emailTxt))
                     email.setError("Please enter a valid email");
-                else if(userDAO.checkUserEmail(emailTxt))
+                else if (userDAO.checkUserEmail(emailTxt))
                     email.setError("Email is already in use");
                 else
                     emailCheck = true;
                 // email check
 
                 // password check
-                if(passwordTxt.isEmpty())
+                if (passwordTxt.isEmpty())
                     password.setError("This field is required");
                 else if (!helper.checkPasswordStrength(passwordTxt))
                     password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
-                else if(!passwordTxt.equals(confirmPasswordTxt))
+                else if (!passwordTxt.equals(confirmPasswordTxt))
                     confirmPassword.setError("Passwords don't match");
                 else
                     passwordCheck = true;
                 // password check
 
                 // names check
-                if(firstNameTxt.isEmpty())
+                if (firstNameTxt.isEmpty())
                     firstName.setError("This field is required");
-                else if(lastNameTxt.isEmpty())
+                else if (lastNameTxt.isEmpty())
                     lastName.setText("This field is required");
                 else
                     nameCheck = true;
                 // names check
 
-                if(!avatarCheck)
+                if (!avatarCheck)
                     Toast.makeText(RegisterUserActivity.this, "Avatar is required", Toast.LENGTH_SHORT).show();
                 if (usernameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
 
                     String names = firstNameTxt + " " + lastNameTxt;
-                    User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, calendar, selectedGender, countryTxt , smokerCheckBox.isChecked());
+                    User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, calendar, selectedGender, countryTxt, smokerCheckBox.isChecked());
 
                     long userId = userDAO.registerUser(user);
 
-                    if(user == null)
+                    if (user == null)
                         Toast.makeText(RegisterUserActivity.this, "Register failed", Toast.LENGTH_SHORT).show();
                     else {
                         user.setUserId(userId);
@@ -216,14 +217,26 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
         dateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus)
+                if (hasFocus)
                     picDate((EditText) v);
             }
         });
 
     }
 
-    public void makeToast(Boolean b){
+    public boolean areAllFieldsFilled() {
+        return (!username.getText().toString().isEmpty() &&
+        !password.getText().toString().isEmpty()  &&
+        !confirmPassword.getText().toString().isEmpty() &&
+        !email.getText().toString().isEmpty() &&
+        !firstName.getText().toString().isEmpty() &&
+        !lastName.getText().toString().isEmpty() &&
+        !country.getText().toString().isEmpty() &&
+        !phone.getText().toString().isEmpty());
+
+    }
+
+    public void makeToast(Boolean b) {
         Toast.makeText(RegisterUserActivity.this, "RESULT " + b, Toast.LENGTH_SHORT).show();
     }
 
@@ -232,6 +245,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
             public FragmentDatePicker() {
                 // Required empty public constructor
             }
+
             @Override
             public Dialog onCreateDialog(Bundle savedInstanceState) {
                 final Calendar c = Calendar.getInstance();
@@ -263,17 +277,17 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
 
-            switch (requestCode){
+            switch (requestCode) {
                 case IMAGE_GALLERY_REQUEST_1:
-                    setPicture(avatar,data);
+                    setPicture(avatar, data);
                     break;
             }
         }
     }
 
-    private void setPicture(ImageButton button, Intent data){
+    private void setPicture(ImageButton button, Intent data) {
         Uri imageUrl = data.getData();
 
         InputStream inputStream = null;
@@ -283,7 +297,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
             inputStream = getContentResolver().openInputStream(imageUrl);
             inputStream2 = getContentResolver().openInputStream(imageUrl);
 
-            Bitmap image = decodeSampledBitmapFromStream(inputStream,inputStream2, REQ_WIDTH, REQ_HEIGHT);
+            Bitmap image = decodeSampledBitmapFromStream(inputStream, inputStream2, REQ_WIDTH, REQ_HEIGHT);
 
             stream = new ByteArrayOutputStream();
 
@@ -300,15 +314,18 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
             try {
                 if (inputStream != null)
                     inputStream.close();
-            } catch (Exception e){}
+            } catch (Exception e) {
+            }
             try {
                 if (inputStream2 != null)
                     inputStream2.close();
-            } catch (Exception e){}
+            } catch (Exception e) {
+            }
             try {
                 if (stream != null)
                     stream.close();
-            } catch (Exception e){}
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -334,7 +351,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity{
         return inSampleSize;
     }
 
-    protected static Bitmap decodeSampledBitmapFromStream(InputStream inputStream, InputStream inputStream2,int reqWidth, int reqHeight) {
+    protected static Bitmap decodeSampledBitmapFromStream(InputStream inputStream, InputStream inputStream2, int reqWidth, int reqHeight) {
 
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();

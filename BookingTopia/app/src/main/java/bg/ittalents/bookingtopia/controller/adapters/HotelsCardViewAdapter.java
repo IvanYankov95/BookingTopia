@@ -1,11 +1,10 @@
-package bg.ittalents.bookingtopia;
+package bg.ittalents.bookingtopia.controller.adapters;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +19,9 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import bg.ittalents.bookingtopia.R;
+import bg.ittalents.bookingtopia.controller.activities.CreateHotelActivity;
+import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
 import model.Hotel;
 
 /**
@@ -51,7 +53,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
     }
 
     @Override
-    public void onBindViewHolder(final CustomViewHolder holder, int position) {
+    public void onBindViewHolder(final CustomViewHolder holder, final int position) {
 
         if (position == hotels.size() - 1) {
             holder.linearLayoutStars.setVisibility(View.GONE);
@@ -95,6 +97,24 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
             case 1:
                 holder.star1.setVisibility(View.GONE);
         }
+
+
+        if(position == hotels.size() - 1){
+
+        }
+        else{
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity , ViewHotelActivity.class);
+                    intent.putExtra("hotel", hotels.get(position).getHotelId());
+                    activity.startActivityForResult(intent, Activity.RESULT_OK);
+
+
+                }
+            });
+        }
+
 
 
 //        holder.hotelCardView.setOnClickListener(new View.OnClickListener() {

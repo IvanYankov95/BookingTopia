@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,7 +8,7 @@ import java.util.Date;
 /**
  * Created by user-17 on 4/2/16.
  */
-public class Room {
+public class Room implements Serializable{
 
     private long    roomId;
     private long    hotelId;

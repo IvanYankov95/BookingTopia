@@ -9,7 +9,7 @@
     android:id="@+id/create_hotel"
     android:background="@android:color/background_light"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="bg.ittalents.bookingtopia.CreateHotelActivity">
+    tools:context=".controller.activities.CreateHotelActivity">
 
     <include layout="@layout/activity_toolbar"
         android:id="@+id/toolbar_create_hotel"/>

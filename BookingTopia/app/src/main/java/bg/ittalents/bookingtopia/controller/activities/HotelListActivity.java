@@ -1,15 +1,14 @@
-package bg.ittalents.bookingtopia;
+package bg.ittalents.bookingtopia.controller.activities;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.Calendar;
-
+import bg.ittalents.bookingtopia.controller.adapters.HotelsCardViewAdapter;
+import bg.ittalents.bookingtopia.R;
 import model.dao.HotelDAO;
 
 public class HotelListActivity extends AbstractDrawerActivity {
@@ -25,7 +24,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
 
-        adapter = new HotelsCardViewAdapter(this, HotelDAO.getInstance(this).getAllHotelsByCompanyID(1));
+        adapter = new HotelsCardViewAdapter(this, HotelDAO.getInstance(this).getAllHotelsByCompanyID(getLoggedId()));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
@@ -37,7 +36,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
 
        // if (resultCode == Activity.RESULT_OK) {
             Log.e("vliza" , "");
-                adapter.notifyDataSetChanged();
+                adapter.notifyAdapter();
 
        // }
 

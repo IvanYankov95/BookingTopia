@@ -1,9 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
+import model.dao.ReviewDAO;
+
 /**
  * Created by user-17 on 4/2/16.
  */
-public class Review {
+public class Review implements Serializable{
 
     private long reviewId;
 

@@ -1,4 +1,4 @@
-package bg.ittalents.bookingtopia;
+package bg.ittalents.bookingtopia.controller.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import bg.ittalents.bookingtopia.R;
 import model.Company;
 import model.RegisterHelper;
 import model.User;

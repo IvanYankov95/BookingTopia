@@ -10,17 +10,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".RegisterUserActivity" />
-        <activity android:name=".LogInActivity">
+        <activity android:name=".controller.activities.RegisterUserActivity" />
+        <activity android:name=".controller.activities.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterCompanyActivity" />
+        <activity android:name=".controller.activities.RegisterCompanyActivity" />
         <activity
-            android:name=".AbstractDrawerActivity"
+            android:name=".controller.activities.AbstractDrawerActivity"
             android:label="@string/title_activity_abstract_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
@@ -31,13 +31,13 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ViewHotelActivity" />
-        <activity android:name=".SearchResultActivity" />
-        <activity android:name=".ViewRoomActivity" />
-        <activity android:name=".ReserveActivity" />
-        <activity android:name=".CreateHotelActivity" />
-        <activity android:name=".CreateRoomActivity" />
-        <activity android:name=".HotelListActivity"></activity>
+        <activity android:name=".controller.activities.ViewHotelActivity" />
+        <activity android:name=".controller.activities.SearchResultActivity" />
+        <activity android:name=".controller.activities.ViewRoomActivity" />
+        <activity android:name=".controller.activities.ReserveActivity" />
+        <activity android:name=".controller.activities.CreateHotelActivity" />
+        <activity android:name=".controller.activities.CreateRoomActivity" />
+        <activity android:name=".controller.activities.HotelListActivity"></activity>
     </application>
 
 </manifest>
