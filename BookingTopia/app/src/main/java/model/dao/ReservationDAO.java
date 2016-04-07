@@ -5,30 +5,29 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import model.Book;
-import model.Room;
+import model.Reservation;
 import model.User;
 
 /**
  * Created by user-17 on 4/2/16.
  */
-public class BookDAO implements IBookDAO {
+public class ReservationDAO implements IReservationDAO {
 
     private DatabaseHelper mDb;
 
 
-    private BookDAO(Context context) {
+    private ReservationDAO(Context context) {
         this.mDb = DatabaseHelper.getInstance(context);
     }
 
-    public long book(Book book) {
+    public long reserve(Reservation reservation) {
 
         SQLiteDatabase db = mDb.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(mDb.ROOM_ID, book.getRoomID());
-        values.put(mDb.USER_ID, book.getUserID());
+        values.put(mDb.ROOM_ID, reservation.getRoomID());
+        values.put(mDb.USER_ID, reservation.getUserID());
 
         long bookId = db.insert(mDb.BOOKINGS, null, values);
         db.close();
@@ -36,14 +35,14 @@ public class BookDAO implements IBookDAO {
         return bookId;
     }
 
-    public void removeBook(Book book) {
+    public void removeReservation(Reservation reservation) {
         SQLiteDatabase db = mDb.getWritableDatabase();
         db.delete(mDb.BOOKINGS, mDb.BOOKING_ID + " = ?",
-                new String[]{String.valueOf(book.getBookID())});
+                new String[]{String.valueOf(reservation.getBookID())});
         db.close();
     }
 
-    public Book getBooksByUser(User user) {
+    public Reservation getReservationsByUser(User user) {
 
         SQLiteDatabase db = mDb.getReadableDatabase();
 
@@ -52,22 +51,22 @@ public class BookDAO implements IBookDAO {
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        Book book = null;
+        Reservation reservation = null;
 
         if (c.moveToFirst()) {
             long id = c.getLong(c.getColumnIndex(mDb.BOOKING_ID));
             long room_id = c.getLong(c.getColumnIndex(mDb.ROOM_ID));
             long user_id = c.getLong(c.getColumnIndex(mDb.USER_ID));
 
-            book = new Book(id, room_id, user_id);
+            reservation = new Reservation(id, room_id, user_id);
         }
 
         c.close();
         db.close();
-        return book;
+        return reservation;
     }
 
-    public Book getBooksByID(long bookID) {
+    public Reservation getReservationsByID(long bookID) {
 
         SQLiteDatabase db = mDb.getReadableDatabase();
 
@@ -75,19 +74,19 @@ public class BookDAO implements IBookDAO {
                 + " WHERE " + mDb.BOOKING_ID + " = \"" + bookID + "\" ";
 
         Cursor c = db.rawQuery(selectQuery, null);
-        Book book = null;
+        Reservation reservation = null;
 
         if (c.moveToFirst()) {
             long id = c.getLong(c.getColumnIndex(mDb.BOOKING_ID));
             long room_id = c.getLong(c.getColumnIndex(mDb.ROOM_ID));
             long user_id = c.getLong(c.getColumnIndex(mDb.USER_ID));
 
-            book = new Book(id, room_id, user_id);
+            reservation = new Reservation(id, room_id, user_id);
         }
 
         c.close();
         db.close();
-        return book;
+        return reservation;
     }
 
 }

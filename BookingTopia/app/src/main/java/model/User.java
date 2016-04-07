@@ -5,7 +5,34 @@ import java.util.Calendar;
 
 public class User {
 
-    private ArrayList<Book> bookings = new ArrayList<>();
+    public static Calendar fromCal = Calendar.getInstance();
+    public static Calendar toCal = Calendar.getInstance();
+
+    public static Calendar fromDBCal = Calendar.getInstance();
+    public static Calendar toDBCal = Calendar.getInstance();
+
+    public static void setToCalDatePlusOne(){
+        toCal.add(Calendar.DATE, 1);
+        toDBCal.add(Calendar.DATE, 1);
+    }
+
+    public static Calendar getFromCal() {
+        return fromCal;
+    }
+
+    public static void setFromCal(Calendar fromCal) {
+        User.fromCal = fromCal;
+    }
+
+    public static Calendar getToCal() {
+        return toCal;
+    }
+
+    public static void setToCal(Calendar toCal) {
+        User.toCal = toCal;
+    }
+
+    private ArrayList<Reservation> bookings = new ArrayList<>();
 
     private long     userId;
     private String   names;
@@ -19,11 +46,11 @@ public class User {
     private String   country;
     private boolean  smoking;
 
-    public void addBook(){
+    public void addReservation(){
 
     }
 
-//    for(Book booking, user.getBookings()){
+//    for(Reservation booking, user.getBookings()){
 //        for(Room room, booking.getRooms()){
 //            for(Calendar date, room.getReservedDates()){
 //                // 'date' sa vsichki zaeti dati ot tozi potrebitel za 'room' , a rooms sa vs zaeti ot usera stai
@@ -66,7 +93,7 @@ public class User {
 
 
 
-    public ArrayList<Book> getBookings() {
+    public ArrayList<Reservation> getBookings() {
         return bookings;
     }
 

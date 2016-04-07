@@ -1,13 +1,13 @@
 package model;
 
 
-public class Book {
+public class Reservation {
     long bookID;
     long roomID;
     long userID;
 
 
-    public Book(long bookID, long roomID, long userID) {
+    public Reservation(long bookID, long roomID, long userID) {
         this.bookID = bookID;
         this.roomID = roomID;
         this.userID = userID;
