@@ -13,5 +13,82 @@
 
     <include layout="@layout/activity_toolbar"/>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <ImageSwitcher
+            android:id="@+id/imageSwitcherRoom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/image_list_view_room"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/view_room_price"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Pirce per day"/>
+
+                <TextView
+                    android:id="@+id/view_room_max_guests"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Max guests"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/view_room_description_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"/>
+
+            <TextView
+                android:id="@+id/view_room_beds_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Beds"/>
+
+            <TextView
+                android:id="@+id/view_room_extras_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Extras"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reserve room"/>
+
+        </LinearLayout>
+        
+    </ScrollView>
+
+
 
 </LinearLayout>
