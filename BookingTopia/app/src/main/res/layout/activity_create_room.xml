@@ -9,7 +9,7 @@
     android:id="@+id/create_room"
     android:background="@android:color/background_light"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="bg.ittalents.bookingtopia.CreateHotelActivity">
+    tools:context="bg.ittalents.bookingtopia.CreateRoomActivity">
 
     <include layout="@layout/activity_toolbar"
         android:id="@+id/toolbar_create_room"/>
@@ -23,10 +23,10 @@
         />
 
     <ScrollView
-        android:layout_below="@id/toolbar_create_hotel"
+        android:layout_below="@id/toolbar_create_room"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/add_hotel_add_button">
+        android:layout_above="@id/add_room_add_button">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -147,7 +147,7 @@
                         android:layout_width="match_parent"
                         android:inputType="numberDecimal"
                         android:layout_height="match_parent"
-                        android:id="@+id/add_room_name_text" />
+                        android:id="@+id/add_room_price_text" />
                 </LinearLayout>
 
                 <LinearLayout
