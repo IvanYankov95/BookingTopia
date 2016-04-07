@@ -2,14 +2,18 @@ package bg.ittalents.bookingtopia;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -25,13 +29,16 @@ import model.Hotel;
 public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAdapter.CustomViewHolder> {
 
     private Activity activity;
-    private ArrayList<Hotel> hotels;
+    private ArrayList<Hotel> hotels = new ArrayList<>();
+
 
     NumberFormat formatter = new DecimalFormat("#0.00");
 
     public HotelsCardViewAdapter(Activity activity, ArrayList<Hotel> dataSource) {
         this.activity = activity;
         this.hotels = dataSource;
+
+        hotels.add(new Hotel(0, 0, null, 0, null, 0, 0, null, null, null, 0, null, null, null, null, null, null, null, null));
     }
 
     @Override
@@ -46,6 +53,20 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
     @Override
     public void onBindViewHolder(final CustomViewHolder holder, int position) {
 
+        if (position == hotels.size() - 1) {
+            holder.linearLayoutStars.setVisibility(View.GONE);
+            holder.startingRating.setVisibility(View.GONE);
+            holder.finishRating.setVisibility(View.GONE);
+            holder.relativeLayout.setBackgroundResource(R.drawable.plus);
+            holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivityForResult(new Intent(activity, CreateHotelActivity.class), Activity.RESULT_OK);
+                }
+            });
+            return;
+        }
+
         Hotel hotel = hotels.get(position);
 
         holder.rating.setText(formatter.format(hotel.getRating()));
@@ -58,16 +79,22 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
         holder.image.setImageBitmap(bmp);
 
         int stars = 7 - hotel.getStars();
-        switch (stars){
-            case 7:  holder.star7.setVisibility(View.GONE);
-            case 6:  holder.star6.setVisibility(View.GONE);
-            case 5:  holder.star5.setVisibility(View.GONE);
-            case 4:  holder.star4.setVisibility(View.GONE);
-            case 3:  holder.star3.setVisibility(View.GONE);
-            case 2:  holder.star2.setVisibility(View.GONE);
-            case 1:  holder.star1.setVisibility(View.GONE);
+        switch (stars) {
+            case 7:
+                holder.star7.setVisibility(View.GONE);
+            case 6:
+                holder.star6.setVisibility(View.GONE);
+            case 5:
+                holder.star5.setVisibility(View.GONE);
+            case 4:
+                holder.star4.setVisibility(View.GONE);
+            case 3:
+                holder.star3.setVisibility(View.GONE);
+            case 2:
+                holder.star2.setVisibility(View.GONE);
+            case 1:
+                holder.star1.setVisibility(View.GONE);
         }
-
 
 
 //        holder.hotelCardView.setOnClickListener(new View.OnClickListener() {
@@ -86,12 +113,18 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
 
     @Override
     public int getItemCount() {
+
         return hotels.size();
+    }
+
+    public void notifyAdapter() {
+        notifyDataSetChanged();
     }
 
     protected class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        private CardView hotelCardView;
+        private LinearLayout linearLayoutStars;
+        private RelativeLayout relativeLayout;
 
         private TextView name;
         private TextView city;
@@ -105,12 +138,15 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
         private ImageView image;
 
         private TextView rating;
+        private TextView startingRating;
+        private TextView finishRating;
         private TextView description;
 
         CustomViewHolder(View view) {
             super(view);
 
-            hotelCardView = (CardView) view.findViewById(R.id.hotel_list_rec_view);
+            linearLayoutStars = (LinearLayout) view.findViewById(R.id.stars);
+            relativeLayout = (RelativeLayout) view.findViewById(R.id.card_view_row_inner_layout);
 
             image = (ImageView) view.findViewById(R.id.hotel_image);
             name = (TextView) view.findViewById(R.id.hotel_title);
@@ -123,10 +159,14 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
             star6 = (ImageView) view.findViewById(R.id.hotel_star6);
             star7 = (ImageView) view.findViewById(R.id.hotel_star7);
 
+            startingRating = (TextView) view.findViewById(R.id.starting_rating);
+            finishRating = (TextView) view.findViewById(R.id.ending_rating);
+
             rating = (TextView) view.findViewById(R.id.rating);
             description = (TextView) view.findViewById(R.id.description);
         }
     }
+
 
 }
 

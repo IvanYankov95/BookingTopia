@@ -182,13 +182,13 @@ public class HotelDAO implements IHotelDAO {
 
                 ArrayList<Room> rooms = roomInstance.getAllRoomsByHotelID(hotelId);
                 ArrayList<Review> reviews = reviewInstance.getAllReviewsByHotelId(hotelId);
-                Log.e("log", "ot gore");
+
                 ArrayList<byte[]> images = this.getHotelImages(hotelId);
-                Log.e("log", "ot dolo");
+
                 hotel = new Hotel(hotelId, companyId, name, stars, address,
                         xCoordinate, yCoordinate, calWorkFrom, calWorkTo, extras, rating, webPage, linkToFacebook, description, policies,
                         rooms, images, reviews, city);
-                Log.e("----gethotel" , "" + hotel);
+
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -212,11 +212,11 @@ public class HotelDAO implements IHotelDAO {
 
         ArrayList<Hotel> hotels = new ArrayList<>();
         if (c.moveToFirst()) {
-
-            long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
-
-            hotels.add(getHotel(hotelId));
-
+            do {
+                long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
+                hotels.add(getHotel(hotelId));
+            }
+            while (c.moveToNext());
         }
         c.close();
         db.close();
@@ -239,7 +239,6 @@ public class HotelDAO implements IHotelDAO {
         if (c.moveToFirst()) {
             do {
                 byte[] image = c.getBlob(c.getColumnIndex(mDb.CONTENT));
-                Log.e("----images" , "" + image);
                 images.add(image);
             }
             while (c.moveToNext());

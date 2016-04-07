@@ -1,5 +1,6 @@
 package bg.ittalents.bookingtopia;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import android.view.View;
@@ -302,6 +303,12 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
                     Hotel hotel = new Hotel(0, getLoggedId(), nameTxt, Integer.valueOf(selectedStars), addressTxt, 0,0, workFromCal, workToCal, extrasTxt, 0, webPageTxt, facebookPageTxt, descriptionTxt, policiesTxt, null, pictures, null, cityTxt);
 
                     hotelDAO.registerHotel(hotel);
+
+                    //TODO KRASI
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("hotel_id", hotel.getHotelId());
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
 
                 }
             }
