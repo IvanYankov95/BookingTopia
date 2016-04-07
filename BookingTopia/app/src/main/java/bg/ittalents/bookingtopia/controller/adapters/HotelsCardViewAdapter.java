@@ -70,7 +70,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
         }
 
         Hotel hotel = hotels.get(position);
-
+        Log.e("----HOTEL", hotel.getName() + " " + hotel.getCity());
         holder.rating.setText(formatter.format(hotel.getRating()));
         holder.name.setText(hotel.getName());
         holder.city.setText(hotel.getCity());

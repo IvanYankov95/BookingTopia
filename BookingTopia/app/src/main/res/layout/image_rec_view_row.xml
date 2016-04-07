@@ -8,7 +8,7 @@
     android:padding="7dp">
 
     <ImageView
-        android:id="@+id/room_image_rec_view"
+        android:id="@+id/hotel_image_rec_view"
         android:adjustViewBounds="true"
         android:layout_width="90dp"
         android:layout_height="90dp" />

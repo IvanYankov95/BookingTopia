@@ -305,10 +305,10 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
                     hotelDAO.registerHotel(hotel);
 
                     //TODO KRASI
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("hotel_id", hotel.getHotelId());
-                    setResult(RESULT_OK, returnIntent);
-                    finish();
+                   // Intent returnIntent = new Intent();
+                   // returnIntent.putExtra("hotel_id", hotel.getHotelId());
+                  //  setResult(RESULT_OK, returnIntent);
+                   // finish();
 
                 }
             }

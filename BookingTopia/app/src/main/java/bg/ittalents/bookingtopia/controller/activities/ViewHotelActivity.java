@@ -59,7 +59,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         imagesCount = images.size();
 
         imagesRecView = (RecyclerView) findViewById(R.id.image_list_view);
-        adapter = new ImageAdapter(this, images);
+        adapter = new ImageAdapter(this, hotel.getImages());
         imagesRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         imagesRecView.setAdapter(adapter);
 

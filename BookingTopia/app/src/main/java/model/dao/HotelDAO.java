@@ -149,7 +149,6 @@ public class HotelDAO implements IHotelDAO {
 
         Hotel hotel = null;
 
-
         if (c.moveToFirst()) {
             try {
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.CustomViewHo
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = inflater.inflate(R.layout.hotel_list_card_row, parent, false);
+        View row = inflater.inflate(R.layout.image_rec_view_row, parent, false);
         CustomViewHolder holder = new CustomViewHolder(row);
 
         return holder;
@@ -39,6 +40,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.CustomViewHo
 
     @Override
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
+        Log.e("image pos " , "" +position);
         byte[] image = images.get(position);
         Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
         holder.image.setImageBitmap(bmp);
@@ -65,7 +67,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.CustomViewHo
 
             linearLayoutStars = (LinearLayout) view.findViewById(R.id.image_rec_view_row_layout);
 
-            image = (ImageView) view.findViewById(R.id.room_image_rec_view);
+            image = (ImageView) view.findViewById(R.id.hotel_image_rec_view);
 
         }
     }
