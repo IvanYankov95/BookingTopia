@@ -68,10 +68,15 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
         imagesCount = images.size();
 
         roomPrice = (TextView) findViewById(R.id.view_room_price);
+        roomPrice.setText("Price per day " + room.getPricePerDay());
         maxGuests = (TextView) findViewById(R.id.view_room_max_guests);
+        maxGuests.setText("Max guests " + room.getMaxGuests());
         description = (TextView) findViewById(R.id.view_room_description_text);
+        description.setText("Description: " + room.getDescription());
         beds = (TextView) findViewById(R.id.view_room_beds_text);
+        beds.setText("Beds options " + room.getBeds());
         extras = (TextView) findViewById(R.id.view_room_extras_text);
+        extras.setText("Room extras: " + room.getExtras());
         reserveBtn = (Button) findViewById(R.id.view_room_reserve_button);
         reserveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

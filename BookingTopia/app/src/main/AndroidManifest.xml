@@ -34,7 +34,6 @@
         <activity android:name=".controller.activities.ViewHotelActivity" />
         <activity android:name=".controller.activities.HomeActivity" />
         <activity android:name=".controller.activities.ViewRoomActivity" />
-        <activity android:name=".controller.activities.ReserveActivity" />
         <activity android:name=".controller.activities.CreateHotelActivity" />
         <activity android:name=".controller.activities.CreateRoomActivity" />
         <activity android:name=".controller.activities.HotelListActivity"></activity>
