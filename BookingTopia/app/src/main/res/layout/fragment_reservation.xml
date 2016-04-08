@@ -29,9 +29,10 @@
                 android:text="hotelname" />
 
             <ImageView
+
                 android:id="@+id/fragment_reservation_hotel_image"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_gravity="center_horizontal"
 
                 android:adjustViewBounds="true" />
@@ -53,8 +54,8 @@
                 android:text="hotelname" />
 
             <ImageView
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/fragment_reservation_room_image"
                 android:adjustViewBounds="true" />
@@ -84,7 +85,7 @@
             <TextView
                 android:id="@+id/fragment_reservation_dates"
                 android:text="dgdgf"
-                android:textSize="32sp"
+                android:textSize="22sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -102,7 +103,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:textSize="32sp"
+                android:textSize="22sp"
                 android:text="dgdgf"
                 android:id="@+id/fragment_reservation_total_price"
                 android:layout_width="wrap_content"

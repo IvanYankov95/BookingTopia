@@ -63,11 +63,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Guests number "
+                android:text="Stars"
                 android:layout_marginBottom="30dp"/>
 
             <Spinner
-                android:id="@+id/guests_number_spinner"
+                android:id="@+id/stars_number_spinner"
                 android:layout_width="160dp"
                 android:layout_height="match_parent"></Spinner>
 

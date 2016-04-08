@@ -23,6 +23,8 @@ import bg.ittalents.bookingtopia.controller.adapters.ImageAdapter;
 import bg.ittalents.bookingtopia.controller.adapters.RoomCardViewAdapter;
 import model.Hotel;
 import model.dao.HotelDAO;
+import model.dao.IRoomDAO;
+import model.dao.RoomDAO;
 
 public class ViewHotelActivity extends AbstractDrawerActivity {
 
@@ -52,6 +54,8 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         onCreateDrawer();
         getSupportActionBar().setTitle("View Hotel");
 
+        IRoomDAO roomDAO  = RoomDAO.getInstance(this);
+
         bundle = getIntent().getExtras();
         hotelId = (long) bundle.get("hotel_id");
         hotel = HotelDAO.getInstance(this).getHotel(hotelId);
@@ -64,7 +68,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         imagesRecView.setAdapter(imageAdapter);
 
         roomsRecView = (RecyclerView) findViewById(R.id.room_cardview_in_viewHotel_rec_view);
-        roomAdapter = new RoomCardViewAdapter(this, hotel.getRooms(), hotelId);
+        roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId) , hotelId);
         roomsRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         roomsRecView.setAdapter(roomAdapter);
 

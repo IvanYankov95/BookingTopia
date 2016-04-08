@@ -7,13 +7,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import bg.ittalents.bookingtopia.controller.adapters.HotelsCardViewAdapter;
 import bg.ittalents.bookingtopia.R;
+import model.Hotel;
 import model.dao.HotelDAO;
+import model.dao.IHotelDAO;
 
 public class HotelListActivity extends AbstractDrawerActivity {
     RecyclerView recyclerView ;
     HotelsCardViewAdapter adapter;
+    IHotelDAO hotelDAO;
+    ArrayList<Hotel> hotels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +28,23 @@ public class HotelListActivity extends AbstractDrawerActivity {
         onCreateDrawer();
         getSupportActionBar().setTitle("Hotels");
 
-        recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
+        hotelDAO = HotelDAO.getInstance(this);
 
-        adapter = new HotelsCardViewAdapter(this, HotelDAO.getInstance(this).getAllHotelsByCompanyID(getLoggedId()));
+        Bundle bundle = new Bundle();
+        String searchName = (String) bundle.get("search_name");
+        String searchStars = (String) bundle.get("search_stars");
+        int stars = Integer.valueOf(searchStars);
+
+        if(stars != 8){
+            hotels = hotelDAO.getAllHotelsByNameAndCity(searchName);
+        }
+        else{
+            hotels = hotelDAO.getAllHotelsByStars(stars);
+        }
+
+
+        recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
+        adapter = new HotelsCardViewAdapter(this,hotels);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 

@@ -19,4 +19,9 @@ public interface IHotelDAO {
 
     public Hotel getHotel(long hotelId);
 
+    public ArrayList<Hotel> getAllHotelsByStars(int stars) ;
+
+
+    public ArrayList<Hotel> getAllHotelsByNameAndCity(String name) ;
+
 }

@@ -2,6 +2,7 @@ package bg.ittalents.bookingtopia.controller.activities;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -16,12 +17,8 @@ import android.widget.Spinner;
 
 import org.joda.time.LocalDate;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import bg.ittalents.bookingtopia.R;
 import model.CalendarHelper;
@@ -29,13 +26,15 @@ import model.CalendarHelper;
 public class HomeActivity extends AbstractDrawerActivity {
 
     Calendar calendar;
-    private static String selectMaxGuests;
+    private static String selectStars;
+
+    boolean areStarsSellected;
 
     private static LinearLayout lm ;
     private static EditText searchField;
     private static EditText checkInDate;
     private static EditText checkOutDate;
-    private static Spinner guestsNumber;
+    private static Spinner starsNumber;
     private static Button searchButton;
 
     @Override
@@ -45,20 +44,20 @@ public class HomeActivity extends AbstractDrawerActivity {
         onCreateDrawer();
         getSupportActionBar().setTitle("Home");
 
-        ArrayList<Integer> guestsNumberSpinner = new ArrayList<>();
-        guestsNumberSpinner.add(1);
-        guestsNumberSpinner.add(2);
-        guestsNumberSpinner.add(3);
-        guestsNumberSpinner.add(4);
-        guestsNumberSpinner.add(5);
-        guestsNumberSpinner.add(6);
+        ArrayList<Integer> starsNumber = new ArrayList<>();
+        starsNumber.add(1);
+        starsNumber.add(2);
+        starsNumber.add(3);
+        starsNumber.add(4);
+        starsNumber.add(5);
+        starsNumber.add(6);
 
         Log.e("DATE ON CREATE", CalendarHelper.fromDate.toString() + " " + CalendarHelper.toDate.toString());
 
         lm = (LinearLayout) findViewById(R.id.search_layout);
         searchField = (EditText) findViewById(R.id.search_field);
 
-        guestsNumber = (Spinner)  findViewById(R.id.guests_number_spinner);
+        HomeActivity.starsNumber = (Spinner)  findViewById(R.id.stars_number_spinner);
         searchButton = (Button) findViewById(R.id.search_button);
 
         checkInDate = (EditText) findViewById(R.id.check_in_date);
@@ -70,8 +69,10 @@ public class HomeActivity extends AbstractDrawerActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
-                //search method
+                Intent intent = new Intent(HomeActivity.this, HotelListActivity.class);
+                intent.putExtra("search_name", searchField.getText().toString());
+                intent.putExtra("search_stars", selectStars);
+                startActivity(intent);
             }
         });
 
@@ -93,19 +94,19 @@ public class HomeActivity extends AbstractDrawerActivity {
             }
         });
 
-        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, guestsNumberSpinner);
+        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, starsNumber);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        guestsNumber.setAdapter(dataAdapter);
+        HomeActivity.starsNumber.setAdapter(dataAdapter);
 
-        guestsNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        HomeActivity.starsNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectMaxGuests = parent.getItemAtPosition(position).toString();
+                selectStars = parent.getItemAtPosition(position).toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                selectStars = "nothing";
             }
         });
 
