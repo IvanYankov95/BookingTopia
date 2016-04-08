@@ -10,7 +10,7 @@ import model.Room;
  */
 public interface IRoomDAO {
 
-    public long registerRoom(Hotel hotel, Room room);
+    public long registerRoom(Room room);
 
     public void deleteRoom(Room room);
 

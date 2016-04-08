@@ -34,14 +34,14 @@ public class RoomDAO implements IRoomDAO {
         return instance;
     }
 
-    public long registerRoom(Hotel hotel, Room room){
+    public long registerRoom(Room room){
 
         SQLiteDatabase db = mDb.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
         values.put(mDb.ROOM_ID,            room.getRoomId());
-        values.put(mDb.HOTEL_ID,           hotel.getHotelId());
+        values.put(mDb.HOTEL_ID,           room.getHotelId());
         values.put(mDb.ROOM_PRICE_PER_DAY, room.getPricePerDay());
         values.put(mDb.ROOM_DESCRIPTION,   room.getDescription());
         values.put(mDb.ROOM_MAX_GUESTS,    room.getMaxGuests());

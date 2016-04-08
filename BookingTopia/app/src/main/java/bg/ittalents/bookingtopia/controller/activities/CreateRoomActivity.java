@@ -54,6 +54,7 @@ public class CreateRoomActivity extends AbstractDrawerActivity implements View.O
     private static ImageButton picture6;
 
     private static EditText pricePerDay;
+    private static EditText numberOfSameRoom;
     private static EditText beds;
     private static EditText description;
     private static EditText extras;
@@ -75,7 +76,8 @@ public class CreateRoomActivity extends AbstractDrawerActivity implements View.O
 
         Bundle bundle = getIntent().getExtras();
 
-        final long hotelId = (long)bundle.get("hotel_id");
+       // final long hotelId = (long)bundle.get("hotel_id");
+        final long hotelId = 1;
 
         roomDAO = RoomDAO.getInstance(CreateRoomActivity.this);
 
@@ -89,10 +91,11 @@ public class CreateRoomActivity extends AbstractDrawerActivity implements View.O
         picture5    = (ImageButton) findViewById(R.id.add_room_picture5);
         picture6    = (ImageButton) findViewById(R.id.add_room_picture6);
 
-        pricePerDay  = (EditText) findViewById(R.id.add_room_price_text);
-        beds         = (EditText) findViewById(R.id.add_room_beds_text);
-        description  = (EditText) findViewById(R.id.add_room_description_text);
-        extras       = (EditText) findViewById(R.id.add_room_extras_text);
+        pricePerDay      = (EditText) findViewById(R.id.add_room_price_text);
+        beds             = (EditText) findViewById(R.id.add_room_beds_text);
+        description      = (EditText) findViewById(R.id.add_room_description_text);
+        extras           = (EditText) findViewById(R.id.add_room_extras_text);
+        numberOfSameRoom = (EditText) findViewById(R.id.same_room_number);
 
         guests = (Spinner) findViewById(R.id.add_room_max_guests_spinner);
 
@@ -179,9 +182,14 @@ public class CreateRoomActivity extends AbstractDrawerActivity implements View.O
                 else
                     extrasCheck = true;
 
-
+                //TODO checkboxa gurmi
                 if(priceCheck && bedsCheck && descriptionCheck && extrasCheck && mainPictureCheck){
-                    Room room = new Room(0, hotelId, Double.valueOf(priceTxt), descriptionTxt, Integer.valueOf(selectedMaxGuests), bedsTxtTxt, 0, 0, extrasTxt, smoking.isChecked(), null, pictures);
+                    boolean smoker = smoking.isChecked();
+                    Room room = new Room(0, hotelId, Double.valueOf(priceTxt), descriptionTxt, Integer.valueOf(selectedMaxGuests), bedsTxtTxt, 0, 0, extrasTxt, smoker, null, pictures);
+                    for(int i =0; i<  Integer.parseInt(numberOfSameRoom.toString()); i++){
+                        roomDAO.registerRoom(room);
+                    }
+
                 }
             }
         });

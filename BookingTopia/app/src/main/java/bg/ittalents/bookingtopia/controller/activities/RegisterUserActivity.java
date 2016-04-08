@@ -79,7 +79,6 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
         getSupportActionBar().setTitle("Register user");
 
         register = (Button) findViewById(R.id.register_user_register_button);
-        register.setVisibility(View.GONE);
         username = (EditText) findViewById(R.id.register_user_username);
         password = (EditText) findViewById(R.id.register_user_password);
         confirmPassword = (EditText) findViewById(R.id.register_user_confirm_password);

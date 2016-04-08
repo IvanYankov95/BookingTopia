@@ -115,20 +115,6 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
             });
         }
 
-
-
-//        holder.hotelCardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (holder.linearLayoutTicketBoughtInfo.getVisibility() == View.VISIBLE) {
-//                    holder.linearLayoutTicketBoughtInfo.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.move_up));
-//                    holder.linearLayoutTicketBoughtInfo.setVisibility(View.INVISIBLE);
-//                } else {
-//                    holder.linearLayoutTicketBoughtInfo.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.move_down));
-//                    holder.linearLayoutTicketBoughtInfo.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
     }
 
     @Override

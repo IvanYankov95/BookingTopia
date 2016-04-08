@@ -97,13 +97,13 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
         picture6    = (ImageButton) findViewById(R.id.add_hotel_picture6);
 
         hotelName           = (EditText) findViewById(R.id.add_hotel_name_text);
-        address             = (EditText) findViewById(R.id.add_hotel_name_text);
-        city                = (EditText) findViewById(R.id.add_hotel_name_text);
-        hotelDdescription   = (EditText) findViewById(R.id.add_hotel_name_text);
-        extras              = (EditText) findViewById(R.id.add_hotel_name_text);
-        webPage             = (EditText) findViewById(R.id.add_hotel_name_text);
-        facebookPage        = (EditText) findViewById(R.id.add_hotel_name_text);
-        policies            = (EditText) findViewById(R.id.add_hotel_name_text);
+        address             = (EditText) findViewById(R.id.add_hotel_address_text);
+        city                = (EditText) findViewById(R.id.add_hotel_city_text);
+        hotelDdescription   = (EditText) findViewById(R.id.add_hotel_description_text);
+        extras              = (EditText) findViewById(R.id.add_hotel_extras_text);
+        webPage             = (EditText) findViewById(R.id.add_hotel_webpage_text);
+        facebookPage        = (EditText) findViewById(R.id.add_hotel_facebook_text);
+        policies            = (EditText) findViewById(R.id.add_hotel_policies_text);
 
         stars       = (Spinner) findViewById(R.id.add_hotel_stars_spinner);
         fromDay     = (Spinner) findViewById(R.id.add_hotel_from_day);

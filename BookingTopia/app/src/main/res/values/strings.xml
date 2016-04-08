@@ -28,4 +28,7 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="BGN">BGN</string>
+    <string name="company_home">companyphone</string>
+    <string name="company_phones">Company phone</string>
 </resources>

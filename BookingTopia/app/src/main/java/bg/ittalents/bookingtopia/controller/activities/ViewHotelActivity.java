@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,8 +19,8 @@ import android.widget.ViewSwitcher;
 import java.util.ArrayList;
 
 import bg.ittalents.bookingtopia.R;
-import bg.ittalents.bookingtopia.controller.adapters.HotelsCardViewAdapter;
 import bg.ittalents.bookingtopia.controller.adapters.ImageAdapter;
+import bg.ittalents.bookingtopia.controller.adapters.RoomCardViewAdapter;
 import model.Hotel;
 import model.dao.HotelDAO;
 
@@ -29,6 +28,8 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
     private ImageSwitcher imageSwitcher;
     private RecyclerView imagesRecView;
+    private RecyclerView roomsRecView;
+
 
     boolean isClicked = true;
     Bundle bundle;
@@ -37,12 +38,11 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     ArrayList<byte[]> images;
     int imagesCount;
     int currentIndex = -1;
-
     Animation in, out;
-
     private Handler myHandler = new Handler();
-    ImageAdapter adapter;
 
+    ImageAdapter imageAdapter;
+    RoomCardViewAdapter roomAdapter;
 
 
     @Override
@@ -59,9 +59,14 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         imagesCount = images.size();
 
         imagesRecView = (RecyclerView) findViewById(R.id.image_list_view);
-        adapter = new ImageAdapter(this, hotel.getImages());
+        imageAdapter = new ImageAdapter(this, hotel.getImages());
         imagesRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        imagesRecView.setAdapter(adapter);
+        imagesRecView.setAdapter(imageAdapter);
+
+        roomsRecView = (RecyclerView) findViewById(R.id.room_cardview_in_viewHotel_rec_view);
+        roomAdapter = new RoomCardViewAdapter(this, hotel.getRooms());
+        roomsRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        roomsRecView.setAdapter(roomAdapter);
 
         imageSwitcher = (ImageSwitcher) findViewById(R.id.imageSwitcher);
         imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
@@ -96,6 +101,9 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
             }
         });
     }
+
+
+
 
 
     Runnable r = new Runnable() {

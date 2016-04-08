@@ -11,25 +11,52 @@
     tools:context="com.masterycorp.goalprogresstracker.main.HomeActivity">
 
     <include layout="@layout/activity_toolbar" />
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="vertical">
 
-        <ImageSwitcher
-            android:id="@+id/imageSwitcher"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical">
 
-        android:id="@+id/image_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                <ImageSwitcher
+                    android:id="@+id/imageSwitcher"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
 
-    </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/image_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="7dp"
+                android:background="@color/common_signin_btn_light_text_disabled"
+                android:text="Available rooms" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/room_cardview_in_viewHotel_rec_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+            </android.support.v7.widget.RecyclerView>
 
 
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
