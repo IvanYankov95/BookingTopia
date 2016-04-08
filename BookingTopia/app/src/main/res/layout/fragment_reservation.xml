@@ -1,18 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:minWidth="1000dp"
+    android:minHeight="450dp"
     tools:context=".controller.fragments.ReservationFragment">
 
 
     <TextView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Confrim Reservation"
         android:id="@+id/fragment_rservation_title"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,14 +30,13 @@
         android:layout_alignParentStart="true" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:adjustViewBounds="true"
         android:id="@+id/fragment_reservation_hotel_image"
         android:layout_below="@+id/fragment_reservation_hotel_name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/fragment_rservation_title"
-        android:layout_alignEnd="@+id/fragment_rservation_title" />
+        android:layout_alignParentLeft="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,15 +51,13 @@
         android:layout_marginEnd="30dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:id="@+id/fragment_reservation_room_image"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/fragment_reservation_hotel_image"
-        android:layout_toEndOf="@+id/fragment_reservation_hotel_image"
-        android:layout_alignBottom="@+id/fragment_reservation_hotel_image"
-        android:layout_toRightOf="@+id/fragment_reservation_hotel_image" />
+        android:layout_alignBottom="@+id/fragment_reservation_hotel_image" />
 
     <Button
         android:layout_width="wrap_content"
