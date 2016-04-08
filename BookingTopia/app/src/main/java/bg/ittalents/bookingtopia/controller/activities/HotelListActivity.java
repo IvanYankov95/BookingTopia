@@ -30,18 +30,23 @@ public class HotelListActivity extends AbstractDrawerActivity {
 
         hotelDAO = HotelDAO.getInstance(this);
 
-        Bundle bundle = new Bundle();
-        String searchName = (String) bundle.get("search_name");
-        String searchStars = (String) bundle.get("search_stars");
-        int stars = Integer.valueOf(searchStars);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle.getBoolean("search")){
+            String searchName = (String) bundle.get("search_name");
+            String searchStars = (String) bundle.get("search_stars");
+            Log.e("Predi star", " " + searchStars + " ");
+            int stars = Integer.valueOf(searchStars);
 
-        if(stars != 8){
-            hotels = hotelDAO.getAllHotelsByNameAndCity(searchName);
+            if(stars != 8){
+                if(!searchName.isEmpty())
+                    hotels = hotelDAO.getAllHotelsByNameAndCity(searchName);
+                //else
+                    //TODO getALLHOTELS
+            }
+            else{
+                hotels = hotelDAO.getAllHotelsByStars(stars);
+            }
         }
-        else{
-            hotels = hotelDAO.getAllHotelsByStars(stars);
-        }
-
 
         recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
         adapter = new HotelsCardViewAdapter(this,hotels);

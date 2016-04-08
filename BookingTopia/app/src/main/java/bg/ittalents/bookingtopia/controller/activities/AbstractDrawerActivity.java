@@ -121,7 +121,11 @@ public class AbstractDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_my_reviews) {
 
         } else if (id == R.id.nav_view_my_hotels) {
-            startActivity(new Intent(this, HotelListActivity.class));
+            Intent intent = new Intent(this, HotelListActivity.class);
+
+            intent.putExtra("search", false);
+
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

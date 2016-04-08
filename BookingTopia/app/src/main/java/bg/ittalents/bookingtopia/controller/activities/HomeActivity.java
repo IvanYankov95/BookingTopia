@@ -26,7 +26,7 @@ import model.CalendarHelper;
 public class HomeActivity extends AbstractDrawerActivity {
 
     Calendar calendar;
-    private static String selectStars;
+    private static String selectStars = "8";
 
     boolean areStarsSellected;
 
@@ -70,6 +70,7 @@ public class HomeActivity extends AbstractDrawerActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, HotelListActivity.class);
+                intent.putExtra("search", true);
                 intent.putExtra("search_name", searchField.getText().toString());
                 intent.putExtra("search_stars", selectStars);
                 startActivity(intent);
@@ -106,7 +107,7 @@ public class HomeActivity extends AbstractDrawerActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selectStars = "nothing";
+                selectStars = "8";
             }
         });
 
