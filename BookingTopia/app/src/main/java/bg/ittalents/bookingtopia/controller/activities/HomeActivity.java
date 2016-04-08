@@ -13,12 +13,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import bg.ittalents.bookingtopia.R;
+import model.CalendarHelper;
 
-public class SearchResultActivity extends AbstractDrawerActivity {
+public class HomeActivity extends AbstractDrawerActivity {
 
     Calendar calendar;
     private static String selectMaxGuests;
@@ -35,7 +40,7 @@ public class SearchResultActivity extends AbstractDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result_drawer);
         onCreateDrawer();
-        getSupportActionBar().setTitle("Search");
+        getSupportActionBar().setTitle("Home");
 
         ArrayList<Integer> guestsNumberSpinner = new ArrayList<>();
         guestsNumberSpinner.add(1);
@@ -69,6 +74,18 @@ public class SearchResultActivity extends AbstractDrawerActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus)
                     picDate((EditText) v);
+                String date = ((EditText)v).getText().toString();
+                DateFormat formater = new SimpleDateFormat("yy-MM-dd");
+                Date date2= null;
+                try {
+                    date2 = formater.parse(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date2);
+                CalendarHelper.fromCal = cal;
+                CalendarHelper.fromDBCal = cal;
             }
         });
 
@@ -77,6 +94,18 @@ public class SearchResultActivity extends AbstractDrawerActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus)
                     picDate((EditText) v);
+                String date = ((EditText)v).getText().toString();
+                DateFormat formater = new SimpleDateFormat("yy-MM-dd");
+                Date date2= null;
+                try {
+                    date2 = formater.parse(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date2);
+                CalendarHelper.toCal = cal;
+                CalendarHelper.toDBCal = cal;
             }
         });
 

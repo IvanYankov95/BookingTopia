@@ -78,7 +78,7 @@ public class LogInActivity extends AbstractDrawerActivity {
                       //  if(keepMeLoggedIn.isChecked()){
                              session.createUserLoginSession(user.getUserId(), "true");
                        // }
-                        startActivity(new Intent(LogInActivity.this, SearchResultActivity.class));
+                        startActivity(new Intent(LogInActivity.this, HomeActivity.class));
                     }
                 } else {
                     Company company = companyDAO.login(emailText, RegisterHelper.md5(passwordText));
@@ -89,7 +89,7 @@ public class LogInActivity extends AbstractDrawerActivity {
                       //  if(keepMeLoggedIn.isChecked()){
                             session.createUserLoginSession(company.getCompanyId(), "false");
                      //   }
-                        startActivity(new Intent(LogInActivity.this, SearchResultActivity.class));
+                        startActivity(new Intent(LogInActivity.this, HomeActivity.class));
 
                     }
                 }

@@ -5,33 +5,6 @@ import java.util.Calendar;
 
 public class User {
 
-    public static Calendar fromCal = Calendar.getInstance();
-    public static Calendar toCal = Calendar.getInstance();
-
-    public static Calendar fromDBCal = Calendar.getInstance();
-    public static Calendar toDBCal = Calendar.getInstance();
-
-    public static void setToCalDatePlusOne(){
-        toCal.add(Calendar.DATE, 1);
-        toDBCal.add(Calendar.DATE, 1);
-    }
-
-    public static Calendar getFromCal() {
-        return fromCal;
-    }
-
-    public static void setFromCal(Calendar fromCal) {
-        User.fromCal = fromCal;
-    }
-
-    public static Calendar getToCal() {
-        return toCal;
-    }
-
-    public static void setToCal(Calendar toCal) {
-        User.toCal = toCal;
-    }
-
     private ArrayList<Reservation> bookings = new ArrayList<>();
 
     private long     userId;

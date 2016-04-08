@@ -39,7 +39,6 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        long hotel_id = (long) bundle.get("hotel_id");
         long room_id  = (long) bundle.get("room_id");
 
     }

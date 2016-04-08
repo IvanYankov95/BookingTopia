@@ -32,7 +32,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".controller.activities.ViewHotelActivity" />
-        <activity android:name=".controller.activities.SearchResultActivity" />
+        <activity android:name=".controller.activities.HomeActivity" />
         <activity android:name=".controller.activities.ViewRoomActivity" />
         <activity android:name=".controller.activities.ReserveActivity" />
         <activity android:name=".controller.activities.CreateHotelActivity" />

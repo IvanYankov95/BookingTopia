@@ -12,10 +12,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TreeSet;
 
-import model.Hotel;
+import model.CalendarHelper;
 import model.Room;
-import model.User;
 
 /**
  * Created by user-17 on 4/3/16.
@@ -147,31 +147,88 @@ public class RoomDAO implements IRoomDAO {
         ArrayList<Room> rooms = new ArrayList<>();
 
         if(c.moveToFirst()){
-            Room room = null;
+            do {
+                Room room = null;
 
-            long id = c.getLong(c.getColumnIndex(mDb.ROOM_ID));
-            long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
-            double pricePerDay = c.getDouble(c.getColumnIndex(mDb.ROOM_PRICE_PER_DAY));
-            String description = c.getString(c.getColumnIndex(mDb.ROOM_DESCRIPTION));
-            int maxGuests = c.getInt(c.getColumnIndex(mDb.ROOM_MAX_GUESTS));
-            String beds = c.getString(c.getColumnIndex(mDb.ROOM_BEDS));
-            double x = c.getDouble(c.getColumnIndex(mDb.ROOM_X));
-            double y = c.getDouble(c.getColumnIndex(mDb.ROOM_Y));
+                long id = c.getLong(c.getColumnIndex(mDb.ROOM_ID));
+                long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
+                double pricePerDay = c.getDouble(c.getColumnIndex(mDb.ROOM_PRICE_PER_DAY));
+                String description = c.getString(c.getColumnIndex(mDb.ROOM_DESCRIPTION));
+                int maxGuests = c.getInt(c.getColumnIndex(mDb.ROOM_MAX_GUESTS));
+                String beds = c.getString(c.getColumnIndex(mDb.ROOM_BEDS));
+                double x = c.getDouble(c.getColumnIndex(mDb.ROOM_X));
+                double y = c.getDouble(c.getColumnIndex(mDb.ROOM_Y));
 
-            String extras = c.getString(c.getColumnIndex(mDb.ROOM_EXTRAS));
-            boolean smoking = (c.getInt(c.getColumnIndex(mDb.ROOM_SMOKING)) == 1) ? true : false;
+                String extras = c.getString(c.getColumnIndex(mDb.ROOM_EXTRAS));
+                boolean smoking = (c.getInt(c.getColumnIndex(mDb.ROOM_SMOKING)) == 1) ? true : false;
 
-            ArrayList<Calendar> dates = getTakenDatesPerRoom(id);
+                ArrayList<Calendar> dates = getTakenDatesPerRoom(id);
 
-            ArrayList<byte[]> images = getImages(id);
+                ArrayList<byte[]> images = getImages(id);
 
-            room = new Room(id,hotelId,pricePerDay,description,maxGuests,beds,x,y,extras,smoking,dates,images);
+                room = new Room(id, hotelId, pricePerDay, description, maxGuests, beds, x, y, extras, smoking, dates, images);
 
-            rooms.add(room);
+                rooms.add(room);
+            }while (c.moveToNext());
         }
 
         c.close();
         db.close();
+        return rooms;
+    }
+
+    public ArrayList<Room> getAllRoomsByHotelWithAvailableDates(long hotelID){
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        Calendar calendar  = CalendarHelper.fromDBCal;
+        Calendar calendar2 = CalendarHelper.toDBCal;
+
+        String dateFrom = calendar.getInstance().get(Calendar.YEAR) + "-"
+                + calendar.getInstance().get(Calendar.MONTH) + "-"
+                + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+        String dateTo = calendar2.getInstance().get(Calendar.YEAR) + "-"
+                + calendar2.getInstance().get(Calendar.MONTH) + "-"
+                + calendar2.getInstance().get(Calendar.DAY_OF_MONTH);
+
+        String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN " + dateFrom + " AND " + dateTo;
+
+        Cursor c = db.rawQuery(datesSelect, null);
+
+        TreeSet<Long> takenIDs = new TreeSet<>();
+
+        if(c.moveToFirst()){
+            do{
+                takenIDs.add(c.getLong(c.getColumnIndex(mDb.ROOM_ID)));
+            } while (c.moveToNext());
+        }
+
+        Log.e("Vurnati zaeti dati" , takenIDs.toString());
+
+        //select all room IDs by hotel
+
+        String idSelects = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.ROOMS + " WHERE " + mDb.HOTEL_ID + " = \"" + hotelID + "\"";
+
+        Cursor c2 = db.rawQuery(idSelects, null);
+
+        TreeSet<Long> allIDs = new TreeSet<>();
+
+        if(c2.moveToFirst()){
+            do{
+                allIDs.add(c.getLong(c.getColumnIndex(mDb.ROOM_ID)));
+            } while (c2.moveToNext());
+        }
+
+        for(long l : takenIDs){
+            allIDs.remove(l);
+        }
+
+        ArrayList<Room> rooms = new ArrayList<>();
+
+        for(long l : allIDs){
+            rooms.add(getRoomById(l));
+        }
+
         return rooms;
     }
 
@@ -186,19 +243,21 @@ public class RoomDAO implements IRoomDAO {
         ArrayList<Calendar> dates = new ArrayList<>();
 
         if(c.moveToFirst()) {
-            String date = c.getString(c.getColumnIndex(mDb.DATE));
+            do {
+                String date = c.getString(c.getColumnIndex(mDb.DATE));
 
-            DateFormat formater = new SimpleDateFormat("yy-MM-dd");
-            Date date2 = null;
-            try {
-                date2 = formater.parse(date);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date2);
+                DateFormat formater = new SimpleDateFormat("yy-MM-dd");
+                Date date2 = null;
+                try {
+                    date2 = formater.parse(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date2);
 
-           dates.add(cal);
+                dates.add(cal);
+            }while (c.moveToNext());
         }
 
         c.close();
@@ -257,7 +316,7 @@ public class RoomDAO implements IRoomDAO {
 
         values.put(mDb.BOOKING_ID, reservationID);
         values.put(mDb.ROOM_ID, room.getRoomId());
-        Calendar calendar = User.fromDBCal;
+        Calendar calendar = CalendarHelper.fromDBCal;
         String date = calendar.getInstance().get(Calendar.YEAR) + "-"
                 + calendar.getInstance().get(Calendar.MONTH) + "-"
                 + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
@@ -265,14 +324,14 @@ public class RoomDAO implements IRoomDAO {
 
         db.insert(mDb.TAKEN_DATES, null, values);
 
-        while(!User.fromDBCal.after(User.toDBCal))
+        while(!CalendarHelper.fromDBCal.after(CalendarHelper.toDBCal))
         {
             ContentValues values2 = new ContentValues();
 
             values2.put(mDb.BOOKING_ID, reservationID);
             values2.put(mDb.ROOM_ID, room.getRoomId());
-            User.fromDBCal.add(Calendar.DATE, 1);
-            Calendar calendar2 = User.fromDBCal;
+            CalendarHelper.fromDBCal.add(Calendar.DATE, 1);
+            Calendar calendar2 = CalendarHelper.fromDBCal;
             String date2 = calendar2.getInstance().get(Calendar.YEAR) + "-"
                     + calendar2.getInstance().get(Calendar.MONTH) + "-"
                     + calendar2.getInstance().get(Calendar.DAY_OF_MONTH);

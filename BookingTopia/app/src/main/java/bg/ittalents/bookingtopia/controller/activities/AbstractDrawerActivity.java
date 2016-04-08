@@ -22,8 +22,8 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import bg.ittalents.bookingtopia.R;
-import model.User;
 import model.UserSessionManager;
+import model.CalendarHelper;
 import model.dao.CompanyDAO;
 import model.dao.UserDAO;
 
@@ -39,7 +39,7 @@ public class AbstractDrawerActivity extends AppCompatActivity
         toolbar.setTitle("Goals Tracker");
         setSupportActionBar(toolbar);
 
-        User.setToCalDatePlusOne();
+        CalendarHelper.setToCalDatePlusOne();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -115,7 +115,7 @@ public class AbstractDrawerActivity extends AppCompatActivity
         if (id == R.id.nav_add_hotel) {
             startActivity(new Intent(this, CreateHotelActivity.class));
         } else if (id == R.id.nav_home) {
-            startActivity(new Intent(this, SearchResultActivity.class));
+            startActivity(new Intent(this, HomeActivity.class));
         } else if (id == R.id.nav_my_reservations) {
 
         } else if (id == R.id.nav_my_reviews) {

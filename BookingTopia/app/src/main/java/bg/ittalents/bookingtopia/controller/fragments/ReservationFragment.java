@@ -19,7 +19,7 @@ import bg.ittalents.bookingtopia.controller.activities.AbstractDrawerActivity;
 import model.Hotel;
 import model.Reservation;
 import model.Room;
-import model.User;
+import model.CalendarHelper;
 import model.dao.HotelDAO;
 import model.dao.IHotelDAO;
 import model.dao.IReservationDAO;
@@ -77,11 +77,11 @@ public class ReservationFragment extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeByteArray(hotel.getImages().get(0), 0, hotel.getImages().get(0).length );
         hotelImage.setImageBitmap(bitmap);
 
-        Bitmap bitmap2 = BitmapFactory.decodeByteArray(room.getImages().get(0), 0, room.getImages().get(0).length );
+        Bitmap bitmap2 = BitmapFactory.decodeByteArray(room.getImages().get(0), 0, room.getImages().get(0).length);
         roomImage.setImageBitmap(bitmap2);
 
-        Calendar calendarFrom = User.getFromCal();
-        Calendar calendarTo   = User.getToCal();
+        Calendar calendarFrom = CalendarHelper.fromCal;
+        Calendar calendarTo   = CalendarHelper.toCal;
 
         String dateFrom = calendarFrom.getInstance().get(Calendar.YEAR) + "-"
                 + calendarFrom.getInstance().get(Calendar.MONTH) + "-"
