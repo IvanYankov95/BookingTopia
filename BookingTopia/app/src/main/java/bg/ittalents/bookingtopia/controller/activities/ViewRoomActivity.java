@@ -125,8 +125,6 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
         });
     }
 
-        long room_id  = (long) bundle.get("room_id");
-
     Runnable r = new Runnable() {
         public void run() {
             try {
