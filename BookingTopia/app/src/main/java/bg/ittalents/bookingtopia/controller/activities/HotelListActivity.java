@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 
@@ -16,10 +20,13 @@ import model.dao.HotelDAO;
 import model.dao.IHotelDAO;
 
 public class HotelListActivity extends AbstractDrawerActivity {
-    RecyclerView recyclerView ;
-    HotelsCardViewAdapter adapter;
-    IHotelDAO hotelDAO;
-    ArrayList<Hotel> hotels = new ArrayList<>();
+    private static Spinner orderBy;
+    private static RecyclerView recyclerView ;
+
+    private static HotelsCardViewAdapter adapter;
+    private static IHotelDAO hotelDAO;
+    private static ArrayList<Hotel> hotels;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +35,13 @@ public class HotelListActivity extends AbstractDrawerActivity {
         onCreateDrawer();
         getSupportActionBar().setTitle("Hotels");
 
+        hotels = new ArrayList<>();
         hotelDAO = HotelDAO.getInstance(this);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle.getBoolean("search")){
             String searchName = (String) bundle.get("search_name");
             String searchStars = (String) bundle.get("search_stars");
-            Log.e("Predi star", " " + searchStars + " ");
             int stars = Integer.valueOf(searchStars);
 
             if(stars != 8){
@@ -48,11 +55,33 @@ public class HotelListActivity extends AbstractDrawerActivity {
             }
         }
 
+        ArrayList<String> orderElems = new ArrayList<>();
+        orderElems.add("Order by:");
+        orderElems.add("rating");
+        orderElems.add("stars");
+
         recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
         adapter = new HotelsCardViewAdapter(this,hotels);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        orderBy = (Spinner) findViewById(R.id.order_by);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, orderElems);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        orderBy.setAdapter(dataAdapter);
+        orderBy.bringToFront();
+
+        orderBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                adapter.orderList(parent.getItemAtPosition(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
     }
 

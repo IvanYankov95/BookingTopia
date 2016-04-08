@@ -185,7 +185,11 @@ public class RoomDAO implements IRoomDAO {
     public ArrayList<Room> getAllRoomsByHotelWithAvailableDates(long hotelID){
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN " + CalendarHelper.fromDate.minusDays(1) + " AND " + CalendarHelper.toDate.plusDays(1);
+        String test = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN " + CalendarHelper.fromDate.minusDays(1) + " AND " + CalendarHelper.toDate.plusDays(1);
+        Log.e("TESTTTTT" , test);
+         String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN '" + CalendarHelper.fromDate.minusDays(1) + "' AND '" + CalendarHelper.toDate.plusDays(1) + "'";
+        // String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " >= " + CalendarHelper.fromDate
+          //       + " AND "+ mDb.DATE  +" <= " + CalendarHelper.toDate.plusDays(1);
 
         Cursor c = db.rawQuery(datesSelect, null);
 
@@ -193,6 +197,8 @@ public class RoomDAO implements IRoomDAO {
 
         if(c.moveToFirst()){
             do{
+                Log.e("vuv DO-to ----" , "" + c.getLong(c.getColumnIndex(mDb.ROOM_ID)));
+
                 takenIDs.add(c.getLong(c.getColumnIndex(mDb.ROOM_ID)));
             } while (c.moveToNext());
         }
@@ -226,38 +232,6 @@ public class RoomDAO implements IRoomDAO {
         return rooms;
     }
 
-//    private ArrayList<LocalDate> getTakenDatesPerRoom(long roomID){
-//
-//        SQLiteDatabase db = mDb.getReadableDatabase();
-//
-//        String selectQuery = "SELECT * FROM " + mDb.TAKEN_DATES
-//                + " WHERE " + mDb.ROOM_ID + " = \"" + roomID + "\"";
-//
-//        Cursor c = db.rawQuery(selectQuery, null);
-//        ArrayList<Calendar> dates = new ArrayList<>();
-//
-//        if(c.moveToFirst()) {
-//            do {
-//                String date = c.getString(c.getColumnIndex(mDb.DATE));
-//
-//                DateFormat formater = new SimpleDateFormat("yy-MM-dd");
-//                Date date2 = null;
-//                try {
-//                    date2 = formater.parse(date);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//                Calendar cal = Calendar.getInstance();
-//                cal.setTime(date2);
-//
-//                dates.add(cal);
-//            }while (c.moveToNext());
-//        }
-//
-//        c.close();
-//        db.close();
-//        return dates;
-//    }
 
     private ArrayList<byte[]> getImages(long roomId){
         ArrayList<byte[]> images = new ArrayList<byte[]>();

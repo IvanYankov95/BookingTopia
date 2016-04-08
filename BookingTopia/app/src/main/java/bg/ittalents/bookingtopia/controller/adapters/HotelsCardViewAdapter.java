@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 import bg.ittalents.bookingtopia.R;
@@ -41,7 +42,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
         this.activity = activity;
         this.hotels = dataSource;
 
-        hotels.add(new Hotel(0, 0, null, 0, null, 0, 0, null, null, null, 0, null, null, null, null, null, null, null, null));
+//        hotels.add(new Hotel(0, 0, null, 0, null, 0, 0, null, null, null, 0, null, null, null, null, null, null, null, null));
     }
 
     @Override
@@ -129,10 +130,26 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
         notifyDataSetChanged();
     }
 
-    public void notifyAdapter(String criteria) {
-        Comparator<Hotel> comparator;
+    public void orderList(String criteria) {
         if(criteria.equals("stars")){
+            Comparator<Hotel> byStars = new Comparator<Hotel>() {
+                @Override
+                public int compare(Hotel o1, Hotel o2) {
+                    return Integer.valueOf(o1.getStars()).compareTo(o2.getStars());
+                }
+            };
 
+            Collections.sort(this.hotels, byStars);
+        }
+        else if(criteria.equals("rating")){
+            Comparator<Hotel> byStars = new Comparator<Hotel>() {
+                @Override
+                public int compare(Hotel o1, Hotel o2) {
+                    return Double.valueOf(o1.getRating()).compareTo(o2.getRating());
+                }
+            };
+
+            Collections.sort(this.hotels, byStars);
         }
         notifyDataSetChanged();
     }

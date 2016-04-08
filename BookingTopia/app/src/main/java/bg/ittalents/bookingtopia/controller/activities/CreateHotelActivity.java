@@ -293,7 +293,7 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
                 } else
                     workingTimeCheck = true;
 
-                if(nameCheck && starsCheck && addressCheck &&cityCheck && descriptionCheck && extrasCheck && policiesCheck && workingTimeCheck){
+                if(nameCheck && starsCheck && addressCheck &&cityCheck && descriptionCheck && extrasCheck && policiesCheck && workingTimeCheck && mainPictureCheck){
                     Calendar workFromCal = Calendar.getInstance();
                     workFromCal.set(9999, getNumberFromMonth(selectedFromMonth), Integer.valueOf(selectedFromDate));
 
