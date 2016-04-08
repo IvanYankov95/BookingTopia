@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import bg.ittalents.bookingtopia.R;
 import bg.ittalents.bookingtopia.controller.activities.CreateHotelActivity;
+import bg.ittalents.bookingtopia.controller.activities.CreateRoomActivity;
 import bg.ittalents.bookingtopia.controller.activities.ViewRoomActivity;
 import model.Room;
 
@@ -74,7 +75,15 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RoomCardViewAdapte
 
 
         if (position == rooms.size() - 1) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, CreateRoomActivity.class);
+                    intent.putExtra("room_id", rooms.get(position).getHotelId());
+                    activity.startActivityForResult(intent, Activity.RESULT_OK);
 
+                }
+            });
         } else {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -182,7 +182,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TAKEN_DATES_TABLE =  "CREATE TABLE IF NOT EXISTS " + TAKEN_DATES + " ("
             + TAKEN_DATE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-       //     + BOOKING_ID    + " INTEGER, "
+            + BOOKING_ID    + " INTEGER, "
             + ROOM_ID       + " INTEGER, "
             + DATE          + " DATE, "
             + "FOREIGN KEY ("+ BOOKING_ID +") REFERENCES "+ BOOKINGS +"("+ BOOKING_ID +")"
