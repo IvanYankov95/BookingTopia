@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -76,8 +77,7 @@ public class CreateRoomActivity extends AbstractDrawerActivity implements View.O
 
         Bundle bundle = getIntent().getExtras();
 
-       // final long hotelId = (long)bundle.get("hotel_id");
-        final long hotelId = 1;
+        final long hotelId = (long)bundle.get("hotel_id");
 
         roomDAO = RoomDAO.getInstance(CreateRoomActivity.this);
 
@@ -101,7 +101,7 @@ public class CreateRoomActivity extends AbstractDrawerActivity implements View.O
 
         addButton = (Button) findViewById(R.id.add_room_add_button);
 
-        smoking = (CheckBox) findViewById(R.id.register_user_smoker_checkbox);
+        smoking = (CheckBox) findViewById(R.id.add_room_smoking_checkbox);
 
         mainPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,14 +182,15 @@ public class CreateRoomActivity extends AbstractDrawerActivity implements View.O
                 else
                     extrasCheck = true;
 
-                //TODO checkboxa gurmi
+
                 if(priceCheck && bedsCheck && descriptionCheck && extrasCheck && mainPictureCheck){
                     boolean smoker = smoking.isChecked();
                     Room room = new Room(0, hotelId, Double.valueOf(priceTxt), descriptionTxt, Integer.valueOf(selectedMaxGuests), bedsTxtTxt, 0, 0, extrasTxt, smoker, null, pictures);
-                    for(int i =0; i<  Integer.parseInt(numberOfSameRoom.toString()); i++){
+                    for(int i = 0; i <  Integer.valueOf(numberOfSameRoom.getText().toString()); i++){
                         roomDAO.registerRoom(room);
                     }
-
+                    setResult(RESULT_OK);
+                    finish();
                 }
             }
         });
@@ -231,22 +232,22 @@ public class CreateRoomActivity extends AbstractDrawerActivity implements View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.add_hotel_picture1:
+            case R.id.add_room_picture1:
                 askForPhotoWithIntent(IMAGE_GALLERY_REQUEST_2);
                 break;
-            case R.id.add_hotel_picture2:
+            case R.id.add_room_picture2:
                 askForPhotoWithIntent(IMAGE_GALLERY_REQUEST_3);
                 break;
-            case R.id.add_hotel_picture3:
+            case R.id.add_room_picture3:
                 askForPhotoWithIntent(IMAGE_GALLERY_REQUEST_4);
                 break;
-            case R.id.add_hotel_picture4:
+            case R.id.add_room_picture4:
                 askForPhotoWithIntent(IMAGE_GALLERY_REQUEST_5);
                 break;
-            case R.id.add_hotel_picture5:
+            case R.id.add_room_picture5:
                 askForPhotoWithIntent(IMAGE_GALLERY_REQUEST_6);
                 break;
-            case R.id.add_hotel_picture6:
+            case R.id.add_room_picture6:
                 askForPhotoWithIntent(IMAGE_GALLERY_REQUEST_7);
                 break;
         }
