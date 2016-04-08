@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -40,7 +41,6 @@ public class RoomDAO implements IRoomDAO {
 
         ContentValues values = new ContentValues();
 
-        values.put(mDb.ROOM_ID,            room.getRoomId());
         values.put(mDb.HOTEL_ID,           room.getHotelId());
         values.put(mDb.ROOM_PRICE_PER_DAY, room.getPricePerDay());
         values.put(mDb.ROOM_DESCRIPTION,   room.getDescription());
@@ -51,10 +51,21 @@ public class RoomDAO implements IRoomDAO {
         values.put(mDb.ROOM_EXTRAS,        room.getExtras());
         values.put(mDb.ROOM_SMOKING,       room.isSmoking() ? 1 : 0);
 
-        long hotelId = db.insert(mDb.ROOMS, null, values);
+        long roomId = db.insert(mDb.ROOMS, null, values);
+
+        for (byte[] image : room.getImages()) {
+            Log.e("---image", "" + image.toString());
+            ContentValues values2 = new ContentValues();
+
+            values2.put(mDb.ROOM_ID, roomId);
+            values2.put(mDb.CONTENT, image);
+
+            db.insert(mDb.ROOM_IMAGES, null, values2);
+        }
+
         db.close();
 
-        return hotelId;
+        return roomId;
     }
 
     public void deleteRoom(Room room){

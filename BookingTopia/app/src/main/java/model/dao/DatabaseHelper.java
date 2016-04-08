@@ -14,7 +14,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     // database name and version
     public static final String DATABASE_NAME = "BOOKINGTOPIA_DATABASE";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 5;
 
     // tables
     public static final String USERS        = "users";
@@ -146,7 +146,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_ROOMS_TABLE = "CREATE TABLE IF NOT EXISTS " + ROOMS + " ("
             + ROOM_ID               + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + HOTEL_ID              + " INTEGER "
+            + HOTEL_ID              + " INTEGER, "
             + ROOM_PRICE_PER_DAY    + " DOUBLE NOT NULL, "
             + ROOM_DESCRIPTION      + " VARCHAR(2000) NOT NULL, "
             + ROOM_MAX_GUESTS       + " INTEGER NOT NULL, "
