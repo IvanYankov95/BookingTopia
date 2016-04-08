@@ -5,20 +5,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.joda.time.LocalDate;
-
-import java.util.Calendar;
-
 import bg.ittalents.bookingtopia.R;
-import bg.ittalents.bookingtopia.controller.activities.AbstractDrawerActivity;
 import model.Hotel;
 import model.Reservation;
 import model.Room;
@@ -29,7 +23,6 @@ import model.dao.IReservationDAO;
 import model.dao.IRoomDAO;
 import model.dao.ReservationDAO;
 import model.dao.RoomDAO;
-
 
 public class ReservationFragment extends DialogFragment {
 
