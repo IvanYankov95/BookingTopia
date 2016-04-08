@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+
+import org.joda.time.LocalDate;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -50,6 +53,8 @@ public class HomeActivity extends AbstractDrawerActivity {
         guestsNumberSpinner.add(5);
         guestsNumberSpinner.add(6);
 
+        Log.e("DATE ON CREATE", CalendarHelper.fromDate.toString() + " " + CalendarHelper.toDate.toString());
+
         lm = (LinearLayout) findViewById(R.id.search_layout);
         searchField = (EditText) findViewById(R.id.search_field);
 
@@ -59,11 +64,13 @@ public class HomeActivity extends AbstractDrawerActivity {
         checkInDate = (EditText) findViewById(R.id.check_in_date);
         checkOutDate = (EditText) findViewById(R.id.check_out_date);
 
+        checkInDate.setText(CalendarHelper.fromDate.toString());
+        checkOutDate.setText(CalendarHelper.toDate.toString());
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO
-
                 //search method
             }
         });
@@ -118,14 +125,6 @@ public class HomeActivity extends AbstractDrawerActivity {
                 int day = c.get(Calendar.DAY_OF_MONTH);
                 calendar = c;
 
-                if(isFromDate) {
-                    CalendarHelper.fromCal = c;
-                    CalendarHelper.fromDBCal = c;
-                } else {
-                    CalendarHelper.toCal = c;
-                    CalendarHelper.toDBCal = c;
-                }
-
                 return new DatePickerDialog(getActivity(), this, year, month, day);
             }
 
@@ -133,6 +132,14 @@ public class HomeActivity extends AbstractDrawerActivity {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 monthOfYear++;
                 String date = year + "-" + ((monthOfYear < 10) ? "0" : "") + monthOfYear + "-" + ((dayOfMonth < 10) ? "0" : "") + dayOfMonth;
+
+                if(isFromDate)
+                    CalendarHelper.fromDate = new LocalDate(year, monthOfYear, dayOfMonth);
+                else
+                    CalendarHelper.toDate = new LocalDate(year, monthOfYear, dayOfMonth);
+
+                Log.e("DATE", CalendarHelper.fromDate.toString() + " " + CalendarHelper.toDate.toString());
+
                 edt.setText(date);
             }
         }

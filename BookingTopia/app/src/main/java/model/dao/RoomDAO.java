@@ -180,18 +180,18 @@ public class RoomDAO implements IRoomDAO {
     public ArrayList<Room> getAllRoomsByHotelWithAvailableDates(long hotelID){
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        Calendar calendar  = CalendarHelper.fromDBCal;
-        Calendar calendar2 = CalendarHelper.toDBCal;
+//        Calendar calendar  = CalendarHelper.fromDBCal;
+//        Calendar calendar2 = CalendarHelper.toDBCal;
 
-        String dateFrom = calendar.getInstance().get(Calendar.YEAR) + "-"
-                + calendar.getInstance().get(Calendar.MONTH) + "-"
-                + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+//        String dateFrom = calendar.getInstance().get(Calendar.YEAR) + "-"
+//                + calendar.getInstance().get(Calendar.MONTH) + "-"
+//                + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+//
+//        String dateTo = calendar2.getInstance().get(Calendar.YEAR) + "-"
+//                + calendar2.getInstance().get(Calendar.MONTH) + "-"
+//                + calendar2.getInstance().get(Calendar.DAY_OF_MONTH);
 
-        String dateTo = calendar2.getInstance().get(Calendar.YEAR) + "-"
-                + calendar2.getInstance().get(Calendar.MONTH) + "-"
-                + calendar2.getInstance().get(Calendar.DAY_OF_MONTH);
-
-        String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN " + dateFrom + " AND " + dateTo;
+        String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN " + 5 + " AND " + 5;
 
         Cursor c = db.rawQuery(datesSelect, null);
 
@@ -316,28 +316,28 @@ public class RoomDAO implements IRoomDAO {
 
         values.put(mDb.BOOKING_ID, reservationID);
         values.put(mDb.ROOM_ID, room.getRoomId());
-        Calendar calendar = CalendarHelper.fromDBCal;
-        String date = calendar.getInstance().get(Calendar.YEAR) + "-"
-                + calendar.getInstance().get(Calendar.MONTH) + "-"
-                + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        values.put(mDb.DATE, date);
+//        Calendar calendar = CalendarHelper.fromDBCal;
+//        String date = calendar.getInstance().get(Calendar.YEAR) + "-"
+//                + calendar.getInstance().get(Calendar.MONTH) + "-"
+//                + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+//        values.put(mDb.DATE, date);
 
         db.insert(mDb.TAKEN_DATES, null, values);
 
-        while(!CalendarHelper.fromDBCal.after(CalendarHelper.toDBCal))
-        {
-            ContentValues values2 = new ContentValues();
-
-            values2.put(mDb.BOOKING_ID, reservationID);
-            values2.put(mDb.ROOM_ID, room.getRoomId());
-            CalendarHelper.fromDBCal.add(Calendar.DATE, 1);
-            Calendar calendar2 = CalendarHelper.fromDBCal;
-            String date2 = calendar2.getInstance().get(Calendar.YEAR) + "-"
-                    + calendar2.getInstance().get(Calendar.MONTH) + "-"
-                    + calendar2.getInstance().get(Calendar.DAY_OF_MONTH);
-            values.put(mDb.DATE, date2);
-            db.insert(mDb.TAKEN_DATES, null, values2);
-        }
+//        while(!CalendarHelper.fromDBCal.after(CalendarHelper.toDBCal))
+//        {
+//            ContentValues values2 = new ContentValues();
+//
+//            values2.put(mDb.BOOKING_ID, reservationID);
+//            values2.put(mDb.ROOM_ID, room.getRoomId());
+//            CalendarHelper.fromDBCal.add(Calendar.DATE, 1);
+//            Calendar calendar2 = CalendarHelper.fromDBCal;
+//            String date2 = calendar2.getInstance().get(Calendar.YEAR) + "-"
+//                    + calendar2.getInstance().get(Calendar.MONTH) + "-"
+//                    + calendar2.getInstance().get(Calendar.DAY_OF_MONTH);
+//            values.put(mDb.DATE, date2);
+//            db.insert(mDb.TAKEN_DATES, null, values2);
+//        }
 
     }
 }

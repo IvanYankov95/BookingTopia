@@ -1,5 +1,7 @@
 package model;
 
+import org.joda.time.LocalDate;
+
 import java.util.Calendar;
 
 /**
@@ -7,23 +9,8 @@ import java.util.Calendar;
  */
 public class CalendarHelper {
 
-    public static Calendar fromCal = Calendar.getInstance();
-    public static Calendar toCal = Calendar.getInstance();
+    public static LocalDate fromDate = LocalDate.now();
+    public static LocalDate toDate = LocalDate.now().plusDays(1);
 
-    public static Calendar fromDBCal = Calendar.getInstance();
-    public static Calendar toDBCal = Calendar.getInstance();
-
-    public static void setToCalDatePlusOne(){
-        toCal.add(Calendar.DATE, 1);
-        toDBCal.add(Calendar.DATE, 1);
-    }
-
-    public static void setFromCal(Calendar fromCal) {
-        CalendarHelper.fromCal = fromCal;
-    }
-
-    public static void setToCal(Calendar toCal) {
-        CalendarHelper.toCal = toCal;
-    }
 
 }
