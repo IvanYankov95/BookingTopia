@@ -53,7 +53,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         getSupportActionBar().setTitle("View Hotel");
 
         bundle = getIntent().getExtras();
-        hotelId = (long) bundle.get("hotel");
+        hotelId = (long) bundle.get("hotel_id");
         hotel = HotelDAO.getInstance(this).getHotel(hotelId);
         images = hotel.getImages();
         imagesCount = images.size();
@@ -64,7 +64,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         imagesRecView.setAdapter(imageAdapter);
 
         roomsRecView = (RecyclerView) findViewById(R.id.room_cardview_in_viewHotel_rec_view);
-        roomAdapter = new RoomCardViewAdapter(this, hotel.getRooms());
+        roomAdapter = new RoomCardViewAdapter(this, hotel.getRooms(), hotelId);
         roomsRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         roomsRecView.setAdapter(roomAdapter);
 

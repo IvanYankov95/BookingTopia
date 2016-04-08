@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,14 @@ import model.Room;
  */
 public class RoomCardViewAdapter extends RecyclerView.Adapter<RoomCardViewAdapter.CustomViewHolder> {
 
+    private  long hotelId;
     private Activity activity;
     private ArrayList<Room> rooms = new ArrayList<>();
 
-    public RoomCardViewAdapter(Activity activity, ArrayList<Room> dataSource) {
+    public RoomCardViewAdapter(Activity activity, ArrayList<Room> dataSource, long  hotelId) {
         this.activity = activity;
         this.rooms = dataSource;
+        this.hotelId = hotelId;
 
         rooms.add(new Room(0, 0, 0, null, 0, null, 0, 0, null, false, null, null));
     }
@@ -50,15 +53,33 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RoomCardViewAdapte
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
 
         if (position == rooms.size() - 1) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, CreateRoomActivity.class);
+                    intent.putExtra("hotel_id",  hotelId);
+                    Log.e("hotel id ", "" + hotelId);
+                    activity.startActivityForResult(intent, Activity.RESULT_OK);
+
+                }
+            });
+        } else {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, ViewRoomActivity.class);
+
+                    intent.putExtra("room_id", rooms.get(position).getRoomId());
+                    activity.startActivityForResult(intent, Activity.RESULT_OK);
+
+                }
+            });
+        }
+
+        if (position == rooms.size() - 1) {
             holder.bgn.setVisibility(View.GONE);
             holder.pplImage.setVisibility(View.GONE);
             holder.relativeLayout.setBackgroundResource(R.drawable.plus);
-            holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    activity.startActivityForResult(new Intent(activity, CreateHotelActivity.class), Activity.RESULT_OK);
-                }
-            });
             return;
         }
 
@@ -72,29 +93,6 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RoomCardViewAdapte
         byte[] byteImage = room.getImages().get(0);
         Bitmap bmp = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
         holder.image.setImageBitmap(bmp);
-
-
-        if (position == rooms.size() - 1) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(activity, CreateRoomActivity.class);
-                    intent.putExtra("room_id", rooms.get(position).getHotelId());
-                    activity.startActivityForResult(intent, Activity.RESULT_OK);
-
-                }
-            });
-        } else {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(activity, ViewRoomActivity.class);
-                    intent.putExtra("room_id", rooms.get(position).getHotelId());
-                    activity.startActivityForResult(intent, Activity.RESULT_OK);
-
-                }
-            });
-        }
 
     }
 
