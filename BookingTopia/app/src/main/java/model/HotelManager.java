@@ -22,26 +22,6 @@ public class HotelManager {
     }
 
 
-<<<<<<< HEAD
-    public void reserveRooms(User user ,Hotel hotel, ArrayList<Room> rooms , ArrayList<Calendar> dates){
-
-//        for(Room room: rooms){
-//            room.reserveDates(dates);
-//        }
-
-        //user.addBook(hotel, rooms);
-    }
-=======
-//    public void reserveRooms(User user ,Hotel hotel, ArrayList<Room> rooms , ArrayList<Calendar> dates){
-//
-//        for(Room room: rooms){
-//            room.reserveDates(dates);
-//        }
-//
-//        //user.addBook(hotel, rooms);
-//    }
->>>>>>> 7cef38ff9733d8bd8a7eb8bd8072d6cb915a624f
-
     public ArrayList<Hotel> getAllHotelsByStars(int stars){
 
         return null;
