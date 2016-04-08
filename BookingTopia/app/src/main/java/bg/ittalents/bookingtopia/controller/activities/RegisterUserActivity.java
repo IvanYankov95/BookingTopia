@@ -21,6 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.joda.time.LocalDate;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -70,6 +72,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
     private static boolean avatarCheck;
 
     private static Calendar calendar;
+    private static LocalDate localDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,7 +199,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
                 if (usernameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
 
                     String names = firstNameTxt + " " + lastNameTxt;
-                    User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, calendar, selectedGender, countryTxt, smokerCheckBox.isChecked());
+                    User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, localDate, selectedGender, countryTxt, smokerCheckBox.isChecked());
 
                     long userId = userDAO.registerUser(user);
 
@@ -260,6 +263,8 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 monthOfYear++;
                 String date = year + "-" + ((monthOfYear < 10) ? "0" : "") + monthOfYear + "-" + ((dayOfMonth < 10) ? "0" : "") + dayOfMonth;
+
+                localDate = new LocalDate(year,monthOfYear,dayOfMonth);
                 edt.setText(date);
             }
         }

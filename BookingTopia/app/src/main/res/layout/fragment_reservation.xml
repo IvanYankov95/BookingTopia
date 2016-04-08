@@ -2,90 +2,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minWidth="1000dp"
     android:minHeight="450dp"
+    android:minWidth="1000dp"
     tools:context=".controller.fragments.ReservationFragment">
 
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="140dp">
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <TextView
+
+            android:text="hotelname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <TextView
+
+            android:text="hotelname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    </LinearLayout>
     <TextView
 
+        android:id="@+id/fragment_rservation_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Confrim Reservation"
-        android:id="@+id/fragment_rservation_title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"/>
+        android:layout_margin="5dp"
+        android:text="Confrim Reservation"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="hotel name"
         android:id="@+id/fragment_reservation_hotel_name"
-        android:layout_marginTop="28dp"
-        android:layout_below="@+id/fragment_rservation_title"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ImageView
-
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:adjustViewBounds="true"
-        android:id="@+id/fragment_reservation_hotel_image"
-        android:layout_below="@+id/fragment_reservation_hotel_name"
-        android:layout_alignParentLeft="true"/>
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Room"
-        android:id="@+id/textView"
-        android:layout_alignTop="@+id/fragment_reservation_hotel_name"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="30dp"
-        android:layout_marginEnd="30dp" />
-
-    <ImageView
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:id="@+id/fragment_reservation_room_image"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/fragment_reservation_hotel_image"
-        android:layout_alignBottom="@+id/fragment_reservation_hotel_image" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm"
-        android:id="@+id/fragment_reservation_confirm_button"
-        android:layout_marginTop="26dp"
-        android:layout_below="@+id/fragment_reservation_total_price"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Reservation dates"
-        android:id="@+id/fragment_reservation_dates"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Total price"
-        android:id="@+id/fragment_reservation_total_price"
-        android:layout_below="@+id/fragment_reservation_dates"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="28dp" />
+        android:layout_below="@+id/fragment_rservation_title"
+        android:layout_marginTop="28dp"
+        android:text="hotel name"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+
+        android:id="@+id/fragment_reservation_hotel_image"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/fragment_reservation_hotel_name"
+        android:adjustViewBounds="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/fragment_reservation_hotel_name"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:text="Room"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/fragment_reservation_room_image"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_alignBottom="@+id/fragment_reservation_hotel_image"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/fragment_reservation_hotel_image" />
+
+    <Button
+        android:id="@+id/fragment_reservation_confirm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_reservation_total_price"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
+        android:text="Confirm" />
+
+    <TextView
+        android:id="@+id/fragment_reservation_dates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:text="Reservation dates"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/fragment_reservation_total_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/fragment_reservation_dates"
+        android:layout_marginTop="28dp"
+        android:text="Total price"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 </RelativeLayout>

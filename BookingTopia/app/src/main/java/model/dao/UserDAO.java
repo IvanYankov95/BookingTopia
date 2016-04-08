@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.Gson;
 
+import org.joda.time.LocalDate;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -76,10 +78,8 @@ public class UserDAO implements IUserDAO{
 
         ContentValues values = new ContentValues();
 
-        Calendar calendar = user.getDateOfBirth();
-        String date = calendar.getInstance().get(Calendar.YEAR) + "-"
-                + calendar.getInstance().get(Calendar.MONTH) + "-"
-                + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        LocalDate localDate = user.getDateOfBirth();
+        String date = localDate.toString();
 
         values.put(mDb.USERNAME, user.getUsername());
         values.put(mDb.EMAIL,    user.getEmail());
@@ -111,10 +111,8 @@ public class UserDAO implements IUserDAO{
         SQLiteDatabase db = mDb.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        Calendar calendar = user.getDateOfBirth();
-        String date = calendar.getInstance().get(Calendar.YEAR) + "-"
-                + calendar.getInstance().get(Calendar.MONTH) + "-"
-                + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        LocalDate localDate = user.getDateOfBirth();
+        String date = localDate.toString();
 
         values.put(mDb.USERNAME, user.getUsername());
         values.put(mDb.EMAIL,    user.getEmail());
@@ -157,13 +155,13 @@ public class UserDAO implements IUserDAO{
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date2);
+
+            LocalDate ld = new LocalDate(date2);
             String gender = c.getString(c.getColumnIndex(mDb.GENDER));
             boolean smoking = (c.getInt(c.getColumnIndex(mDb.SMOKING)) == 1) ? true : false;
             byte[] avatar = c.getBlob(c.getColumnIndex(mDb.AVATAR));
 
-            user = new User(id, uname, upassword, avatar , email, uname, phone, cal, gender, country, smoking);
+            user = new User(id, uname, upassword, avatar , email, name, phone, ld, gender, country, smoking);
         }
 
         c.close();

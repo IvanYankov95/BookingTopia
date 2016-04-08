@@ -1,5 +1,7 @@
 package model;
 
+import org.joda.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -14,7 +16,7 @@ public class User {
     private String   email;
     private String   username;
     private String   mobilePhone;
-    private Calendar dateOfBirth;
+    private LocalDate dateOfBirth;
     private String   gender;
     private String   country;
     private boolean  smoking;
@@ -31,7 +33,7 @@ public class User {
 //        }
 //    }
 
-    public User(long userId, String names, String password, byte[] avatar, String email, String username, String mobilePhone, Calendar dateOfBirth, String gender, String country, boolean smoking) {
+    public User(long userId, String names, String password, byte[] avatar, String email, String username, String mobilePhone, LocalDate dateOfBirth, String gender, String country, boolean smoking) {
         this.userId = userId;
         this.names = names;
         this.password = password;
@@ -45,7 +47,7 @@ public class User {
         this.smoking = smoking;
     }
 
-    public User(String names, String password, byte[] avatar, String email, String username, String mobilePhone, Calendar dateOfBirth, String gender, String country, boolean smoking) {
+    public User(String names, String password, byte[] avatar, String email, String username, String mobilePhone, LocalDate dateOfBirth, String gender, String country, boolean smoking) {
         this.names = names;
         this.password = password;
         this.avatar = avatar;
@@ -98,7 +100,7 @@ public class User {
         return mobilePhone;
     }
 
-    public Calendar getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 

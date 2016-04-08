@@ -1,5 +1,7 @@
 package model;
 
+import org.joda.time.LocalDate;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,11 +22,11 @@ public class Room implements Serializable{
     private String  extras;
     private boolean smoking;
 
-    private ArrayList<Calendar> reservedDates = new ArrayList<>();
+    private ArrayList<LocalDate> reservedDates = new ArrayList<>();
     private ArrayList<byte[]> images = new ArrayList<>();
 
     //fullconstructor
-    public Room(long roomId, long hotelId, double pricePerDay, String description, int maxGuests, String beds, double x, double y, String extras, boolean smoking, ArrayList<Calendar> reservedDates, ArrayList<byte[]> images) {
+    public Room(long roomId, long hotelId, double pricePerDay, String description, int maxGuests, String beds, double x, double y, String extras, boolean smoking, ArrayList<LocalDate> reservedDates, ArrayList<byte[]> images) {
         this.roomId = roomId;
         this.hotelId = hotelId;
         this.pricePerDay = pricePerDay;
@@ -45,11 +47,11 @@ public class Room implements Serializable{
         images.add(image);
     }
 
-    public void reserveDate(Calendar date){
+    public void reserveDate(LocalDate date){
         this.reservedDates.add(date);
     }
 
-    public void reserveDates(ArrayList<Calendar> dates){
+    public void reserveDates(ArrayList<LocalDate> dates){
         this.reservedDates.addAll(dates);
     }
 
@@ -90,7 +92,7 @@ public class Room implements Serializable{
         return smoking;
     }
 
-    public ArrayList<Calendar> getReservedDates() {
+    public ArrayList<LocalDate> getReservedDates() {
         return reservedDates;
     }
 
