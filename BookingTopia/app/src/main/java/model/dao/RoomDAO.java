@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import org.joda.time.LocalDate;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -312,32 +314,19 @@ public class RoomDAO implements IRoomDAO {
     public void registerTakenDate(Room room, long reservationID) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        ContentValues values = new ContentValues();
+        LocalDate fromDate = CalendarHelper.fromDate;
+        LocalDate toDate   = CalendarHelper.toDate.plusDays(1);
 
-        values.put(mDb.BOOKING_ID, reservationID);
-        values.put(mDb.ROOM_ID, room.getRoomId());
-//        Calendar calendar = CalendarHelper.fromDBCal;
-//        String date = calendar.getInstance().get(Calendar.YEAR) + "-"
-//                + calendar.getInstance().get(Calendar.MONTH) + "-"
-//                + calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-//        values.put(mDb.DATE, date);
+        while(fromDate.isBefore(toDate)){
+            ContentValues values2 = new ContentValues();
 
-        db.insert(mDb.TAKEN_DATES, null, values);
+            values2.put(mDb.BOOKING_ID, reservationID);
+            values2.put(mDb.ROOM_ID, room.getRoomId());
+            values2.put(mDb.DATE, fromDate.toString());
+            db.insert(mDb.TAKEN_DATES, null, values2);
+            fromDate = fromDate.plusDays(1);
+        }
 
-//        while(!CalendarHelper.fromDBCal.after(CalendarHelper.toDBCal))
-//        {
-//            ContentValues values2 = new ContentValues();
-//
-//            values2.put(mDb.BOOKING_ID, reservationID);
-//            values2.put(mDb.ROOM_ID, room.getRoomId());
-//            CalendarHelper.fromDBCal.add(Calendar.DATE, 1);
-//            Calendar calendar2 = CalendarHelper.fromDBCal;
-//            String date2 = calendar2.getInstance().get(Calendar.YEAR) + "-"
-//                    + calendar2.getInstance().get(Calendar.MONTH) + "-"
-//                    + calendar2.getInstance().get(Calendar.DAY_OF_MONTH);
-//            values.put(mDb.DATE, date2);
-//            db.insert(mDb.TAKEN_DATES, null, values2);
-//        }
-
+        db.close();
     }
 }

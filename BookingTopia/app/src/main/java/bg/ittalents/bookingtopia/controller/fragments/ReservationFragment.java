@@ -85,28 +85,6 @@ public class ReservationFragment extends DialogFragment {
         Bitmap bitmap2 = BitmapFactory.decodeByteArray(room.getImages().get(0), 0, room.getImages().get(0).length);
         //roomImage.setImageBitmap(bitmap2);
 
-//////        Calendar calendarFrom = CalendarHelper.fromCal;
-//////        Calendar calendarTo   = CalendarHelper.toCal;
-////
-////        String dateFrom = calendarFrom.get(Calendar.YEAR) + "-"
-////                + calendarFrom.get(Calendar.MONTH) + "-"
-////                + calendarFrom.get(Calendar.DAY_OF_MONTH);
-////
-////        String dateTo = calendarTo.get(Calendar.YEAR) + "-"
-////                + calendarTo.get(Calendar.MONTH) + "-"
-////                + calendarTo.get(Calendar.DAY_OF_MONTH);
-////
-////        dates.setText("Dates for reservation " + dateFrom + " - " + dateTo);
-////
-////        int counter = 2;
-////        while(!calendarFrom.after(calendarTo))
-////        {
-////            counter++;
-////            calendarFrom.add(Calendar.DATE, 1);
-////        }
-//
-//        price.setText("Total price : " + (counter * room.getPricePerDay()) + " leva");
-
         LocalDate helperFrom = CalendarHelper.fromDate;
         LocalDate helperTo = CalendarHelper.toDate;
 
@@ -120,7 +98,6 @@ public class ReservationFragment extends DialogFragment {
         }
 
         price.setText("Total price : " + (counter * room.getPricePerDay()) + " leva");
-
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
