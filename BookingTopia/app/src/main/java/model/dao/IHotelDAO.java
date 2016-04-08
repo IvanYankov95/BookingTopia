@@ -24,4 +24,7 @@ public interface IHotelDAO {
 
     public ArrayList<Hotel> getAllHotelsByNameAndCity(String name) ;
 
-}
+    public ArrayList<Hotel> getAllHotels() ;
+
+
+    }

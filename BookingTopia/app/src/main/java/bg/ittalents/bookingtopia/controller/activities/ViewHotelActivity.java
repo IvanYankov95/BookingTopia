@@ -32,6 +32,8 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     private RecyclerView imagesRecView;
     private RecyclerView roomsRecView;
 
+    IRoomDAO roomDAO;
+
 
     boolean isClicked = true;
     Bundle bundle;
@@ -54,7 +56,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         onCreateDrawer();
         getSupportActionBar().setTitle("View Hotel");
 
-        IRoomDAO roomDAO  = RoomDAO.getInstance(this);
+        roomDAO  = RoomDAO.getInstance(this);
 
         bundle = getIntent().getExtras();
         hotelId = (long) bundle.get("hotel_id");

@@ -245,6 +245,26 @@ public class HotelDAO implements IHotelDAO {
         return hotels;
     }
 
+    public ArrayList<Hotel> getAllHotels() {
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT "+ mDb.HOTEL_ID +" FROM " + mDb.HOTELS + "\" " ;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        ArrayList<Hotel> hotels = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do {
+                long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
+                hotels.add(getHotel(hotelId));
+            }
+            while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return hotels;
+    }
+
     public ArrayList<Hotel> getAllHotelsByStars(int stars) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
