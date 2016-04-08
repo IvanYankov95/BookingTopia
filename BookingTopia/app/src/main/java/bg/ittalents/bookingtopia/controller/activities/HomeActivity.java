@@ -73,19 +73,7 @@ public class HomeActivity extends AbstractDrawerActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus)
-                    picDate((EditText) v);
-                String date = ((EditText)v).getText().toString();
-                DateFormat formater = new SimpleDateFormat("yy-MM-dd");
-                Date date2= null;
-                try {
-                    date2 = formater.parse(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date2);
-                CalendarHelper.fromCal = cal;
-                CalendarHelper.fromDBCal = cal;
+                    picDate((EditText) v, true);
             }
         });
 
@@ -93,19 +81,8 @@ public class HomeActivity extends AbstractDrawerActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus)
-                    picDate((EditText) v);
-                String date = ((EditText)v).getText().toString();
-                DateFormat formater = new SimpleDateFormat("yy-MM-dd");
-                Date date2= null;
-                try {
-                    date2 = formater.parse(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date2);
-                CalendarHelper.toCal = cal;
-                CalendarHelper.toDBCal = cal;
+                    picDate((EditText) v, false);
+
             }
         });
 
@@ -128,7 +105,7 @@ public class HomeActivity extends AbstractDrawerActivity {
     }
 
 
-    private void picDate(final EditText edt) {
+    private void picDate(final EditText edt, final boolean isFromDate) {
         class FragmentDatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener {
             public FragmentDatePicker() {
                 // Required empty public constructor
@@ -140,6 +117,14 @@ public class HomeActivity extends AbstractDrawerActivity {
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
                 calendar = c;
+
+                if(isFromDate) {
+                    CalendarHelper.fromCal = c;
+                    CalendarHelper.fromDBCal = c;
+                } else {
+                    CalendarHelper.toCal = c;
+                    CalendarHelper.toDBCal = c;
+                }
 
                 return new DatePickerDialog(getActivity(), this, year, month, day);
             }

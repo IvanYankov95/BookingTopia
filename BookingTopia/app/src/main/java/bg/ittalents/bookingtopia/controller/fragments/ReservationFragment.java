@@ -78,21 +78,21 @@ public class ReservationFragment extends DialogFragment {
 
         hotelName.setText(hotel.getName());
         Bitmap bitmap = BitmapFactory.decodeByteArray(hotel.getImages().get(0), 0, hotel.getImages().get(0).length );
-        hotelImage.setImageBitmap(bitmap);
+        //hotelImage.setImageBitmap(bitmap);
 
         Bitmap bitmap2 = BitmapFactory.decodeByteArray(room.getImages().get(0), 0, room.getImages().get(0).length);
-        roomImage.setImageBitmap(bitmap2);
+        //roomImage.setImageBitmap(bitmap2);
 
         Calendar calendarFrom = CalendarHelper.fromCal;
         Calendar calendarTo   = CalendarHelper.toCal;
 
-        String dateFrom = calendarFrom.getInstance().get(Calendar.YEAR) + "-"
-                + calendarFrom.getInstance().get(Calendar.MONTH) + "-"
-                + calendarFrom.getInstance().get(Calendar.DAY_OF_MONTH);
+        String dateFrom = calendarFrom.get(Calendar.YEAR) + "-"
+                + calendarFrom.get(Calendar.MONTH) + "-"
+                + calendarFrom.get(Calendar.DAY_OF_MONTH);
 
-        String dateTo = calendarTo.getInstance().get(Calendar.YEAR) + "-"
-                + calendarTo.getInstance().get(Calendar.MONTH) + "-"
-                + calendarTo.getInstance().get(Calendar.DAY_OF_MONTH);
+        String dateTo = calendarTo.get(Calendar.YEAR) + "-"
+                + calendarTo.get(Calendar.MONTH) + "-"
+                + calendarTo.get(Calendar.DAY_OF_MONTH);
 
         dates.setText("Dates for reservation " + dateFrom + " - " + dateTo);
 
