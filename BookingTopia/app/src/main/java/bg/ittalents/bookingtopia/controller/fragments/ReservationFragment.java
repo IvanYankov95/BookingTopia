@@ -1,5 +1,6 @@
 package bg.ittalents.bookingtopia.controller.fragments;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,7 +29,7 @@ import model.dao.ReservationDAO;
 import model.dao.RoomDAO;
 
 
-public class ReservationFragment extends Fragment {
+public class ReservationFragment extends DialogFragment {
 
     Context context;
 
@@ -50,6 +51,8 @@ public class ReservationFragment extends Fragment {
 
         long hotel_id = (long) bundle.get("hotel_id");
         long room_id  = (long) bundle.get("room_id");
+        final long user_id  = (long) bundle.get("user_id");
+
 
         IHotelDAO hotelDAO = HotelDAO.getInstance(context);
         final Hotel hotel = hotelDAO.getHotel(hotel_id);
@@ -105,7 +108,7 @@ public class ReservationFragment extends Fragment {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Reservation reservation = new Reservation(0, room.getRoomId(), ((AbstractDrawerActivity)context).getLoggedId());
+                Reservation reservation = new Reservation(0, room.getRoomId(), user_id);
                 long reservationID = reservationDAO.reserve(reservation);
 
                 roomDAO.registerTakenDate(room, reservationID);

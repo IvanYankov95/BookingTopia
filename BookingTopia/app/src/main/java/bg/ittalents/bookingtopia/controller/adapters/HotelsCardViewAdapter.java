@@ -107,7 +107,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity , ViewHotelActivity.class);
-                    intent.putExtra("hotel", hotels.get(position).getHotelId());
+                    intent.putExtra("hotel_id", hotels.get(position).getHotelId());
                     activity.startActivityForResult(intent, Activity.RESULT_OK);
 
 
