@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import bg.ittalents.bookingtopia.R;
 import bg.ittalents.bookingtopia.controller.activities.CreateHotelActivity;
@@ -124,6 +125,15 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<HotelsCardViewAd
     }
 
     public void notifyAdapter() {
+
+        notifyDataSetChanged();
+    }
+
+    public void notifyAdapter(String criteria) {
+        Comparator<Hotel> comparator;
+        if(criteria.equals("stars")){
+
+        }
         notifyDataSetChanged();
     }
 

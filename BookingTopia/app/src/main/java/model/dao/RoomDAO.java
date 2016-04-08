@@ -185,7 +185,7 @@ public class RoomDAO implements IRoomDAO {
     public ArrayList<Room> getAllRoomsByHotelWithAvailableDates(long hotelID){
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN " + CalendarHelper.fromDate + " AND " + CalendarHelper.toDate;
+        String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN " + CalendarHelper.fromDate.minusDays(1) + " AND " + CalendarHelper.toDate.plusDays(1);
 
         Cursor c = db.rawQuery(datesSelect, null);
 
