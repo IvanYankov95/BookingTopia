@@ -24,9 +24,9 @@ public class HotelManager {
 
     public void reserveRooms(User user ,Hotel hotel, ArrayList<Room> rooms , ArrayList<Calendar> dates){
 
-        for(Room room: rooms){
-            room.reserveDates(dates);
-        }
+//        for(Room room: rooms){
+//            room.reserveDates(dates);
+//        }
 
         //user.addBook(hotel, rooms);
     }

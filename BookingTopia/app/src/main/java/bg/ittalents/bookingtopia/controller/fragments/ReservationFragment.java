@@ -65,7 +65,7 @@ public class ReservationFragment extends DialogFragment {
                 room2 = room3;
         }
 
-        final Room  room  = room2;
+        final Room room  = room2;
 
         View v = inflater.inflate(R.layout.fragment_reservation, container, false);
 
@@ -80,10 +80,10 @@ public class ReservationFragment extends DialogFragment {
 
         hotelName.setText(hotel.getName());
         Bitmap bitmap = BitmapFactory.decodeByteArray(hotel.getImages().get(0), 0, hotel.getImages().get(0).length );
-        //hotelImage.setImageBitmap(bitmap);
+        hotelImage.setImageBitmap(bitmap);
 
         Bitmap bitmap2 = BitmapFactory.decodeByteArray(room.getImages().get(0), 0, room.getImages().get(0).length);
-        //roomImage.setImageBitmap(bitmap2);
+        roomImage.setImageBitmap(bitmap2);
 
         LocalDate helperFrom = CalendarHelper.fromDate;
         LocalDate helperTo = CalendarHelper.toDate;
@@ -96,6 +96,8 @@ public class ReservationFragment extends DialogFragment {
             counter++;
             fromDate = fromDate.plusDays(1);
         }
+
+        dates.setText(helperFrom.toString() + " - " + helperTo);
 
         price.setText("Total price : " + (counter * room.getPricePerDay()) + " leva");
 
