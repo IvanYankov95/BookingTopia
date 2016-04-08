@@ -40,7 +40,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
             if(stars != 8){
                 if(!searchName.isEmpty())
                     hotels = hotelDAO.getAllHotelsByNameAndCity(searchName);
-                //else
+                else
                     hotels = hotelDAO.getAllHotels();
             }
             else{

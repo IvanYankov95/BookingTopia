@@ -248,7 +248,7 @@ public class HotelDAO implements IHotelDAO {
     public ArrayList<Hotel> getAllHotels() {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        String selectQuery = "SELECT "+ mDb.HOTEL_ID +" FROM " + mDb.HOTELS + "\" " ;
+        String selectQuery = "SELECT "+ mDb.HOTEL_ID +" FROM " + mDb.HOTELS;
 
         Cursor c = db.rawQuery(selectQuery, null);
 
