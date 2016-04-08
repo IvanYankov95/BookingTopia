@@ -209,7 +209,7 @@ public class RoomDAO implements IRoomDAO {
 
         if(c2.moveToFirst()){
             do{
-                allIDs.add(c.getLong(c.getColumnIndex(mDb.ROOM_ID)));
+                allIDs.add(c2.getLong(c2.getColumnIndex(mDb.ROOM_ID)));
             } while (c2.moveToNext());
         }
 
