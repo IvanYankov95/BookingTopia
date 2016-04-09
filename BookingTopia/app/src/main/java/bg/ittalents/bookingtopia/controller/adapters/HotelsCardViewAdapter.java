@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import bg.ittalents.bookingtopia.R;
+import bg.ittalents.bookingtopia.controller.activities.AbstractDrawerActivity;
 import bg.ittalents.bookingtopia.controller.activities.CreateHotelActivity;
 import bg.ittalents.bookingtopia.controller.activities.HotelListActivity;
 import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
@@ -52,13 +53,14 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v;
+        if(!((AbstractDrawerActivity)activity).isUser()) {
+            if (viewType == FOOTER_VIEW) {
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.plus_layout_for_recycler_view_row, parent, false);
 
-        if (viewType == FOOTER_VIEW) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.plus_layout_for_recycler_view_row, parent, false);
+                FooterViewHolder vh = new FooterViewHolder(v);
 
-            FooterViewHolder vh = new FooterViewHolder(v);
-
-            return vh;
+                return vh;
+            }
         }
 
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -157,7 +159,11 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
 
-        return hotels.size() + 1;
+        if(!((AbstractDrawerActivity)activity).isUser()) {
+            return hotels.size() + 1;
+        } else {
+            return hotels.size();
+        }
     }
 
     public void notifyAdapter() {
