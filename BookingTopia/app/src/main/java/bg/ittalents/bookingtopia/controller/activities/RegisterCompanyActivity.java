@@ -60,8 +60,12 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_company);
+        Bundle bundle = getIntent().getExtras();
         Toolbar toolbar = (Toolbar) findViewById(R.id.register_company_toolbar_text);
-        toolbar.setTitle("Register company");
+        if (bundle.getBoolean("edit_mode"))
+            toolbar.setTitle("Edit user");
+        else
+            toolbar.setTitle("Register user");
         setSupportActionBar(toolbar);
 
         register = (Button) findViewById(R.id.register_company_register_button);
@@ -93,78 +97,142 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
             }
         });
 
+        if (bundle.getBoolean("edit_mode")) {
 
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RegisterHelper helper = RegisterHelper.getInstance();
+            final Company oldCompany = companyDAO.getCompanyById(getLoggedId());
+            register.setText("UPDATE");
+            register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RegisterHelper helper = RegisterHelper.getInstance();
+                    String companyNameTxt = name.getText().toString();
+                    String passwordTxt = password.getText().toString();
+                    String confirmPasswordTxt = RegisterCompanyActivity.confirmPassword.getText().toString();
+                    String phoneTxt = phone.getText().toString();
+                    String addressTxt = address.getText().toString();
+                    String descriptionTxt = description.getText().toString();
 
-                String usernameTxt = name.getText().toString();
-                String passwordTxt = password.getText().toString();
-                String confirmPasswordTxt = RegisterCompanyActivity.confirmPassword.getText().toString();
-                String emailTxt = email.getText().toString();
-                String phoneTxt = phone.getText().toString();
-                String addressTxt = address.getText().toString();
-                String descriptionTxt = description.getText().toString();
+                    boolean nameCheck = false;
+                    boolean passwordCheck = false;
 
-                boolean nameCheck = false;
-                boolean emailCheck = false;
-                boolean passwordCheck = false;
+                    if (companyNameTxt.isEmpty())
+                        name.setError("This field is required");
+                    else
+                        nameCheck = true;
 
-                // username check
-                if (usernameTxt.isEmpty())
-                    name.setError("This field is required");
-                else
-                    nameCheck = true;
-                // username check
-
-                // email check
-                if (emailTxt.isEmpty())
-                    email.setError("This field is required");
-                else if (!helper.isEmailValid(emailTxt))
-                    email.setError("Please enter a valid email");
-                else if (companyDAO.checkUserEmail(emailTxt))
-                    email.setError("Email is already in use");
-                else
-                    emailCheck = true;
-                // email check
-
-                // password check
-                if (passwordTxt.isEmpty())
-                    password.setError("This field is required");
-                else if (!helper.checkPasswordStrength(passwordTxt))
-                    password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
-                else if (!passwordTxt.equals(confirmPasswordTxt))
-                    confirmPassword.setError("Passwords don't match");
-                else
-                    passwordCheck = true;
-                // password check
+                    // password check
+                    if (passwordTxt.isEmpty())
+                        password.setError("This field is required");
+                    else if (!helper.checkPasswordStrength(passwordTxt))
+                        password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
+                    else if (!passwordTxt.equals(confirmPasswordTxt))
+                        confirmPassword.setError("Passwords don't match");
+                    else
+                        passwordCheck = true;
 
 
-                // names check
+                    if (nameCheck &&  passwordCheck && nameCheck ) {
 
-                if (!avatarCheck)
-                    Toast.makeText(RegisterCompanyActivity.this, "Avatar is required", Toast.LENGTH_SHORT).show();
-                if (nameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
+                        byte[] selectedAvatar;
+                        if (avatarCheck)
+                            selectedAvatar = avatarPic;
+                        else
+                            selectedAvatar = oldCompany.getAvatar();
 
-                    //public Company(String name, String email, String password, String address, byte[] avatar, String phone, String description)
-                    Company company = new Company(usernameTxt, emailTxt, helper.md5(passwordTxt), addressTxt, avatarPic, phoneTxt, descriptionTxt);
 
-                    long companyID = companyDAO.registerCompany(company);
+                        Company company = new Company(companyNameTxt, oldCompany.getEmail(), helper.md5(passwordTxt), addressTxt, selectedAvatar, phoneTxt, descriptionTxt);
 
-                    if (company == null)
-                        Toast.makeText(RegisterCompanyActivity.this, "Register failed", Toast.LENGTH_SHORT).show();
-                    else {
-                        company.setCompanyId(companyID);
-                        Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
-                        finish();
+                        long companyID = companyDAO.changeCompanyData(company);
+
+                        if (company == null)
+                            Toast.makeText(RegisterCompanyActivity.this, "Register failed", Toast.LENGTH_SHORT).show();
+                        else {
+                            company.setCompanyId(companyID);
+                            Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                        //startActivity(new Intent(Register.this, LogIn.class));
                     }
-                    //startActivity(new Intent(Register.this, LogIn.class));
+
                 }
+            });
 
-            }
-        });
+        }
 
+
+        if (!bundle.getBoolean("edit_mode")){
+            register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RegisterHelper helper = RegisterHelper.getInstance();
+
+                    String usernameTxt = name.getText().toString();
+                    String passwordTxt = password.getText().toString();
+                    String confirmPasswordTxt = RegisterCompanyActivity.confirmPassword.getText().toString();
+                    String emailTxt = email.getText().toString();
+                    String phoneTxt = phone.getText().toString();
+                    String addressTxt = address.getText().toString();
+                    String descriptionTxt = description.getText().toString();
+
+                    boolean nameCheck = false;
+                    boolean emailCheck = false;
+                    boolean passwordCheck = false;
+
+                    // username check
+                    if (usernameTxt.isEmpty())
+                        name.setError("This field is required");
+                    else
+                        nameCheck = true;
+                    // username check
+
+                    // email check
+                    if (emailTxt.isEmpty())
+                        email.setError("This field is required");
+                    else if (!helper.isEmailValid(emailTxt))
+                        email.setError("Please enter a valid email");
+                    else if (companyDAO.checkUserEmail(emailTxt))
+                        email.setError("Email is already in use");
+                    else
+                        emailCheck = true;
+                    // email check
+
+                    // password check
+                    if (passwordTxt.isEmpty())
+                        password.setError("This field is required");
+                    else if (!helper.checkPasswordStrength(passwordTxt))
+                        password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
+                    else if (!passwordTxt.equals(confirmPasswordTxt))
+                        confirmPassword.setError("Passwords don't match");
+                    else
+                        passwordCheck = true;
+                    // password check
+
+
+                    // names check
+
+                    if (!avatarCheck)
+                        Toast.makeText(RegisterCompanyActivity.this, "Avatar is required", Toast.LENGTH_SHORT).show();
+                    if (nameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
+
+                        //public Company(String name, String email, String password, String address, byte[] avatar, String phone, String description)
+                        Company company = new Company(usernameTxt, emailTxt, helper.md5(passwordTxt), addressTxt, avatarPic, phoneTxt, descriptionTxt);
+
+                        long companyID = companyDAO.registerCompany(company);
+
+                        if (company == null)
+                            Toast.makeText(RegisterCompanyActivity.this, "Register failed", Toast.LENGTH_SHORT).show();
+                        else {
+                            company.setCompanyId(companyID);
+                            Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                        //startActivity(new Intent(Register.this, LogIn.class));
+                    }
+
+                }
+            });
+
+        }
 
     }
 

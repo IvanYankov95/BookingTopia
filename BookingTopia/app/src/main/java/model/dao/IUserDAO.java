@@ -13,6 +13,7 @@ public interface IUserDAO {
 
     public long registerUser(User user);
 
+
     public void deleteUser(User user);
 
     public long updateUser(User user);

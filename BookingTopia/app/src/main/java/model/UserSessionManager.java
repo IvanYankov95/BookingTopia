@@ -78,11 +78,7 @@ public class UserSessionManager {
         // user name
         user.put(IS_USER, String.valueOf(pref.getString(IS_USER, null)));
 
-        Log.e("-----v sesiqta", user.toString());
 
-
-
-        // return user
         return user;
     }
 

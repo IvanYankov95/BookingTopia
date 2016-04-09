@@ -308,7 +308,6 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
 
                     Intent i=new Intent();
                     setResult(RESULT_OK,i);
-                    Log.e("FINISH", " finish");
                     finish();
 //                    Intent returnIntent = new Intent();
 //                    returnIntent.putExtra("hotel_id", hotel.getHotelId());

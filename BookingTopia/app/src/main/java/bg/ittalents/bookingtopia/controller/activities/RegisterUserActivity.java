@@ -89,6 +89,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
             toolbar.setTitle("Edit user");
         else
             toolbar.setTitle("Register user");
+        setSupportActionBar(toolbar);
 
 
         register = (Button) findViewById(R.id.register_user_register_button);

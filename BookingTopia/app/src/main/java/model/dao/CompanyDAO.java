@@ -180,4 +180,32 @@ public class CompanyDAO implements ICompanyDAO{
         db.close();
         return name;
     }
+
+    @Override
+    public Company getCompanyById(long hotelId) {
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.COMPANIES
+                + " WHERE " + mDb.COMPANY_ID + " = \"" + hotelId
+                + "\"";
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        Company company = null;
+        if(c.moveToFirst()){
+            long id = c.getLong(c.getColumnIndex(mDb.COMPANY_ID));
+            String name = c.getString(c.getColumnIndex(mDb.COMPANY_NAME));
+            String companyPassword = c.getString(c.getColumnIndex(mDb.PASSWORD));
+            String companyEmail = c.getString(c.getColumnIndex(mDb.EMAIL));
+            String address = c.getString(c.getColumnIndex(mDb.COMPANY_OFFICE_ADDRESS));
+            byte[] avatar = c.getBlob(c.getColumnIndex(mDb.AVATAR));
+            String phone = c.getString(c.getColumnIndex(mDb.TELEPHONE));
+            String description = c.getString(c.getColumnIndex(mDb.COMPANY_DESCRIPTION));
+
+            company = new Company(id, name, companyEmail, companyPassword, address , avatar, phone, description);
+             }
+
+        c.close();
+        db.close();
+        return company;
+    }
 }

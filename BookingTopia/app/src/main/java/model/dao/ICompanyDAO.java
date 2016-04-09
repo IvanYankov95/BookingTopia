@@ -15,6 +15,8 @@ public interface ICompanyDAO {
 
     public boolean checkCompanyName(String name);
 
+    public Company getCompanyById(long id);
+
     public boolean checkUserEmail(String email);
 
     public Company login (String email, String password);

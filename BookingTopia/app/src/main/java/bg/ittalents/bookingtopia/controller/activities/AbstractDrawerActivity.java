@@ -99,7 +99,7 @@ public class AbstractDrawerActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_update_profile) {
             Intent intent;
-            if(session.isUserLoggedIn()) {
+            if(this.isUser()) {
                 intent = new Intent(this, RegisterUserActivity.class);
                 intent.putExtra("edit_mode", true);
             }
