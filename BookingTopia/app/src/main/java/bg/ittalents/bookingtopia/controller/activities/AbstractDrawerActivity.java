@@ -39,7 +39,6 @@ public class AbstractDrawerActivity extends AppCompatActivity
         toolbar.setTitle("Goals Tracker");
         setSupportActionBar(toolbar);
 
-        //CalendarHelper.setToCalDatePlusOne();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

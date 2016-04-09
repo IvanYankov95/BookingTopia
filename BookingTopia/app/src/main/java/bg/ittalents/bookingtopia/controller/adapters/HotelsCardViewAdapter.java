@@ -23,6 +23,7 @@ import java.util.Comparator;
 
 import bg.ittalents.bookingtopia.R;
 import bg.ittalents.bookingtopia.controller.activities.CreateHotelActivity;
+import bg.ittalents.bookingtopia.controller.activities.HotelListActivity;
 import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
 import model.Hotel;
 
@@ -44,7 +45,6 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.activity = activity;
         this.hotels = dataSource;
 
-//        hotels.add(new Hotel(0, 0, null, 0, null, 0, 0, null, null, null, 0, null, null, null, null, null, null, null, null));
     }
 
     @Override
@@ -78,7 +78,6 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
                 Hotel hotel = hotels.get(position);
-                Log.e("----HOTEL", hotel.getName() + " " + hotel.getCity());
                 vh.rating.setText(formatter.format(hotel.getRating()));
                 vh.name.setText(hotel.getName());
                 vh.city.setText(hotel.getCity());
@@ -109,10 +108,8 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(activity, ViewHotelActivity.class);
-                        intent.putExtra("hotel_id", hotels.get(position).getHotelId());
-                        activity.startActivityForResult(intent, Activity.RESULT_OK);
 
+                        ((HotelListActivity)activity).callViewHotel(hotels.get(position).getHotelId());
 
                     }
                 });
@@ -121,17 +118,18 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             } else if (holder instanceof FooterViewHolder) {
                 FooterViewHolder vh = (FooterViewHolder) holder;
+                vh.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((HotelListActivity)activity).callCreateHotel();
+                    }
+                });
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-//   @Override
-//    public int getItemCount() {
-//
-//        return hotels.size();
-//    }
 
     @Override
     public int getItemCount() {
@@ -155,25 +153,29 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void orderList(String criteria) {
 
+        ArrayList<Hotel> tempHotels = new ArrayList<>(hotels);
         if (criteria.equals("stars")) {
             Comparator<Hotel> byStars = new Comparator<Hotel>() {
                 @Override
                 public int compare(Hotel o1, Hotel o2) {
-                    return Integer.valueOf(o1.getStars()).compareTo(o2.getStars());
+                    return -Integer.valueOf(o1.getStars()).compareTo(o2.getStars());
                 }
             };
 
-            Collections.sort(this.hotels, byStars);
+            Collections.sort(tempHotels, byStars);
         } else if (criteria.equals("rating")) {
             Comparator<Hotel> byStars = new Comparator<Hotel>() {
                 @Override
                 public int compare(Hotel o1, Hotel o2) {
-                    return Double.valueOf(o1.getRating()).compareTo(o2.getRating());
+                    return -Double.valueOf(o1.getRating()).compareTo(o2.getRating());
                 }
             };
 
-            Collections.sort(this.hotels, byStars);
+            hotels.clear();
+            Collections.sort(tempHotels, byStars);
         }
+        hotels.clear();
+        hotels.addAll(tempHotels);
         notifyDataSetChanged();
     }
 
@@ -218,7 +220,8 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivityForResult(new Intent(activity, CreateHotelActivity.class), Activity.RESULT_OK);
+                   // activity
+                //    activity.startActivityForResult(new Intent(activity, CreateHotelActivity.class), Activity.RESULT_OK);
                 }
             });
         }

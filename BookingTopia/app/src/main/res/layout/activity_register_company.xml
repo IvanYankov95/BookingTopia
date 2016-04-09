@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     tools:context="bg.ittalents.bookingTopia.RegisterCompany">
 
+    <include layout="@layout/register_company_toolbar"
+        android:id="@+id/tollbar"/>
     <Button
         android:layout_width="200dp"
         android:layout_height="50dp"
@@ -16,6 +18,7 @@
 
 
     <include layout="@layout/register_company_scroll_view"
+        android:layout_below="@id/tollbar"
         android:id="@+id/fucku"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
