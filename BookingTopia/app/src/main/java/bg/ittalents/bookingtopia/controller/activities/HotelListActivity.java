@@ -101,14 +101,12 @@ public class HotelListActivity extends AbstractDrawerActivity {
         Log.e("kakvo se sluchva", "dada");
         super.onActivityResult(requestCode, resultCode, data);
 
-
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 Log.e("check", "check");
 
             }
         }
-
 
         Log.e("kakvo se sluchva", "dada");
         adapter.notifyAdapter();
@@ -117,13 +115,13 @@ public class HotelListActivity extends AbstractDrawerActivity {
     }
 
     public void callCreateHotel() {
-        Intent intent = new Intent(this, CreateHotelActivity.class);
-        this.startActivityForResult(intent, Activity.RESULT_OK);
+        Intent intent = new Intent(HotelListActivity.this, CreateHotelActivity.class);
+        HotelListActivity.this.startActivityForResult(intent, Activity.RESULT_OK);
     }
 
     public void callViewHotel(long hotelId) {
-        Intent intent = new Intent(this, ViewHotelActivity.class);
+        Intent intent = new Intent(HotelListActivity.this, ViewHotelActivity.class);
         intent.putExtra("hotel_id", hotelId);
-        this.startActivityForResult(intent, Activity.RESULT_OK);
+        HotelListActivity.this.startActivityForResult(intent, Activity.RESULT_OK);
     }
 }
