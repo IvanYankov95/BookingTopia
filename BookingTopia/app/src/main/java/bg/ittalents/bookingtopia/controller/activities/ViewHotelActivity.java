@@ -146,7 +146,9 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     }
 
     public void callCreateRoom(){
-        startActivityForResult(new Intent(this, CreateRoomActivity.class),SEND_CODE);
+        Intent intent = new Intent(this, CreateRoomActivity.class);
+        intent.putExtra("hotel_id", hotelId);
+        startActivityForResult(intent, SEND_CODE);
     }
 
     @Override
