@@ -7,8 +7,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -23,6 +25,7 @@ import bg.ittalents.bookingtopia.R;
 import bg.ittalents.bookingtopia.controller.adapters.ImageAdapter;
 import bg.ittalents.bookingtopia.controller.adapters.ReviewAdapter;
 import bg.ittalents.bookingtopia.controller.adapters.RoomCardViewAdapter;
+import bg.ittalents.bookingtopia.controller.fragments.MakeReviewFragment;
 import model.Hotel;
 import model.dao.HotelDAO;
 import model.dao.IRoomDAO;
@@ -51,7 +54,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     ImageAdapter imageAdapter;
     RoomCardViewAdapter roomAdapter;
     ReviewAdapter reviewAdapter;
-
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,11 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         hotel = HotelDAO.getInstance(this).getHotel(hotelId);
         images = hotel.getImages();
         imagesCount = images.size();
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        if(!isUser()){
+            fab.setVisibility(View.GONE);
+        }
 
         imagesRecView = (RecyclerView) findViewById(R.id.image_list_view);
         imageAdapter = new ImageAdapter(this, hotel.getImages());
@@ -101,7 +109,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         imageSwitcher.setOutAnimation(out);
 
         myHandler.postDelayed(r, 1000);
-        if(images.size()!=1) {
+        if(images.size()==1) {
             myHandler.postDelayed(r, 1000);
 
         }
@@ -119,11 +127,20 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
                 isClicked = !isClicked;
             }
         });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MakeReviewFragment dialog = new MakeReviewFragment();
+                Bundle bundle = new Bundle();
+                bundle.putLong("hotel_id", hotelId);
+                bundle.putLong("user_id", getLoggedId());
+
+                dialog.setArguments(bundle);
+                dialog.show(ViewHotelActivity.this.getFragmentManager(), "MyDialogFragment");
+            }
+        });
     }
-
-
-
-
 
     Runnable r = new Runnable() {
         public void run() {
@@ -156,7 +173,9 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId) , hotelId);
-        roomsRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        LinearLayoutManager lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        lim.setReverseLayout(true);
+        roomsRecView.setLayoutManager(lim);
         roomsRecView.setAdapter(roomAdapter);
     }
 }

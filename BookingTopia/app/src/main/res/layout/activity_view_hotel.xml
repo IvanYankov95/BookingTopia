@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/viewHotel"
@@ -10,9 +10,18 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.masterycorp.goalprogresstracker.main.HomeActivity">
 
-    <include layout="@layout/activity_toolbar" />
-
+    <include layout="@layout/activity_toolbar"
+        android:id="@+id/tool"/>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_below="@id/tool"
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"/>
     <ScrollView
+        android:layout_below="@id/tool"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,7 +30,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:orientation="vertical">
@@ -30,7 +39,7 @@
                     android:id="@+id/imageSwitcher"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/image_list_view"
@@ -74,4 +83,4 @@
 
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+</RelativeLayout>

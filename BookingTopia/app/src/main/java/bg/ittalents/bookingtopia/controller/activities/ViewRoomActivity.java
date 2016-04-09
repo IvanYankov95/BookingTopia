@@ -114,7 +114,7 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
         imageSwitcher.setOutAnimation(out);
 
         myHandler.postDelayed(r, 1000);
-        if(images.size()!=1) {
+        if(images.size()==1) {
             myHandler.postDelayed(r, 1000);
         }
 

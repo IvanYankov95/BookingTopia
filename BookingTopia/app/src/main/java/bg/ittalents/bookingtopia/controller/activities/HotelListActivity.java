@@ -71,6 +71,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
         recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
         adapter = new HotelsCardViewAdapter(this, hotels);
         lim = new LinearLayoutManager(this);
+        lim.setReverseLayout(false);
         recyclerView.setLayoutManager(lim);
         recyclerView.setAdapter(adapter);
 
@@ -138,6 +139,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
 
             hotels = hotelDAO.getAllHotelsByCompanyID(getLoggedId());
             adapter = new HotelsCardViewAdapter(this, hotels);
+            lim.setReverseLayout(true);
             recyclerView.setAdapter(adapter);
 
         }

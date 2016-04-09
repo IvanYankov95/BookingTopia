@@ -1,6 +1,7 @@
 package bg.ittalents.bookingtopia.controller.fragments;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ import model.dao.RoomDAO;
 import model.dao.UserDAO;
 
 
-public class MakeReviewFragment extends Fragment {
+public class MakeReviewFragment extends DialogFragment {
 
     EditText rating;
     EditText pros;
@@ -53,6 +54,7 @@ public class MakeReviewFragment extends Fragment {
 
         Bundle bundle = getArguments();
         final long hotel_id = (long) bundle.get("hotel_id");
+        final long user_id = (long) bundle.get("user_id");
 
         rating = (EditText) v.findViewById(R.id.write_rating);
         pros = (EditText) v.findViewById(R.id.write_pros);
@@ -60,15 +62,11 @@ public class MakeReviewFragment extends Fragment {
 
         submitButton = (Button) v.findViewById(R.id.submit_button_review);
 
-        final double ratingDouble = Double.valueOf(rating.getText().toString());
-
-        final String writerName = userDAO.getUserById(((AbstractDrawerActivity) context).getLoggedId()).getNames();
-                //public Review(long hotelID, String writer, String pros, String cons, double rating) {
-
-
                 submitButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        final String writerName = userDAO.getUserById(user_id).getNames();
+                        final double ratingDouble = Double.valueOf(rating.getText().toString());
                         Review review = new Review(hotel_id, writerName, pros.getText().toString(),cons.getText().toString(), ratingDouble);
 
                         reviewDAO.addReview(review);
