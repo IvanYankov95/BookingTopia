@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import bg.ittalents.bookingtopia.R;
+import bg.ittalents.bookingtopia.controller.fragments.ReservationFragment;
+import bg.ittalents.bookingtopia.controller.fragments.ShowReservationFragment;
 import model.UserSessionManager;
 import model.CalendarHelper;
 import model.dao.CompanyDAO;
@@ -138,6 +141,11 @@ public class AbstractDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_home) {
             startActivity(new Intent(this, HomeActivity.class));
         } else if (id == R.id.nav_my_reservations) {
+            ShowReservationFragment dialog = new ShowReservationFragment();
+            Bundle bundle = new Bundle();
+            bundle.putLong("user_id", getLoggedId());
+            dialog.setArguments(bundle);
+            dialog.show(AbstractDrawerActivity.this.getFragmentManager(), "MyDialogFragment");
 
         } else if (id == R.id.nav_my_reviews) {
 

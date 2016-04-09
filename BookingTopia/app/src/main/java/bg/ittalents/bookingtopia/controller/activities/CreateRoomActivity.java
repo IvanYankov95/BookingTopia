@@ -39,8 +39,8 @@ public class CreateRoomActivity extends AbstractDrawerActivity implements View.O
     protected static final int IMAGE_GALLERY_REQUEST_5 = 25;
     protected static final int IMAGE_GALLERY_REQUEST_6 = 26;
     protected static final int IMAGE_GALLERY_REQUEST_7 = 27;
-    protected static final int REQ_WIDTH = 500;
-    protected static final int REQ_HEIGHT = 500;
+    protected static final int REQ_WIDTH = 200;
+    protected static final int REQ_HEIGHT = 200;
 
     protected static ArrayList<byte[]> pictures;
 
