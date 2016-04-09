@@ -40,7 +40,6 @@ public class AbstractDrawerActivity extends AppCompatActivity
         toolbar.setTitle("Goals Tracker");
         setSupportActionBar(toolbar);
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -51,7 +50,6 @@ public class AbstractDrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         session = new UserSessionManager(this);
-
 
         if(session.isUserLoggedIn()) {
             if (isUser()) {
@@ -99,8 +97,19 @@ public class AbstractDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_update_profile) {
+            Intent intent;
+            if(session.isUserLoggedIn()) {
+                intent = new Intent(this, RegisterUserActivity.class);
+                intent.putExtra("edit_mode", true);
+            }
+            else {
+                intent = new Intent(this, RegisterCompanyActivity.class);
+                intent.putExtra("edit_mode", true);
+            }
+            startActivity(intent);
+        } else if (id == R.id.action_logout) {
+            session.logoutUser();
         }
 
         return super.onOptionsItemSelected(item);

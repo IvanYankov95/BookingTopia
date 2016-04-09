@@ -35,11 +35,11 @@ public class User {
 
     public User(long userId, String names, String password, byte[] avatar, String email, String username, String mobilePhone, LocalDate dateOfBirth, String gender, String country, boolean smoking) {
         this.userId = userId;
-        this.names = names;
+        this.names = username;
         this.password = password;
         this.avatar = avatar;
         this.email = email;
-        this.username = username;
+        this.username = names;
         this.mobilePhone = mobilePhone;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;

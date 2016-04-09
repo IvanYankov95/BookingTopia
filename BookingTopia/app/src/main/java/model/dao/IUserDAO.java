@@ -18,4 +18,6 @@ public interface IUserDAO {
     public long updateUser(User user);
 
     public User login (String email, String password);
+
+    public User getUserById(long id);
 }

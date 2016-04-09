@@ -202,4 +202,44 @@ public class UserDAO implements IUserDAO{
         db.close();
         return name;
     }
+
+    @Override
+    public User getUserById(long id) {
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.USERS
+                + " WHERE " + mDb.USER_ID + " = \"" + id
+                + "\"";
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        User user = null;
+        if(c.moveToFirst()){
+            String uname = c.getString(c.getColumnIndex(mDb.USERNAME));
+            String uemail = c.getString(c.getColumnIndex(mDb.EMAIL));
+            String upassword = c.getString(c.getColumnIndex(mDb.PASSWORD));
+            String name = c.getString(c.getColumnIndex(mDb.USER_NAME));
+            String country = c.getString(c.getColumnIndex(mDb.COUNTRY));
+            String phone = c.getString(c.getColumnIndex(mDb.TELEPHONE));
+            String date = c.getString(c.getColumnIndex(mDb.DATE_OF_BIRTH));
+            String email = c.getString(c.getColumnIndex(mDb.EMAIL));
+            DateFormat formater = new SimpleDateFormat("yy-MM-dd");
+            Date date2= null;
+            try {
+                date2 = formater.parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            LocalDate ld = new LocalDate(date2);
+            String gender = c.getString(c.getColumnIndex(mDb.GENDER));
+            boolean smoking = (c.getInt(c.getColumnIndex(mDb.SMOKING)) == 1) ? true : false;
+            byte[] avatar = c.getBlob(c.getColumnIndex(mDb.AVATAR));
+
+            user = new User(id, uname, upassword, avatar , email, name, phone, ld, gender, country, smoking);
+        }
+
+        c.close();
+        db.close();
+        return user;
+    }
 }

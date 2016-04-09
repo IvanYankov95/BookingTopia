@@ -55,6 +55,8 @@ public class HotelListActivity extends AbstractDrawerActivity {
             } else {
                 hotels = hotelDAO.getAllHotelsByStars(stars);
             }
+        } else {
+            hotels = hotelDAO.getAllHotelsByCompanyID(getLoggedId());
         }
 
         ArrayList<String> orderElems = new ArrayList<>();
