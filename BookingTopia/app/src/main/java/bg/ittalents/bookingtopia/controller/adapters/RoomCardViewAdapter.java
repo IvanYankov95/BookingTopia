@@ -79,7 +79,7 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         Intent intent = new Intent(activity, ViewRoomActivity.class);
 
                         intent.putExtra("room_id", rooms.get(position).getRoomId());
-                        activity.startActivityForResult(intent, Activity.RESULT_OK);
+                        activity.startActivityForResult(intent, 10);
 
                     }
                 });
