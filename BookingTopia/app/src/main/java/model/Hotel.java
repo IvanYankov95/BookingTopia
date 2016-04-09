@@ -13,20 +13,20 @@ public class Hotel implements Serializable{
 
     private long hotelId;
     private long companyId;
-    private String name;
+    private String name = new String();
     private int stars;
-    private String address;
+    private String address = new String();
     private double xCoordinate;
     private double yCoordinate;
     private Calendar workFrom;
     private Calendar workTo;
-    private String extras;
+    private String extras = new String();
     private double rating;
-    private String webpage;
-    private String linkToFacebook;
-    private String description;
-    private String policies;
-    private String city;
+    private String webpage = new String();
+    private String linkToFacebook = new String();
+    private String description = new String();
+    private String policies = new String();
+    private String city = new String();
 
     private ArrayList<Room>   rooms = new ArrayList<>();
     private ArrayList<byte[]> images = new ArrayList<>();

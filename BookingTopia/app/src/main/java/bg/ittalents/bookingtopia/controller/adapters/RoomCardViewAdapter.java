@@ -75,11 +75,6 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 CustomViewHolder vh = (CustomViewHolder) holder;
 
                 vh.bindView(position);
-//                    Intent intent = new Intent(activity, CreateRoomActivity.class);
-//                    intent.putExtra("hotel_id",  hotelId);
-//                    Log.e("hotel id ", "" + hotelId);
-//                    activity.startActivityForResult(intent, Activity.RESULT_OK);
-
 
                 vh.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -91,7 +86,6 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     }
                 });
-
 
                 Room room = rooms.get(position);
 

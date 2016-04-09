@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 import model.CalendarHelper;
@@ -77,8 +78,6 @@ public class RoomDAO implements IRoomDAO {
 
         db.close();
     }
-
-
 
     public long changeRoomData(Room room){
         SQLiteDatabase db = mDb.getWritableDatabase();
@@ -148,7 +147,7 @@ public class RoomDAO implements IRoomDAO {
         Cursor c = db.rawQuery(selectQuery, null);
 
         ArrayList<Room> rooms = new ArrayList<>();
-
+        HashSet<Room> set = new HashSet<>();
         if(c.moveToFirst()){
             do {
                 Room room = null;
@@ -173,10 +172,10 @@ public class RoomDAO implements IRoomDAO {
 
                 room = new Room(id, hotelId, pricePerDay, description, maxGuests, beds, x, y, extras, smoking, dates, images);
 
-                rooms.add(room);
+                set.add(room);
             }while (c.moveToNext());
         }
-
+        rooms.addAll(set);
         c.close();
         db.close();
         return rooms;
@@ -186,10 +185,8 @@ public class RoomDAO implements IRoomDAO {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
         String test = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN " + CalendarHelper.fromDate.minusDays(1) + " AND " + CalendarHelper.toDate.plusDays(1);
-        Log.e("TESTTTTT" , test);
+
          String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN '" + CalendarHelper.fromDate.minusDays(1) + "' AND '" + CalendarHelper.toDate.plusDays(1) + "'";
-        // String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " >= " + CalendarHelper.fromDate
-          //       + " AND "+ mDb.DATE  +" <= " + CalendarHelper.toDate.plusDays(1);
 
         Cursor c = db.rawQuery(datesSelect, null);
 

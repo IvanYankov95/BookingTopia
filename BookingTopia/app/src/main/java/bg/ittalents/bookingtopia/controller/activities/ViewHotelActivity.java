@@ -17,7 +17,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.ViewSwitcher;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -31,13 +34,29 @@ import model.dao.HotelDAO;
 import model.dao.IRoomDAO;
 import model.dao.RoomDAO;
 
-public class ViewHotelActivity extends AbstractDrawerActivity {
+public class ViewHotelActivity extends AbstractDrawerActivity implements ReviewCommunicator {
 
     public static final int SEND_CODE = 10;
+
+    LinearLayout webPageLayout;
+    LinearLayout facebookLayout;
+    LinearLayout policiesLayout;
+
+    TextView hotelName;
+    TextView hotelCityName;
+    TextView hotelDesciption;
+    TextView hotelAddress;
+    TextView hotelExtras;
+    TextView hotelWebPage;
+    TextView hotelFacebook;
+    TextView hotelPolicies;
+    FloatingActionButton fab;
+
     private ImageSwitcher imageSwitcher;
     private RecyclerView imagesRecView;
     private RecyclerView roomsRecView;
     private RecyclerView reviewsRecView;
+    private LinearLayoutManager lim;
 
     IRoomDAO roomDAO;
 
@@ -54,7 +73,6 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     ImageAdapter imageAdapter;
     RoomCardViewAdapter roomAdapter;
     ReviewAdapter reviewAdapter;
-    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,14 +99,20 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         imagesRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         imagesRecView.setAdapter(imageAdapter);
 
-        roomsRecView = (RecyclerView) findViewById(R.id.room_cardview_in_viewHotel_rec_view);
-        roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId) , hotelId);
-        roomsRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        roomsRecView.setAdapter(roomAdapter);
+        if(!(isUser() && roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId).size() ==0)) {
+            roomsRecView = (RecyclerView) findViewById(R.id.room_cardview_in_viewHotel_rec_view);
+            roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId), hotelId);
+            LinearLayoutManager lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            lim.setStackFromEnd(false);
+            roomsRecView.setLayoutManager(lim);
+            roomsRecView.setAdapter(roomAdapter);
+        }
 
         reviewsRecView = (RecyclerView) findViewById(R.id.review_cardview_in_viewHotel_rec_view);
         reviewAdapter = new ReviewAdapter(this, hotel.getReviews());
-        reviewsRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        lim.setStackFromEnd(false);
+        reviewsRecView.setLayoutManager(lim);
         reviewsRecView.setAdapter(reviewAdapter);
 
         imageSwitcher = (ImageSwitcher) findViewById(R.id.imageSwitcher);
@@ -110,8 +134,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
         myHandler.postDelayed(r, 1000);
         if(images.size()==1) {
-            myHandler.postDelayed(r, 1000);
-
+            myHandler.removeCallbacks(r);
         }
 
         imageSwitcher.setOnClickListener(new View.OnClickListener() {
@@ -174,8 +197,17 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
         roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId) , hotelId);
         LinearLayoutManager lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        lim.setReverseLayout(true);
+        lim.setStackFromEnd(true);
         roomsRecView.setLayoutManager(lim);
         roomsRecView.setAdapter(roomAdapter);
+    }
+
+    @Override
+    public void communicate() {
+        reviewAdapter = new ReviewAdapter(this, hotel.getReviews());
+        lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        lim.setStackFromEnd(true);
+        reviewsRecView.setLayoutManager(lim);
+        reviewsRecView.setAdapter(reviewAdapter);
     }
 }

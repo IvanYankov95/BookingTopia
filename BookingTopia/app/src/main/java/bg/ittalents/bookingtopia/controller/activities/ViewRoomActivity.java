@@ -120,7 +120,7 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
 
         myHandler.postDelayed(r, 1000);
         if(images.size()==1) {
-            myHandler.postDelayed(r, 1000);
+            myHandler.removeCallbacks(r);
         }
 
         imageSwitcher.setOnClickListener(new View.OnClickListener() {

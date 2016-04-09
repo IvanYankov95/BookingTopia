@@ -68,13 +68,14 @@ public class HotelListActivity extends AbstractDrawerActivity {
         orderElems.add("rating");
         orderElems.add("stars");
 
-        recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
-        adapter = new HotelsCardViewAdapter(this, hotels);
-        lim = new LinearLayoutManager(this);
-        lim.setReverseLayout(false);
-        recyclerView.setLayoutManager(lim);
-        recyclerView.setAdapter(adapter);
-
+        if(!(isUser() && hotels.size() ==0)) {
+            recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
+            adapter = new HotelsCardViewAdapter(this, hotels);
+            lim = new LinearLayoutManager(this);
+            lim.setStackFromEnd(false);
+            recyclerView.setLayoutManager(lim);
+            recyclerView.setAdapter(adapter);
+        }
         orderBy = (Spinner) findViewById(R.id.order_by);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, orderElems);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -139,7 +140,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
 
             hotels = hotelDAO.getAllHotelsByCompanyID(getLoggedId());
             adapter = new HotelsCardViewAdapter(this, hotels);
-            lim.setReverseLayout(true);
+            lim.setStackFromEnd(true);
             recyclerView.setAdapter(adapter);
 
         }
@@ -159,4 +160,6 @@ public class HotelListActivity extends AbstractDrawerActivity {
         intent.putExtra("hotel_id", hotelId);
         HotelListActivity.this.startActivity(intent);
     }
+
+
 }

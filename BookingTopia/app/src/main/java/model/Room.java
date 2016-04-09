@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -100,4 +101,43 @@ public class Room implements Serializable{
         return images;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Room)) return false;
+
+        Room room = (Room) o;
+
+        if (hotelId != room.hotelId) return false;
+        if (Double.compare(room.pricePerDay, pricePerDay) != 0) return false;
+        if (maxGuests != room.maxGuests) return false;
+        if (smoking != room.smoking) return false;
+        if (description != null ? !description.equals(room.description) : room.description != null)
+            return false;
+        if (beds != null ? !beds.equals(room.beds) : room.beds != null) return false;
+        if (!Arrays.equals(roomSize, room.roomSize)) return false;
+        if (extras != null ? !extras.equals(room.extras) : room.extras != null) return false;
+        if (reservedDates != null ? !reservedDates.equals(room.reservedDates) : room.reservedDates != null)
+            return false;
+        return !(images != null ? !images.equals(room.images) : room.images != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = (int) (hotelId ^ (hotelId >>> 32));
+        temp = Double.doubleToLongBits(pricePerDay);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + maxGuests;
+        result = 31 * result + (beds != null ? beds.hashCode() : 0);
+        result = 31 * result + (roomSize != null ? Arrays.hashCode(roomSize) : 0);
+        result = 31 * result + (extras != null ? extras.hashCode() : 0);
+        result = 31 * result + (smoking ? 1 : 0);
+        result = 31 * result + (reservedDates != null ? reservedDates.hashCode() : 0);
+        result = 31 * result + (images != null ? images.hashCode() : 0);
+        return result;
+    }
 }

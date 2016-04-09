@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 
 import model.Hotel;
 import model.Review;
@@ -42,10 +43,10 @@ public class ReviewDAO implements  IReviewDAO{
         values.put(mDb.HOTEL_ID,           review.getHotelID());
         values.put(mDb.REVIEW_PROS, review.getPros());
         values.put(mDb.REVIEW_CONS,   review.getCons());
-        values.put(mDb.HOTEL_RATING,    review.getRating());
+        values.put(mDb.REVIEW_RATING,    review.getRating());
         values.put(mDb.REVIEW_WRITER,          review.getWriter());
 
-        long roomId = db.insert(mDb.ROOMS, null, values);
+        long roomId = db.insert(mDb.REVIEWS, null, values);
 
         db.insert(mDb.REVIEWS, null, values);
 
@@ -58,7 +59,7 @@ public class ReviewDAO implements  IReviewDAO{
         return 0;
     }
 
-    public ArrayList<Review> getAllReviewsByHotelId(long id) {
+    public HashSet<Review> getAllReviewsByHotelId(long id) {
 
         SQLiteDatabase db = mDb.getReadableDatabase();
 
@@ -67,7 +68,7 @@ public class ReviewDAO implements  IReviewDAO{
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        ArrayList<Review> reviews = new ArrayList<>();
+        HashSet<Review> reviews = new HashSet<>();
         if (c.moveToFirst()) {
             do {
                 long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));

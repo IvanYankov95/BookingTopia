@@ -1,16 +1,14 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import model.dao.ReviewDAO;
 
 /**
  * Created by user-17 on 4/2/16.
  */
-public class Review implements Serializable{
-
-
-
+public class Review implements Serializable {
 
     private long reviewId;
 
@@ -20,7 +18,7 @@ public class Review implements Serializable{
     private String cons;
     private double rating;
 
-    public Review(long hotelID, String writer, String pros, String cons, double rating) {
+    public Review(long hotelID, String writer, String pros, String cons, double rating)  {
         //shte se setva direktno pri suzdavane ot lognatiq user
         this.writer = writer;
         this.hotelID = hotelID;
@@ -55,5 +53,33 @@ public class Review implements Serializable{
 
     public String getWriter() {
         return writer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Review)) return false;
+
+        Review review = (Review) o;
+
+        if (hotelID != review.hotelID) return false;
+        if (Double.compare(review.rating, rating) != 0) return false;
+        if (writer != null ? !writer.equals(review.writer) : review.writer != null) return false;
+        if (pros != null ? !pros.equals(review.pros) : review.pros != null) return false;
+        return !(cons != null ? !cons.equals(review.cons) : review.cons != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = (int) (hotelID ^ (hotelID >>> 32));
+        result = 31 * result + (writer != null ? writer.hashCode() : 0);
+        result = 31 * result + (pros != null ? pros.hashCode() : 0);
+        result = 31 * result + (cons != null ? cons.hashCode() : 0);
+        temp = Double.doubleToLongBits(rating);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 }

@@ -53,7 +53,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v;
-        if(!((AbstractDrawerActivity)activity).isUser()) {
+        if (!((AbstractDrawerActivity) activity).isUser()) {
             if (viewType == FOOTER_VIEW) {
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.plus_layout_for_recycler_view_row, parent, false);
 
@@ -78,7 +78,6 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 CustomViewHolder vh = (CustomViewHolder) holder;
 
                 vh.bindView(position);
-
 
                 Hotel hotel = hotels.get(position);
                 vh.rating.setText(formatter.format(hotel.getRating()));
@@ -126,7 +125,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     @Override
                     public void onClick(View v) {
 
-                        ((HotelListActivity)activity).callViewHotel(hotels.get(position).getHotelId());
+                        ((HotelListActivity) activity).callViewHotel(hotels.get(position).getHotelId());
 
                     }
                 });
@@ -137,7 +136,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 vh.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((HotelListActivity)activity).callCreateHotel();
+                        ((HotelListActivity) activity).callCreateHotel();
                     }
                 });
             }
@@ -159,7 +158,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
 
-        if(!((AbstractDrawerActivity)activity).isUser()) {
+        if (!((AbstractDrawerActivity) activity).isUser()) {
             return hotels.size() + 1;
         } else {
             return hotels.size();
@@ -170,7 +169,6 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         notifyDataSetChanged();
     }
-
 
 
     protected class CustomViewHolder extends ViewHolder {
@@ -212,7 +210,9 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public ViewHolder(View itemView) {
             super(itemView);
         }
-        public void bindView(int position) { }
+
+        public void bindView(int position) {
+        }
     }
 
     @Override

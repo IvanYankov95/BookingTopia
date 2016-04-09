@@ -1,5 +1,7 @@
 package model.dao;
 
+import java.util.HashSet;
+
 import model.Hotel;
 import model.Review;
 
@@ -11,4 +13,7 @@ public interface IReviewDAO {
     public long addReview(Review review);
 
     public long getReviewByHotel(Hotel hotel);
-}
+
+    public HashSet<Review> getAllReviewsByHotelId(long id) ;
+
+    }

@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.joda.time.LocalDate;
 import bg.ittalents.bookingtopia.R;
+import bg.ittalents.bookingtopia.controller.activities.ViewRoomActivity;
 import model.Hotel;
 import model.Reservation;
 import model.Room;
@@ -101,6 +104,8 @@ public class ReservationFragment extends DialogFragment {
                 long reservationID = reservationDAO.reserve(reservation);
 
                 roomDAO.registerTakenDate(room, reservationID);
+                Toast.makeText(context, "Reservation successful", Toast.LENGTH_SHORT).show();
+                dismiss();
             }
         });
 

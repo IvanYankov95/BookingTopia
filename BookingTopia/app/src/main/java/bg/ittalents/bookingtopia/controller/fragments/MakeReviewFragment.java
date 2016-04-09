@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import bg.ittalents.bookingtopia.R;
 import bg.ittalents.bookingtopia.controller.activities.AbstractDrawerActivity;
+import bg.ittalents.bookingtopia.controller.activities.ReviewCommunicator;
 import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
 import model.Review;
 import model.dao.IReviewDAO;
@@ -36,12 +38,14 @@ public class MakeReviewFragment extends DialogFragment {
 
     IReviewDAO reviewDAO;
     IUserDAO userDAO;
+    ReviewCommunicator reviewCommunicator;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         this.context = context;
+        reviewCommunicator = (ReviewCommunicator) context;
     }
 
     @Override
@@ -70,11 +74,12 @@ public class MakeReviewFragment extends DialogFragment {
                         Review review = new Review(hotel_id, writerName, pros.getText().toString(),cons.getText().toString(), ratingDouble);
 
                         reviewDAO.addReview(review);
-
-                        onDestroy();
+                        reviewCommunicator.communicate();
+                        dismiss();
                     }
                 });
         return v;
     }
+
 
 }

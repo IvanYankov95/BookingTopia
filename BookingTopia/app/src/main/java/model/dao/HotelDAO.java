@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 
 import model.Hotel;
 import model.Review;
@@ -179,7 +180,9 @@ public class HotelDAO implements IHotelDAO {
                 String city = c.getString(c.getColumnIndex(mDb.HOTEL_CITY));
 
                 ArrayList<Room> rooms = roomInstance.getAllRoomsByHotelID(hotelId);
-                ArrayList<Review> reviews = reviewInstance.getAllReviewsByHotelId(hotelId);
+
+                HashSet<Review> set = reviewInstance.getAllReviewsByHotelId(hotelId);
+                ArrayList<Review> reviews = new ArrayList<>(set);
 
                 ArrayList<byte[]> images = this.getHotelImages(hotelId);
 
