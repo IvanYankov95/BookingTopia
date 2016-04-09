@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,22 +49,20 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
 
     private static Button register;
     private static ProgressBar progressBar;
-    // views end
 
-    // helpers
     private static String selectedGender;
 
     private static byte[] avatarPic;
     private static boolean avatarCheck;
 
-    private static Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_company_drawer);
-        onCreateDrawer();
-        getSupportActionBar().setTitle("Register company");
+        setContentView(R.layout.activity_register_company);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.register_company_toolbar_text);
+        toolbar.setTitle("Register company");
+        setSupportActionBar(toolbar);
 
         register = (Button) findViewById(R.id.register_company_register_button);
 

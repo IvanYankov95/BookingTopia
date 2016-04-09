@@ -9,7 +9,11 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
+
 import android.util.Log;
+
+import android.support.v7.widget.Toolbar;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -78,13 +82,14 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_user_drawer);
-        onCreateDrawer();
+        setContentView(R.layout.activity_register_user);
         Bundle bundle = getIntent().getExtras();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.register_user_toolbar_text);
         if(bundle.getBoolean("edit_mode"))
-            getSupportActionBar().setTitle("Edit user");
+            toolbar.setTitle("Edit user");
         else
-            getSupportActionBar().setTitle("Register user");
+            toolbar.setTitle("Register user");
+
 
         register = (Button) findViewById(R.id.register_user_register_button);
         username = (EditText) findViewById(R.id.register_user_username);
