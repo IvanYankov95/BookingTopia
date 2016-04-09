@@ -103,8 +103,8 @@ public class HotelListActivity extends AbstractDrawerActivity {
         Log.e("kakvo se sluchva", "dada");
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
+        if (resultCode == 10) {
+            if (requestCode == 10) {
                 Log.e("check", "check");
 
             }
@@ -118,7 +118,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
 
     public void callCreateHotel() {
         Intent intent = new Intent(HotelListActivity.this, CreateHotelActivity.class);
-        HotelListActivity.this.startActivityForResult(intent, Activity.RESULT_OK);
+        HotelListActivity.this.startActivityForResult(intent, 10);
     }
 
     public void callViewHotel(long hotelId) {
