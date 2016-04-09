@@ -105,7 +105,7 @@ public class UserSessionManager {
 
     // Check for login
     public boolean isUserLoggedIn(){
-        return pref.getBoolean(IS_USER_LOGIN, false);
+        return pref.getBoolean(IS_USER_LOGIN, true);
     }
 
 }

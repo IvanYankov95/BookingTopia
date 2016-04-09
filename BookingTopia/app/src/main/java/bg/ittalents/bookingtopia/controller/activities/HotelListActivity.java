@@ -153,6 +153,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
 
     public void callViewHotel(long hotelId) {
         Intent intent = new Intent(HotelListActivity.this, ViewHotelActivity.class);
+        Log.e("V CALL HOTEL", "" + hotelId);
         intent.putExtra("hotel_id", hotelId);
         HotelListActivity.this.startActivity(intent);
     }
