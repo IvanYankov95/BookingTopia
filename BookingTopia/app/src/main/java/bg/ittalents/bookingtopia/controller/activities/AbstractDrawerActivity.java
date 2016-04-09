@@ -72,12 +72,17 @@ public class AbstractDrawerActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        if(drawer != null) {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
+            }
         }
+
+        super.onBackPressed();
     }
 
     @Override
@@ -85,6 +90,13 @@ public class AbstractDrawerActivity extends AppCompatActivity
 
         getMenuInflater().inflate(R.menu.abstract_drawer, menu);
 
+        MenuItem logout = menu.findItem(R.id.action_logout);
+        MenuItem updateProfile = menu.findItem(R.id.action_update_profile);
+
+        if(this.getClass().equals(LogInActivity.class) || this.getClass().equals(RegisterUserActivity.class) || this.getClass().equals(RegisterCompanyActivity.class) ){
+            logout.setVisible(false);
+            updateProfile.setVisible(false);
+        }
 
         return true;
     }
@@ -149,8 +161,11 @@ public class AbstractDrawerActivity extends AppCompatActivity
     }
 
     public long getLoggedId(){
-        HashMap<String, String> user = session.getUserDetails();
-        return Long.parseLong(user.get(session.KEY_ID));
+        //HashMap<String, String> user = session.getUserDetails();
+        session = new UserSessionManager(this);
+        Log.e("SKAPAN LOG ", " PREDI PARSE LONG" + session);
+        Log.e("SKAPAN LOG ", " PREDI PARSE LONG" + session.getUserDetails());
+        return Long.parseLong(session.getUserDetails().get(session.KEY_ID));
     }
 
     public Bitmap getCroppedBitmap(Bitmap bitmap) {

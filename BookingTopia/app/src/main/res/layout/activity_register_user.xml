@@ -6,15 +6,6 @@
     android:layout_height="wrap_content"
     tools:context="bg.ittalents.bookingTopia.Register">
 
-    <include layout="@layout/register_user_toolbar"
-        android:id="@+id/tolbarr"/>
-
-    <include layout="@layout/register_user_scroll_view"
-        android:layout_below="@id/tolbarr"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-
     <Button
         android:layout_width="200dp"
         android:layout_height="50dp"
@@ -22,6 +13,18 @@
         android:text="@string/registerButton"
         android:id="@+id/register_user_register_button"
         android:layout_centerHorizontal="true"/>
+
+    <include layout="@layout/register_user_toolbar"
+        android:id="@+id/tolbarr"/>
+
+    <include layout="@layout/register_user_scroll_view"
+        android:layout_below="@id/tolbarr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/register_user_register_button"/>
+
+
+
 
     <ProgressBar
         android:id="@+id/register_user_progress_bar"

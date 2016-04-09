@@ -1,5 +1,6 @@
 package bg.ittalents.bookingtopia.controller.activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -149,7 +150,11 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
             username.setVisibility(View.GONE);
             email.setVisibility(View.GONE);
 
-            final User user = userDAO.getUserById(getLoggedId());
+            long userId = getLoggedId();
+
+            Log.e("User id predi user dao", " " + userId);
+
+            final User user = userDAO.getUserById(userId);
 
             byte[] image = user.getAvatar();
 
