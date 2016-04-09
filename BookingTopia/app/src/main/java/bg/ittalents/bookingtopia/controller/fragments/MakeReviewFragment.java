@@ -60,7 +60,7 @@ public class MakeReviewFragment extends Fragment {
 
         submitButton = (Button) v.findViewById(R.id.submit_button_review);
 
-        double ratingDouble = Double.valueOf(rating.getText().toString());
+        final double ratingDouble = Double.valueOf(rating.getText().toString());
 
         final String writerName = userDAO.getUserById(((AbstractDrawerActivity) context).getLoggedId()).getNames();
                 //public Review(long hotelID, String writer, String pros, String cons, double rating) {
@@ -69,7 +69,11 @@ public class MakeReviewFragment extends Fragment {
                 submitButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                  //      Review review = new Review(hotel_id, writerName, pros.getText().toString(),cons.getText().toString());
+                        Review review = new Review(hotel_id, writerName, pros.getText().toString(),cons.getText().toString(), ratingDouble);
+
+                        reviewDAO.addReview(review);
+
+                        onDestroy();
                     }
                 });
         return v;

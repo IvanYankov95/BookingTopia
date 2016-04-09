@@ -1,5 +1,6 @@
 package bg.ittalents.bookingtopia.controller.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -29,6 +30,7 @@ import model.dao.RoomDAO;
 
 public class ViewHotelActivity extends AbstractDrawerActivity {
 
+    public static final int SEND_CODE = 10;
     private ImageSwitcher imageSwitcher;
     private RecyclerView imagesRecView;
     private RecyclerView roomsRecView;
@@ -141,5 +143,18 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         Bitmap bmp = BitmapFactory.decodeByteArray(imageA, 0, imageA.length);
         Drawable d = new BitmapDrawable(getResources(), bmp);
         imageSwitcher.setImageDrawable(d);
+    }
+
+    public void callCreateRoom(){
+        startActivityForResult(new Intent(this, CreateRoomActivity.class),SEND_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId) , hotelId);
+        roomsRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        roomsRecView.setAdapter(roomAdapter);
     }
 }

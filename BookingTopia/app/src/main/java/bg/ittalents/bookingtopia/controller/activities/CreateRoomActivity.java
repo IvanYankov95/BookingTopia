@@ -189,7 +189,7 @@ public class CreateRoomActivity extends AbstractDrawerActivity implements View.O
                     for(int i = 0; i <  Integer.valueOf(numberOfSameRoom.getText().toString()); i++){
                         roomDAO.registerRoom(room);
                     }
-                    setResult(RESULT_OK);
+                    setResult(ViewHotelActivity.SEND_CODE);
                     finish();
                 }
             }

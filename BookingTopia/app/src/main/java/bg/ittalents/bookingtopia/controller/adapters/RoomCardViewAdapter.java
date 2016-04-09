@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import bg.ittalents.bookingtopia.R;
 import bg.ittalents.bookingtopia.controller.activities.CreateRoomActivity;
+import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
 import bg.ittalents.bookingtopia.controller.activities.ViewRoomActivity;
 import model.Room;
 
@@ -98,6 +99,12 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             } else if (holder instanceof FooterViewHolder) {
                 FooterViewHolder vh = (FooterViewHolder) holder;
+                vh.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((ViewHotelActivity)activity).callCreateRoom();
+                    }
+                });
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,12 +159,7 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public class FooterViewHolder extends ViewHolder {
         public FooterViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    activity.startActivityForResult(new Intent(activity, CreateRoomActivity.class), Activity.RESULT_OK);
-                }
-            });
+
         }
     }
 
