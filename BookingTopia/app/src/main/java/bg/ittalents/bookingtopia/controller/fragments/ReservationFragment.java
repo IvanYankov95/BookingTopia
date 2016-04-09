@@ -26,7 +26,7 @@ import model.dao.RoomDAO;
 
 public class ReservationFragment extends DialogFragment {
 
-    Context context;
+    private Context context;
 
     @Override
     public void onAttach(Context context) {
