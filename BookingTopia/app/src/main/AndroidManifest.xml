@@ -36,7 +36,7 @@
         <activity android:name=".controller.activities.ViewRoomActivity" />
         <activity android:name=".controller.activities.CreateHotelActivity" />
         <activity android:name=".controller.activities.CreateRoomActivity" />
-        <activity android:name=".controller.activities.HotelListActivity"></activity>
+        <activity android:name=".controller.activities.HotelListActivity" />
     </application>
 
 </manifest>

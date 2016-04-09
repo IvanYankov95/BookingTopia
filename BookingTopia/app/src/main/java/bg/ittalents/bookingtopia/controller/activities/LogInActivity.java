@@ -74,7 +74,7 @@ public class LogInActivity extends AbstractDrawerActivity {
                     if (user == null) {
                         Toast.makeText(LogInActivity.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(LogInActivity.this, "Login sucssessfull!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                       //  if(keepMeLoggedIn.isChecked()){
                              session.createUserLoginSession(user.getUserId(), "true");
                        // }
@@ -104,25 +104,24 @@ public class LogInActivity extends AbstractDrawerActivity {
                         .setNegativeButton("Company", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(LogInActivity.this , RegisterCompanyActivity.class));
+                                Intent intent = new Intent(LogInActivity.this , RegisterCompanyActivity.class);
+                                intent.putExtra("edit_mode", false);
+                                startActivity(intent);
                                 dialog.cancel();
                             }
                         })
                         .setPositiveButton("User", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(LogInActivity.this, RegisterUserActivity.class));
+                                Intent intent = new Intent(LogInActivity.this, RegisterUserActivity.class);
+                                intent.putExtra("edit_mode", false);
+                                startActivity(intent);
                                 dialog.cancel();
                             }
                         }).show();
             }
         });
 
-
-
     }
-
-
-
 
 }

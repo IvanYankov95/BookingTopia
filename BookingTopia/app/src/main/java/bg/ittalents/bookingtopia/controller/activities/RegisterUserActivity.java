@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -79,7 +80,11 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user_drawer);
         onCreateDrawer();
-        getSupportActionBar().setTitle("Register user");
+        Bundle bundle = getIntent().getExtras();
+        if(bundle.getBoolean("edit_mode"))
+            getSupportActionBar().setTitle("Edit user");
+        else
+            getSupportActionBar().setTitle("Register user");
 
         register = (Button) findViewById(R.id.register_user_register_button);
         username = (EditText) findViewById(R.id.register_user_username);
@@ -134,7 +139,113 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
             }
         });
 
+        if(bundle.getBoolean("edit_mode")){
+            username.setVisibility(View.GONE);
+            email.setVisibility(View.GONE);
 
+            final User user = userDAO.getUserById(getLoggedId());
+
+            byte[] image = user.getAvatar();
+
+            final Bitmap oldAvatarPic = BitmapFactory.decodeByteArray(image, 0, image.length);
+            avatar.setImageBitmap(oldAvatarPic);
+
+            if(!user.getNames().isEmpty()) {
+                String[] names = user.getNames().split(" ");
+                firstName.setText(names[0]);
+                if(names.length > 1)
+                    lastName.setText(names[1]);
+            }
+
+            password.setText("New password");
+
+            dateOfBirth.setText(user.getDateOfBirth().toString());
+
+            country.setText(user.getCountry());
+
+            phone.setText(user.getMobilePhone());
+
+            if(user.getGender().equalsIgnoreCase("male")) {
+                genderSpinner.setSelection(1);
+                selectedGender = "Male";
+            }
+            if(user.getGender().equalsIgnoreCase("female")) {
+                genderSpinner.setSelection(2);
+                selectedGender = "Female";
+            }
+
+            smokerCheckBox.setChecked(user.isSmoking());
+
+
+            register.setText("UPDATE");
+
+            register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RegisterHelper helper = RegisterHelper.getInstance();
+
+                    String passwordTxt = password.getText().toString();
+                    String confirmPasswordTxt = RegisterUserActivity.confirmPassword.getText().toString();
+                    String firstNameTxt = firstName.getText().toString();
+                    String lastNameTxt = lastName.getText().toString();
+                    String phoneTxt = phone.getText().toString();
+                    String countryTxt = country.getText().toString();
+
+                    boolean passwordCheck = false;
+                    boolean nameCheck = false;
+
+                    // password check
+                    if (!passwordTxt.equalsIgnoreCase("new password")) {
+                        if (passwordTxt.isEmpty())
+                            password.setError("This field is required");
+                        else if (!helper.checkPasswordStrength(passwordTxt))
+                            password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
+                        else if (!passwordTxt.equals(confirmPasswordTxt))
+                            confirmPassword.setError("Passwords don't match");
+                        else
+                            passwordCheck = true;
+                        // password check
+                    } else {
+                        passwordCheck = true;
+                    }
+
+                    // names check
+                    if (firstNameTxt.isEmpty())
+                        firstName.setError("This field is required");
+                    else if (lastNameTxt.isEmpty())
+                        lastName.setText("This field is required");
+                    else
+                        nameCheck = true;
+                    // names check
+
+
+                    if (passwordCheck && nameCheck) {
+
+                        String names = firstNameTxt + " " + lastNameTxt;
+
+                        byte[] selectedAvatar;
+                        if (avatarCheck)
+                            selectedAvatar = avatarPic;
+                        else
+                            selectedAvatar = user.getAvatar();
+                        User user2 = new User(names, helper.md5(passwordTxt), selectedAvatar, user.getEmail(), user.getUsername(), phoneTxt, localDate, selectedGender, countryTxt, smokerCheckBox.isChecked());
+
+                        long userId = userDAO.updateUser(user2);
+
+                        if (user == null)
+                            Toast.makeText(RegisterUserActivity.this, "Update failed", Toast.LENGTH_SHORT).show();
+                        else {
+                            user.setUserId(userId);
+                            Toast.makeText(getApplicationContext(), "Update successful", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                }
+            });
+
+        }
+
+        if(!bundle.getBoolean("edit_mode"))
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
