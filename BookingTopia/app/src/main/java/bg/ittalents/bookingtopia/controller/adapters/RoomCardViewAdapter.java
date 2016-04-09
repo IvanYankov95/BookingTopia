@@ -16,10 +16,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import bg.ittalents.bookingtopia.R;
+import bg.ittalents.bookingtopia.controller.activities.AbstractDrawerActivity;
 import bg.ittalents.bookingtopia.controller.activities.CreateRoomActivity;
 import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
 import bg.ittalents.bookingtopia.controller.activities.ViewRoomActivity;
+import model.Hotel;
 import model.Room;
+import model.dao.HotelDAO;
 
 /**
  * Created by Preshlen on 4/7/2016.
@@ -43,12 +46,16 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
 
-        if (viewType == FOOTER_VIEW) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.plus_layout_for_recycler_view_row, parent, false);
+        Hotel hotel = HotelDAO.getInstance(activity).getHotel(hotelId);
 
-            FooterViewHolder vh = new FooterViewHolder(v);
+        if((!((AbstractDrawerActivity)activity).isUser()) && ( hotel.getCompanyId() == ((AbstractDrawerActivity)activity).getLoggedId() )) {
+            if (viewType == FOOTER_VIEW) {
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.plus_layout_for_recycler_view_row, parent, false);
 
-            return vh;
+                FooterViewHolder vh = new FooterViewHolder(v);
+
+                return vh;
+            }
         }
 
 
@@ -152,8 +159,12 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return 1;
         }
 
-
-        return rooms.size() + 1;
+        Hotel hotel = HotelDAO.getInstance(activity).getHotel(hotelId);
+        if((!((AbstractDrawerActivity)activity).isUser()) && ( hotel.getCompanyId() == ((AbstractDrawerActivity)activity).getLoggedId() ))  {
+            return rooms.size() + 1;
+        } else {
+            return rooms.size();
+        }
     }
 
     public class FooterViewHolder extends ViewHolder {

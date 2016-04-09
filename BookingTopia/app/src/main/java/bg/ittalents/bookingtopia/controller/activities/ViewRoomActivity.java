@@ -78,6 +78,11 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
         extras = (TextView) findViewById(R.id.view_room_extras_text);
         extras.setText("Room extras: " + room.getExtras());
         reserveBtn = (Button) findViewById(R.id.view_room_reserve_button);
+
+        if(!isUser()) {
+            reserveBtn.setVisibility(View.GONE);
+        }
+
         reserveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
