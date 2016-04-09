@@ -9,6 +9,9 @@ import model.dao.ReviewDAO;
  */
 public class Review implements Serializable{
 
+
+
+
     private long reviewId;
 
     private long hotelID;
@@ -42,6 +45,15 @@ public class Review implements Serializable{
         this.reviewId = reviewId;
     }
 
+    public long getReviewId() {
+        return reviewId;
+    }
 
+    public long getHotelID() {
+        return hotelID;
+    }
 
+    public String getWriter() {
+        return writer;
+    }
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import bg.ittalents.bookingtopia.R;
 import bg.ittalents.bookingtopia.controller.adapters.ImageAdapter;
+import bg.ittalents.bookingtopia.controller.adapters.ReviewAdapter;
 import bg.ittalents.bookingtopia.controller.adapters.RoomCardViewAdapter;
 import model.Hotel;
 import model.dao.HotelDAO;
@@ -31,9 +32,9 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     private ImageSwitcher imageSwitcher;
     private RecyclerView imagesRecView;
     private RecyclerView roomsRecView;
+    private RecyclerView reviewsRecView;
 
     IRoomDAO roomDAO;
-
 
     boolean isClicked = true;
     Bundle bundle;
@@ -47,6 +48,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
     ImageAdapter imageAdapter;
     RoomCardViewAdapter roomAdapter;
+    ReviewAdapter reviewAdapter;
 
 
     @Override
@@ -74,6 +76,11 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         roomsRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         roomsRecView.setAdapter(roomAdapter);
 
+        reviewsRecView = (RecyclerView) findViewById(R.id.review_cardview_in_viewHotel_rec_view);
+        reviewAdapter = new ReviewAdapter(this, hotel.getReviews());
+        reviewsRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        reviewsRecView.setAdapter(reviewAdapter);
+
         imageSwitcher = (ImageSwitcher) findViewById(R.id.imageSwitcher);
         imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
 
@@ -92,6 +99,10 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         imageSwitcher.setOutAnimation(out);
 
         myHandler.postDelayed(r, 1000);
+        if(images.size()!=1) {
+            myHandler.postDelayed(r, 1000);
+
+        }
 
         imageSwitcher.setOnClickListener(new View.OnClickListener() {
             @Override

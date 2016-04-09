@@ -26,7 +26,6 @@ public class HotelDAO implements IHotelDAO {
     private static RoomDAO roomInstance;
     private static ReviewDAO reviewInstance;
 
-
     private DatabaseHelper mDb;
 
     private HotelDAO(Context context) {

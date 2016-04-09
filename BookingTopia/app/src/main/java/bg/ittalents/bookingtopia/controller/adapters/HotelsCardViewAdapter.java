@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -87,23 +88,37 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 Bitmap bmp = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
                 vh.image.setImageBitmap(bmp);
 
-                int stars = 7 - hotel.getStars();
-                switch (stars) {
+
+                switch (hotel.getStars()) {
                     case 7:
-                        vh.star7.setVisibility(View.GONE);
+                        vh.starImage.setImageResource(R.drawable.star7);
+                        break;
                     case 6:
-                        vh.star6.setVisibility(View.GONE);
+                        vh.starImage.setImageResource(R.drawable.star6);
+                        break;
+
                     case 5:
-                        vh.star5.setVisibility(View.GONE);
+                        vh.starImage.setImageResource(R.drawable.star5);
+                        break;
+
                     case 4:
-                        vh.star4.setVisibility(View.GONE);
+                        vh.starImage.setImageResource(R.drawable.star4);
+                        break;
+
                     case 3:
-                        vh.star3.setVisibility(View.GONE);
+                        vh.starImage.setImageResource(R.drawable.star3);
+                        break;
+
                     case 2:
-                        vh.star2.setVisibility(View.GONE);
+                        vh.starImage.setImageResource(R.drawable.star2);
+                        break;
+
                     case 1:
-                        vh.star1.setVisibility(View.GONE);
+                        vh.starImage.setImageResource(R.drawable.star1);
+                        break;
+
                 }
+
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -113,7 +128,6 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                     }
                 });
-                //     }
 
 
             } else if (holder instanceof FooterViewHolder) {
@@ -138,7 +152,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         if (hotels.size() == 0) {
-            //Return 1 here to show nothing
+
             return 1;
         }
 
@@ -151,45 +165,15 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged();
     }
 
-    public void orderList(String criteria) {
 
-        ArrayList<Hotel> tempHotels = new ArrayList<>(hotels);
-        if (criteria.equals("stars")) {
-            Comparator<Hotel> byStars = new Comparator<Hotel>() {
-                @Override
-                public int compare(Hotel o1, Hotel o2) {
-                    return -Integer.valueOf(o1.getStars()).compareTo(o2.getStars());
-                }
-            };
-
-            Collections.sort(tempHotels, byStars);
-        } else if (criteria.equals("rating")) {
-            Comparator<Hotel> byStars = new Comparator<Hotel>() {
-                @Override
-                public int compare(Hotel o1, Hotel o2) {
-                    return -Double.valueOf(o1.getRating()).compareTo(o2.getRating());
-                }
-            };
-
-            hotels.clear();
-            Collections.sort(tempHotels, byStars);
-        }
-        hotels.clear();
-        hotels.addAll(tempHotels);
-        notifyDataSetChanged();
-    }
 
     protected class CustomViewHolder extends ViewHolder {
 
         private TextView name;
         private TextView city;
-        private ImageView star1;
-        private ImageView star2;
-        private ImageView star3;
-        private ImageView star4;
-        private ImageView star5;
-        private ImageView star6;
-        private ImageView star7;
+        private ImageView starImage;
+
+
         private ImageView image;
 
         private TextView rating;
@@ -201,14 +185,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             image = (ImageView) view.findViewById(R.id.hotel_image);
             name = (TextView) view.findViewById(R.id.hotel_title);
             city = (TextView) view.findViewById(R.id.hotel_city);
-            star1 = (ImageView) view.findViewById(R.id.hotel_star1);
-            star2 = (ImageView) view.findViewById(R.id.hotel_star2);
-            star3 = (ImageView) view.findViewById(R.id.hotel_star3);
-            star4 = (ImageView) view.findViewById(R.id.hotel_star4);
-            star5 = (ImageView) view.findViewById(R.id.hotel_star5);
-            star6 = (ImageView) view.findViewById(R.id.hotel_star6);
-            star7 = (ImageView) view.findViewById(R.id.hotel_star7);
-
+            starImage = (ImageView) view.findViewById(R.id.starsImage);
             rating = (TextView) view.findViewById(R.id.rating);
             description = (TextView) view.findViewById(R.id.description);
         }
@@ -220,8 +197,6 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   // activity
-                //    activity.startActivityForResult(new Intent(activity, CreateHotelActivity.class), Activity.RESULT_OK);
                 }
             });
         }
@@ -239,6 +214,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (position == hotels.size()) {
             return FOOTER_VIEW;
         }
+
         return super.getItemViewType(position);
     }
 }

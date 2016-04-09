@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import bg.ittalents.bookingtopia.controller.adapters.HotelsCardViewAdapter;
 import bg.ittalents.bookingtopia.R;
@@ -23,13 +25,15 @@ import model.dao.HotelDAO;
 import model.dao.IHotelDAO;
 
 public class HotelListActivity extends AbstractDrawerActivity {
+    public static final int SEND_CODE = 10;
     private static Spinner orderBy;
     private static RecyclerView recyclerView;
 
     private static HotelsCardViewAdapter adapter;
     private static IHotelDAO hotelDAO;
     private static ArrayList<Hotel> hotels;
-
+    Bundle bundle;
+    LinearLayoutManager lim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,8 @@ public class HotelListActivity extends AbstractDrawerActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
         adapter = new HotelsCardViewAdapter(this, hotels);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        lim = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(lim);
         recyclerView.setAdapter(adapter);
 
         orderBy = (Spinner) findViewById(R.id.order_by);
@@ -83,7 +88,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.orderList(parent.getItemAtPosition(position).toString());
+                        orderList(parent.getItemAtPosition(position).toString());
                     }
                 });
 
@@ -97,33 +102,58 @@ public class HotelListActivity extends AbstractDrawerActivity {
 
     }
 
+    public void orderList(String criteria) {
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e("kakvo se sluchva", "dada");
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
-                Log.e("check", "check");
+        if (criteria.equals("stars")) {
+            Comparator<Hotel> byStars = new Comparator<Hotel>() {
+                @Override
+                public int compare(Hotel o1, Hotel o2) {
+                    return -Integer.valueOf(o1.getStars()).compareTo(o2.getStars());
+                }
+            };
 
-            }
+            Collections.sort(hotels, byStars);
+        } else if (criteria.equals("rating")) {
+            Comparator<Hotel> byStars = new Comparator<Hotel>() {
+                @Override
+                public int compare(Hotel o1, Hotel o2) {
+                    return -Double.valueOf(o1.getRating()).compareTo(o2.getRating());
+                }
+            };
+
+            hotels.clear();
+            Collections.sort(hotels, byStars);
         }
 
-        Log.e("kakvo se sluchva", "dada");
-        adapter.notifyAdapter();
-
+        adapter = new HotelsCardViewAdapter(this, hotels);
+        recyclerView.setAdapter(adapter);
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == SEND_CODE) {
+
+            hotels = hotelDAO.getAllHotelsByCompanyID(getLoggedId());
+            adapter = new HotelsCardViewAdapter(this, hotels);
+            recyclerView.setAdapter(adapter);
+
+        }
+        adapter.notifyAdapter();
+    }
+
+
+
     public void callCreateHotel() {
         Intent intent = new Intent(HotelListActivity.this, CreateHotelActivity.class);
-        HotelListActivity.this.startActivityForResult(intent, Activity.RESULT_OK);
+        HotelListActivity.this.startActivityForResult(intent, SEND_CODE);
     }
 
     public void callViewHotel(long hotelId) {
         Intent intent = new Intent(HotelListActivity.this, ViewHotelActivity.class);
         intent.putExtra("hotel_id", hotelId);
-        HotelListActivity.this.startActivityForResult(intent, Activity.RESULT_OK);
+        HotelListActivity.this.startActivity(intent);
     }
 }

@@ -41,10 +41,10 @@
             </android.support.v7.widget.RecyclerView>
 
             <TextView
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
-                android:layout_marginTop="7dp"
                 android:background="@color/common_signin_btn_light_text_disabled"
                 android:text="Available rooms" />
 
@@ -56,6 +56,21 @@
 
             </android.support.v7.widget.RecyclerView>
 
+            <TextView
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:background="@color/common_signin_btn_light_text_disabled"
+                android:text="Comments" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/review_cardview_in_viewHotel_rec_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
     </ScrollView>

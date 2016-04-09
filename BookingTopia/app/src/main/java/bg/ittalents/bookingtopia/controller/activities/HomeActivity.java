@@ -140,8 +140,6 @@ public class HomeActivity extends AbstractDrawerActivity {
                 else
                     CalendarHelper.toDate = new LocalDate(year, monthOfYear, dayOfMonth);
 
-                Log.e("DATE", CalendarHelper.fromDate.toString() + " " + CalendarHelper.toDate.toString());
-
                 edt.setText(date);
             }
         }
