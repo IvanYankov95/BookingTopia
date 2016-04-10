@@ -140,7 +140,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        if(hotel.getCompanyId() == ((AbstractDrawerActivity)activity).getLoggedId() )
+                        if(hotel.getCompanyId() == ((AbstractDrawerActivity)activity).getLoggedId() && !((AbstractDrawerActivity)activity).isUser())
                         new AlertDialog.Builder(v.getContext())
                                 .setTitle("Do you want to delete the hotel?")
                                 .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
