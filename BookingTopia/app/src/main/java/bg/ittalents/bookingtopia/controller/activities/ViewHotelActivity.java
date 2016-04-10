@@ -2,6 +2,7 @@ package bg.ittalents.bookingtopia.controller.activities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -68,7 +70,6 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     TextView hotelPhone;
     ImageView stars;
     FloatingActionButton fab;
-    TextView addReview;
     TextView rating;
 
     private ImageSwitcher imageSwitcher;
@@ -196,6 +197,8 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         });
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPurple)));
+        fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pen));
         fabLayout = (LinearLayout) findViewById(R.id.fab_layout);
         final String userName = userDAO.getUserById(getLoggedId()).getUsername();
         for (Review r : hotel.getReviews()) {
@@ -206,7 +209,6 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         }
         fabLayout.bringToFront();
 
-        addReview = (TextView) findViewById(R.id.review_add);
         if (!isUser()) {
             fabLayout.setVisibility(View.GONE);
         }

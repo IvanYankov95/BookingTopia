@@ -60,7 +60,12 @@ public class HotelListActivity extends AbstractDrawerActivity {
                 else
                     hotels = hotelDAO.getAllHotels();
             } else {
-                hotels = hotelDAO.getAllHotelsByStars(stars);
+
+                if (!searchName.isEmpty())
+                    hotels = hotelDAO.getAllHotelsByNameCityAndStars(searchName, stars);
+                else
+                    hotels = hotelDAO.getAllHotelsByStars(stars);
+
             }
         } else {
             hotels = hotelDAO.getAllHotelsByCompanyID(getLoggedId());
@@ -71,7 +76,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
         orderElems.add("rating");
         orderElems.add("stars");
 
-        if(!(isUser() && hotels.size() ==0)) {
+        if (!(isUser() && hotels.size() == 0)) {
             recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
             adapter = new HotelsCardViewAdapter(this, hotels);
             lim = new LinearLayoutManager(this);
@@ -150,7 +155,6 @@ public class HotelListActivity extends AbstractDrawerActivity {
         }
         adapter.notifyAdapter();
     }
-
 
 
     public void callCreateHotel() {

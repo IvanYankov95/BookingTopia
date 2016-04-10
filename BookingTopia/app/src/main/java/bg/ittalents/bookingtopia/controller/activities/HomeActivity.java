@@ -68,6 +68,7 @@ public class HomeActivity extends AbstractDrawerActivity {
 
         checkInDate.setText(CalendarHelper.fromDate.toString());
         checkOutDate.setText(CalendarHelper.toDate.toString());
+
         Animation slideRight = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
         Animation moveDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
         moveDown.setDuration(2000);
@@ -80,8 +81,6 @@ public class HomeActivity extends AbstractDrawerActivity {
                 intent.putExtra("search", true);
                 intent.putExtra("search_name", searchField.getText().toString());
                 intent.putExtra("search_stars", selectStars);
-
-                Log.e("STARS" , "" + selectStars);
                 startActivity(intent);
             }
         });

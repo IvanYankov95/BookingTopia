@@ -250,6 +250,28 @@ public class HotelDAO implements IHotelDAO {
     }
 
 
+    public ArrayList<Hotel> getAllHotelsByNameCityAndStars(String name, int stars) {
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT " + mDb.HOTEL_ID + " FROM " + mDb.HOTELS
+                + " WHERE " + mDb.HOTEL_NAME + " LIKE \"%" + name + "%\" " +
+                " OR " + mDb.HOTEL_CITY + " = \"" + name + "\" " +
+                "AND " + mDb.HOTEL_STARS + " = \"" + stars + "\" ";
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        ArrayList<Hotel> hotels = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do {
+                long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
+                hotels.add(getHotel(hotelId));
+            }
+            while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return hotels;
+    }
+
     public ArrayList<Hotel> getAllHotelsByNameAndCity(String name) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 

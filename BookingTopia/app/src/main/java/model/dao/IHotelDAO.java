@@ -28,6 +28,9 @@ public interface IHotelDAO {
 
     public String getHotelPhoneFromCompanyByHotel(Hotel hotel);
 
+    public ArrayList<Hotel> getAllHotelsByNameCityAndStars(String name, int stars);
+
+
 
 
 
