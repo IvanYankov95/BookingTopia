@@ -111,6 +111,11 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
             final Bitmap oldAvatarPic = BitmapFactory.decodeByteArray(image, 0, image.length);
             avatar.setImageBitmap(oldAvatarPic);
 
+            password.setText("new password");
+            phone.setText(oldCompany.getPhone());
+            address.setText(oldCompany.getAddress());
+            description.setText(oldCompany.getDescription());
+
             register.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -130,18 +135,21 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
                     else
                         nameCheck = true;
 
-                    // password check
-                    if (passwordTxt.isEmpty())
-                        password.setError("This field is required");
-                    else if (!helper.checkPasswordStrength(passwordTxt))
-                        password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
-                    else if (!passwordTxt.equals(confirmPasswordTxt))
-                        confirmPassword.setError("Passwords don't match");
-                    else
+                    if (!passwordTxt.equalsIgnoreCase("new password")) {
+                        if (passwordTxt.isEmpty())
+                            password.setError("This field is required");
+                        else if (!helper.checkPasswordStrength(passwordTxt))
+                            password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
+                        else if (!passwordTxt.equals(confirmPasswordTxt))
+                            confirmPassword.setError("Passwords don't match");
+                        else
+                            passwordCheck = true;
+                        // password check
+                    } else {
                         passwordCheck = true;
+                    }
 
-
-                    if (nameCheck &&  passwordCheck && nameCheck ) {
+                    if (nameCheck &&  passwordCheck ) {
 
                         byte[] selectedAvatar;
                         if (avatarCheck)
@@ -155,13 +163,13 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
                         long companyID = companyDAO.changeCompanyData(company);
 
                         if (company == null)
-                            Toast.makeText(RegisterCompanyActivity.this, "Register failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterCompanyActivity.this, "Update failed", Toast.LENGTH_SHORT).show();
                         else {
                             company.setCompanyId(companyID);
-                            Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Update successful", Toast.LENGTH_SHORT).show();
                             finish();
                         }
-                        //startActivity(new Intent(Register.this, LogIn.class));
+
                     }
 
                 }
