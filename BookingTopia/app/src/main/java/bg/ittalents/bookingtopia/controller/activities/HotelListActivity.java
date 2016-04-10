@@ -26,6 +26,8 @@ import model.dao.IHotelDAO;
 
 public class HotelListActivity extends AbstractDrawerActivity {
     public static final int SEND_CODE = 10;
+    public static final int CHANGE_RATING_CODE = 8;
+
     private static Spinner orderBy;
     private static RecyclerView recyclerView;
 
@@ -49,9 +51,10 @@ public class HotelListActivity extends AbstractDrawerActivity {
         if (bundle.getBoolean("search")) {
             String searchName = (String) bundle.get("search_name");
             String searchStars = (String) bundle.get("search_stars");
+            Log.e("search stars", "" + searchStars);
             int stars = Integer.valueOf(searchStars);
 
-            if (stars != 8) {
+            if (stars == 8) {
                 if (!searchName.isEmpty())
                     hotels = hotelDAO.getAllHotelsByNameAndCity(searchName);
                 else
@@ -93,8 +96,6 @@ public class HotelListActivity extends AbstractDrawerActivity {
                         orderList(parent.getItemAtPosition(position).toString());
                     }
                 });
-
-
             }
 
             @Override
@@ -117,15 +118,14 @@ public class HotelListActivity extends AbstractDrawerActivity {
 
             Collections.sort(hotels, byStars);
         } else if (criteria.equals("rating")) {
-            Comparator<Hotel> byStars = new Comparator<Hotel>() {
+            Comparator<Hotel> byRating = new Comparator<Hotel>() {
                 @Override
                 public int compare(Hotel o1, Hotel o2) {
                     return -Double.valueOf(o1.getRating()).compareTo(o2.getRating());
                 }
             };
 
-            hotels.clear();
-            Collections.sort(hotels, byStars);
+            Collections.sort(hotels, byRating);
         }
 
         adapter = new HotelsCardViewAdapter(this, hotels);
@@ -144,6 +144,10 @@ public class HotelListActivity extends AbstractDrawerActivity {
             recyclerView.setAdapter(adapter);
 
         }
+        if (resultCode == CHANGE_RATING_CODE) {
+
+            finish();
+        }
         adapter.notifyAdapter();
     }
 
@@ -158,7 +162,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
         Intent intent = new Intent(HotelListActivity.this, ViewHotelActivity.class);
 
         intent.putExtra("hotel_id", hotelId);
-        HotelListActivity.this.startActivity(intent);
+        HotelListActivity.this.startActivityForResult(intent, CHANGE_RATING_CODE);
     }
 
 

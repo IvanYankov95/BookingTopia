@@ -308,14 +308,7 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
 
                     Intent i=new Intent();
                     setResult(HotelListActivity.SEND_CODE, i);
-
-
                     finish();
-//                    Intent returnIntent = new Intent();
-//                    returnIntent.putExtra("hotel_id", hotel.getHotelId());
-//                    setResult(RESULT_OK, returnIntent);
-//                    Toast.makeText(CreateHotelActivity.this, "Hotel created successfully", Toast.LENGTH_SHORT).show();
-                   // finish();
 
                 }
             }

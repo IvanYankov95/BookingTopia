@@ -41,7 +41,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private ArrayList<Hotel> hotels = new ArrayList<>();
 
 
-    NumberFormat formatter = new DecimalFormat("#0.00");
+    NumberFormat formatter = new DecimalFormat("#0.0");
 
     public HotelsCardViewAdapter(Activity activity, ArrayList<Hotel> dataSource) {
         this.activity = activity;
@@ -88,7 +88,6 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 byte[] byteImage = hotel.getImages().get(0);
                 Bitmap bmp = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
                 vh.image.setImageBitmap(bmp);
-
 
                 switch (hotel.getStars()) {
                     case 7:
@@ -157,7 +156,6 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             return 1;
         }
-
 
         if (!((AbstractDrawerActivity) activity).isUser()) {
             return hotels.size() + 1;

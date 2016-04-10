@@ -18,10 +18,12 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import bg.ittalents.bookingtopia.R;
@@ -34,12 +36,15 @@ import model.Review;
 import model.dao.HotelDAO;
 import model.dao.IReviewDAO;
 import model.dao.IRoomDAO;
+import model.dao.IUserDAO;
 import model.dao.ReviewDAO;
 import model.dao.RoomDAO;
+import model.dao.UserDAO;
 
 public class ViewHotelActivity extends AbstractDrawerActivity {
 
     public static final int SEND_CODE = 10;
+    DecimalFormat df = new DecimalFormat("#0.0");
 
     LinearLayout webPageLayout;
     LinearLayout facebookLayout;
@@ -67,7 +72,9 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
     IRoomDAO roomDAO;
     IReviewDAO reviewDAO;
+    IUserDAO userDAO;
 
+    boolean isRatingChanged;
     double rate;
     boolean isClicked = true;
     Bundle bundle;
@@ -99,6 +106,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         imagesCount = images.size();
         roomDAO = RoomDAO.getInstance(this);
         reviewDAO = ReviewDAO.getInstance(this);
+        userDAO = UserDAO.getInstance(this);
 
         hotelName = (TextView) findViewById(R.id.view_hotel_name);
         hotelCityName = (TextView) findViewById(R.id.view_hotel_city);
@@ -114,10 +122,10 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
             rate += r.getRating();
         }
         if(hotel.getReviews().size()!=0){
-            rating.setText(String.valueOf(rate/hotel.getReviews().size()));
+            rating.setText(String.valueOf(df.format(hotel.getRating())));
         }
         else{
-            rating.setText(String.valueOf(rate));
+            rating.setText(String.valueOf(df.format(rate)));
         }
         hotelName.setText(hotel.getName());
         hotelCityName.setText(hotel.getCity());
@@ -149,8 +157,22 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         facebookLayout = (LinearLayout) findViewById(R.id.facebook_layout);
         policiesLayout = (LinearLayout) findViewById(R.id.policies_layout);
 
+        webPageLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ViewHotelActivity.this, "DA", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fabLayout = (LinearLayout) findViewById(R.id.fab_layout);
+        final String userName = userDAO.getUserById(getLoggedId()).getUsername();
+        for(Review r: hotel.getReviews()){
+            if(r.getWriter().equals(userName)){
+                fabLayout.setVisibility(View.GONE);
+                break;
+            }
+        }
         fabLayout.bringToFront();
 
         addReview = (TextView) findViewById(R.id.review_add);
@@ -267,16 +289,18 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     }
 
     public void communicate() {
-        hotel = HotelDAO.getInstance(this).getHotel(hotelId);
-        for(Review r : hotel.getReviews()){
+
+        isRatingChanged = true;
+        rate = 0.0;
+        ArrayList<Review> reviews = new ArrayList<>(reviewDAO.getAllReviewsByHotelId(hotelId));
+        for(Review r : reviews){
             rate += r.getRating();
         }
 
         fabLayout.setVisibility(View.GONE);
-        rating.setText(String.valueOf(rate/hotel.getReviews().size()));
+        rating.setText(String.valueOf(df.format(rate/reviews.size())));
 
         reviewsRecView = (RecyclerView) findViewById(R.id.review_cardview_in_viewHotel_rec_view);
-        ArrayList<Review> reviews = new ArrayList<>(reviewDAO.getAllReviewsByHotelId(hotelId));
         reviewAdapter = new ReviewAdapter(this, reviews);
         lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         reviewsRecView.setLayoutManager(lim);
@@ -307,8 +331,17 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
             case 1:
                 stars.setImageResource(R.drawable.star1);
                 break;
-
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i=new Intent();
+        if(isRatingChanged) {
+            setResult(HotelListActivity.CHANGE_RATING_CODE, i);
+        }
+        finish();
+        super.onBackPressed();
+
+    }
 }

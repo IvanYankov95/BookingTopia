@@ -200,7 +200,7 @@ public class AbstractDrawerActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("zashto", "ne vliza");
+
     }
 
     @Override
@@ -211,7 +211,7 @@ public class AbstractDrawerActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("zashto", "ne resumee");
 
     }
+
 }

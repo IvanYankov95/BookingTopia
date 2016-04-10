@@ -25,6 +25,7 @@ import model.CalendarHelper;
 
 public class HomeActivity extends AbstractDrawerActivity {
 
+
     Calendar calendar;
     private static String selectStars = "8";
 
@@ -42,14 +43,15 @@ public class HomeActivity extends AbstractDrawerActivity {
         onCreateDrawer();
         getSupportActionBar().setTitle("Home");
 
-        ArrayList<Integer> starsNumber = new ArrayList<>();
-        starsNumber.add(1);
-        starsNumber.add(2);
-        starsNumber.add(3);
-        starsNumber.add(4);
-        starsNumber.add(5);
-        starsNumber.add(6);
-
+        ArrayList<String> starsNumber = new ArrayList<>();
+        starsNumber.add("select");
+        starsNumber.add("1");
+        starsNumber.add("2");
+        starsNumber.add("3");
+        starsNumber.add("4");
+        starsNumber.add("5");
+        starsNumber.add("6");
+        starsNumber.add("7");
 
         lm = (LinearLayout) findViewById(R.id.search_layout);
         searchField = (EditText) findViewById(R.id.search_field);
@@ -70,6 +72,8 @@ public class HomeActivity extends AbstractDrawerActivity {
                 intent.putExtra("search", true);
                 intent.putExtra("search_name", searchField.getText().toString());
                 intent.putExtra("search_stars", selectStars);
+
+                Log.e("STARS" , "" + selectStars);
                 startActivity(intent);
             }
         });
@@ -92,19 +96,19 @@ public class HomeActivity extends AbstractDrawerActivity {
             }
         });
 
-        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, starsNumber);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, starsNumber);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         HomeActivity.starsNumber.setAdapter(dataAdapter);
 
         HomeActivity.starsNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectStars = parent.getItemAtPosition(position).toString();
+                if(position==0) selectStars = "8";
+                else selectStars = parent.getItemAtPosition(position).toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selectStars = "8";
             }
         });
 

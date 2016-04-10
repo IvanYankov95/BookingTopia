@@ -62,7 +62,7 @@ public class MakeReviewFragment extends DialogFragment {
                 submitButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final String writerName = userDAO.getUserById(user_id).getNames();
+                        final String writerName = userDAO.getUserById(user_id).getUsername();
                         final double ratingDouble = Double.valueOf(rating.getText().toString());
                         Review review = new Review(hotel_id, writerName, pros.getText().toString(),cons.getText().toString(), ratingDouble);
                         reviewDAO.addReview(review);
