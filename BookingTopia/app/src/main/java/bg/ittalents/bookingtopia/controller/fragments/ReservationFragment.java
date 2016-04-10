@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import org.joda.time.LocalDate;
 import bg.ittalents.bookingtopia.R;
+import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
 import bg.ittalents.bookingtopia.controller.activities.ViewRoomActivity;
 import model.Hotel;
 import model.Reservation;
@@ -34,7 +36,6 @@ public class ReservationFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         this.context = context;
     }
 
@@ -50,7 +51,6 @@ public class ReservationFragment extends DialogFragment {
         long hotel_id = (long) bundle.get("hotel_id");
         long room_id  = (long) bundle.get("room_id");
         final long user_id  = (long) bundle.get("user_id");
-
 
         IHotelDAO hotelDAO = HotelDAO.getInstance(context);
         final Hotel hotel = hotelDAO.getHotel(hotel_id);

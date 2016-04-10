@@ -63,23 +63,14 @@ public class Review implements Serializable {
         Review review = (Review) o;
 
         if (hotelID != review.hotelID) return false;
-        if (Double.compare(review.rating, rating) != 0) return false;
-        if (writer != null ? !writer.equals(review.writer) : review.writer != null) return false;
-        if (pros != null ? !pros.equals(review.pros) : review.pros != null) return false;
-        return !(cons != null ? !cons.equals(review.cons) : review.cons != null);
+        return !(writer != null ? !writer.equals(review.writer) : review.writer != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = (int) (hotelID ^ (hotelID >>> 32));
+        int result = (int) (hotelID ^ (hotelID >>> 32));
         result = 31 * result + (writer != null ? writer.hashCode() : 0);
-        result = 31 * result + (pros != null ? pros.hashCode() : 0);
-        result = 31 * result + (cons != null ? cons.hashCode() : 0);
-        temp = Double.doubleToLongBits(rating);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 }

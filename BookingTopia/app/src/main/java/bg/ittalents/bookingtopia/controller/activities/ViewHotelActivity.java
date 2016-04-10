@@ -30,11 +30,14 @@ import bg.ittalents.bookingtopia.controller.adapters.ReviewAdapter;
 import bg.ittalents.bookingtopia.controller.adapters.RoomCardViewAdapter;
 import bg.ittalents.bookingtopia.controller.fragments.MakeReviewFragment;
 import model.Hotel;
+import model.Review;
 import model.dao.HotelDAO;
+import model.dao.IReviewDAO;
 import model.dao.IRoomDAO;
+import model.dao.ReviewDAO;
 import model.dao.RoomDAO;
 
-public class ViewHotelActivity extends AbstractDrawerActivity implements ReviewCommunicator {
+public class ViewHotelActivity extends AbstractDrawerActivity {
 
     public static final int SEND_CODE = 10;
 
@@ -59,6 +62,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity implements ReviewC
     private LinearLayoutManager lim;
 
     IRoomDAO roomDAO;
+    IReviewDAO reviewDAO;
 
     boolean isClicked = true;
     Bundle bundle;
@@ -81,16 +85,55 @@ public class ViewHotelActivity extends AbstractDrawerActivity implements ReviewC
         onCreateDrawer();
         getSupportActionBar().setTitle("View Hotel");
 
-        roomDAO  = RoomDAO.getInstance(this);
+        MakeReviewFragment.viewHotActiv = ViewHotelActivity.this;
 
         bundle = getIntent().getExtras();
         hotelId = (long) bundle.get("hotel_id");
         hotel = HotelDAO.getInstance(this).getHotel(hotelId);
         images = hotel.getImages();
         imagesCount = images.size();
+        roomDAO = RoomDAO.getInstance(this);
+        reviewDAO = ReviewDAO.getInstance(this);
+
+        hotelName = (TextView) findViewById(R.id.view_hotel_name);
+        hotelCityName = (TextView) findViewById(R.id.view_hotel_city);
+        hotelDesciption = (TextView) findViewById(R.id.view_hotel_description);
+        hotelAddress = (TextView) findViewById(R.id.view_hotel_address);
+        hotelExtras = (TextView) findViewById(R.id.view_hotel_extrass);
+        hotelWebPage = (TextView) findViewById(R.id.view_hotel_web_page);
+
+        hotelName.setText(hotel.getName());
+        hotelCityName.setText(hotel.getCity());
+        hotelDesciption.setText(hotel.getDescription());
+        hotelAddress.setText(hotel.getAddress());
+        hotelExtras.setText(hotel.getExtras());
+        if(hotel.getWebpage().isEmpty()){
+            webPageLayout.setVisibility(View.GONE);
+        }
+        else{
+            hotelWebPage.setText(hotel.getWebpage());
+        }
+        hotelFacebook = (TextView) findViewById(R.id.view_hotel_facebook);
+        if(hotel.getLinkToFacebook().isEmpty()){
+            facebookLayout.setVisibility(View.GONE);
+        }
+        else{
+            hotelFacebook.setText(hotel.getWebpage());
+        }
+        hotelPolicies = (TextView) findViewById(R.id.view_hotel_policies);
+        if(hotel.getPolicies().isEmpty()) {
+            policiesLayout.setVisibility(View.GONE);
+        }
+        else{
+            hotelPolicies.setText(hotel.getWebpage());
+        }
+
+        webPageLayout = (LinearLayout) findViewById(R.id.web_page_layout);
+        facebookLayout = (LinearLayout) findViewById(R.id.facebook_layout);
+        policiesLayout = (LinearLayout) findViewById(R.id.policies_layout);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        if(!isUser()){
+        if (!isUser()) {
             fab.setVisibility(View.GONE);
         }
 
@@ -99,11 +142,10 @@ public class ViewHotelActivity extends AbstractDrawerActivity implements ReviewC
         imagesRecView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         imagesRecView.setAdapter(imageAdapter);
 
-        if(!(isUser() && roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId).size() ==0)) {
+        if (!(isUser() && roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId).size() == 0)) {
             roomsRecView = (RecyclerView) findViewById(R.id.room_cardview_in_viewHotel_rec_view);
             roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId), hotelId);
             LinearLayoutManager lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            lim.setStackFromEnd(false);
             roomsRecView.setLayoutManager(lim);
             roomsRecView.setAdapter(roomAdapter);
         }
@@ -111,7 +153,6 @@ public class ViewHotelActivity extends AbstractDrawerActivity implements ReviewC
         reviewsRecView = (RecyclerView) findViewById(R.id.review_cardview_in_viewHotel_rec_view);
         reviewAdapter = new ReviewAdapter(this, hotel.getReviews());
         lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        lim.setStackFromEnd(false);
         reviewsRecView.setLayoutManager(lim);
         reviewsRecView.setAdapter(reviewAdapter);
 
@@ -131,21 +172,22 @@ public class ViewHotelActivity extends AbstractDrawerActivity implements ReviewC
 
         imageSwitcher.setInAnimation(in);
         imageSwitcher.setOutAnimation(out);
+        imageSwitcher.setAnimateFirstView(false);
 
         myHandler.postDelayed(r, 1000);
-        if(images.size()==1) {
-            myHandler.removeCallbacks(r);
-        }
+//        if (images.size() == 1) {
+//            myHandler.postDelayed(r, 1000);
+//            myHandler.removeCallbacks(r);
+//        }
 
         imageSwitcher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(isClicked){
+                if (isClicked) {
                     myHandler.removeCallbacks(r);
-                }
-                else{
-                    myHandler.postDelayed(r, 1000);
+                } else {
+                    myHandler.postDelayed(r, 3000);
                 }
                 isClicked = !isClicked;
             }
@@ -171,9 +213,13 @@ public class ViewHotelActivity extends AbstractDrawerActivity implements ReviewC
                 updateImageSwitcherImage();
             } finally {
                 myHandler.postDelayed(this, 3000);
+                if(images.size() == 1){
+                    myHandler.removeCallbacks(this);
+                }
             }
         }
     };
+    
 
     private void updateImageSwitcherImage() {
         currentIndex++;
@@ -185,7 +231,8 @@ public class ViewHotelActivity extends AbstractDrawerActivity implements ReviewC
         imageSwitcher.setImageDrawable(d);
     }
 
-    public void callCreateRoom(){
+    public void callCreateRoom() {
+
         Intent intent = new Intent(this, CreateRoomActivity.class);
         intent.putExtra("hotel_id", hotelId);
         startActivityForResult(intent, SEND_CODE);
@@ -195,19 +242,22 @@ public class ViewHotelActivity extends AbstractDrawerActivity implements ReviewC
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId) , hotelId);
+        roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId), hotelId);
         LinearLayoutManager lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         lim.setStackFromEnd(true);
         roomsRecView.setLayoutManager(lim);
         roomsRecView.setAdapter(roomAdapter);
     }
 
-    @Override
     public void communicate() {
-        reviewAdapter = new ReviewAdapter(this, hotel.getReviews());
+
+        reviewsRecView = (RecyclerView) findViewById(R.id.review_cardview_in_viewHotel_rec_view);
+        ArrayList<Review> reviews = new ArrayList<>(reviewDAO.getAllReviewsByHotelId(hotelId));
+        reviewAdapter = new ReviewAdapter(this, reviews);
         lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        lim.setStackFromEnd(true);
         reviewsRecView.setLayoutManager(lim);
         reviewsRecView.setAdapter(reviewAdapter);
+
     }
+
 }

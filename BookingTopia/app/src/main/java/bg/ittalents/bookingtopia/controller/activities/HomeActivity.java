@@ -52,7 +52,6 @@ public class HomeActivity extends AbstractDrawerActivity {
         starsNumber.add(5);
         starsNumber.add(6);
 
-        Log.e("DATE ON CREATE", CalendarHelper.fromDate.toString() + " " + CalendarHelper.toDate.toString());
 
         lm = (LinearLayout) findViewById(R.id.search_layout);
         searchField = (EditText) findViewById(R.id.search_field);

@@ -171,8 +171,6 @@ public class AbstractDrawerActivity extends AppCompatActivity
     public long getLoggedId(){
         //HashMap<String, String> user = session.getUserDetails();
         session = new UserSessionManager(this);
-        Log.e("SKAPAN LOG ", " PREDI PARSE LONG" + session);
-        Log.e("SKAPAN LOG ", " PREDI PARSE LONG" + session.getUserDetails());
         return Long.parseLong(session.getUserDetails().get(session.KEY_ID));
     }
 
@@ -198,4 +196,21 @@ public class AbstractDrawerActivity extends AppCompatActivity
         return output;
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("zashto", "ne vliza");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("zashto", "ne resumee");
+
+    }
 }

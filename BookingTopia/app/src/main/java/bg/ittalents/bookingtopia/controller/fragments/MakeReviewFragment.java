@@ -1,33 +1,27 @@
 package bg.ittalents.bookingtopia.controller.fragments;
 
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import bg.ittalents.bookingtopia.R;
-import bg.ittalents.bookingtopia.controller.activities.AbstractDrawerActivity;
-import bg.ittalents.bookingtopia.controller.activities.ReviewCommunicator;
 import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
 import model.Review;
 import model.dao.IReviewDAO;
-import model.dao.IRoomDAO;
 import model.dao.IUserDAO;
 import model.dao.ReviewDAO;
-import model.dao.RoomDAO;
 import model.dao.UserDAO;
 
 
 public class MakeReviewFragment extends DialogFragment {
+
+    public static ViewHotelActivity viewHotActiv;
 
     EditText rating;
     EditText pros;
@@ -38,14 +32,13 @@ public class MakeReviewFragment extends DialogFragment {
 
     IReviewDAO reviewDAO;
     IUserDAO userDAO;
-    ReviewCommunicator reviewCommunicator;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         this.context = context;
-        reviewCommunicator = (ReviewCommunicator) context;
+
     }
 
     @Override
@@ -72,9 +65,8 @@ public class MakeReviewFragment extends DialogFragment {
                         final String writerName = userDAO.getUserById(user_id).getNames();
                         final double ratingDouble = Double.valueOf(rating.getText().toString());
                         Review review = new Review(hotel_id, writerName, pros.getText().toString(),cons.getText().toString(), ratingDouble);
-
                         reviewDAO.addReview(review);
-                        reviewCommunicator.communicate();
+                        viewHotActiv.communicate();
                         dismiss();
                     }
                 });

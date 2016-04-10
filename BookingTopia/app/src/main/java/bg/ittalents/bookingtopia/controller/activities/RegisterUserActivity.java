@@ -152,7 +152,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
 
             long userId = getLoggedId();
 
-            Log.e("User id predi user dao", " " + userId);
+
 
             final User user = userDAO.getUserById(userId);
 

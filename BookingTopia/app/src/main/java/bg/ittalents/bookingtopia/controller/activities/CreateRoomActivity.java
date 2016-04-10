@@ -77,7 +77,6 @@ public class CreateRoomActivity extends AbstractDrawerActivity implements View.O
 
         Bundle bundle = getIntent().getExtras();
 
-        Log.e("Bundle greshka ... ", " " + bundle);
         final long hotelId = (long)bundle.get("hotel_id");
 
         roomDAO = RoomDAO.getInstance(CreateRoomActivity.this);

@@ -80,7 +80,6 @@ public class LogInActivity extends AbstractDrawerActivity {
                     } else {
                         Toast.makeText(LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                       //  if(keepMeLoggedIn.isChecked()){
-                        Log.e("Login user id "," " + user.getUserId());
                              session.createUserLoginSession(user.getUserId(), "true");
                        // }
                         startActivity(new Intent(LogInActivity.this, HomeActivity.class));
