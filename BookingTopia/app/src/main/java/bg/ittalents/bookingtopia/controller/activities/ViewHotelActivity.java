@@ -1,5 +1,6 @@
 package bg.ittalents.bookingtopia.controller.activities;
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +42,7 @@ import bg.ittalents.bookingtopia.controller.adapters.RoomCardViewAdapter;
 import bg.ittalents.bookingtopia.controller.fragments.MakeReviewFragment;
 import model.Hotel;
 import model.Review;
+import model.Room;
 import model.dao.HotelDAO;
 import model.dao.IHotelDAO;
 import model.dao.IReviewDAO;
@@ -184,14 +188,12 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         webPageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ViewHotelActivity.this, "asd", Toast.LENGTH_SHORT).show();
                 openWebPage(hotelWebPage.getText().toString());
             }
         });
         facebookLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ViewHotelActivity.this, "dsa", Toast.LENGTH_SHORT).show();
 
                 openWebPage(hotelWebPage.getText().toString());
             }
@@ -221,7 +223,8 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
         if (!(isUser() && roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId).size() == 0)) {
             roomsRecView = (RecyclerView) findViewById(R.id.room_cardview_in_viewHotel_rec_view);
-            roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId), hotelId);
+            ArrayList<Room> containter = new ArrayList<>(roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId));
+            roomAdapter = new RoomCardViewAdapter(this, containter, hotelId);
             LinearLayoutManager lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             roomsRecView.setLayoutManager(lim);
             roomsRecView.setAdapter(roomAdapter);
@@ -282,13 +285,12 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         phoneLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("vlizali " , "daaa");
                 String url = "tel:" + hPhone;
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
 
-                int hasCallPermission = ActivityCompat.checkSelfPermission(ViewHotelActivity.this, android.Manifest.permission.CALL_PHONE);
+                int hasCallPermission = ActivityCompat.checkSelfPermission(ViewHotelActivity.this, Manifest.permission.CALL_PHONE);
                 if (hasCallPermission != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(ViewHotelActivity.this, new String[]{android.Manifest.permission.CALL_PHONE}, CALL_REQUEST_CODE);
+                    ActivityCompat.requestPermissions(ViewHotelActivity.this, new String[]{Manifest.permission.CALL_PHONE}, CALL_REQUEST_CODE);
                 } else
                     startActivity(intent);
             }
@@ -331,7 +333,8 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (!(isUser() && roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId).size() == 0)) {
-            roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId), hotelId);
+            ArrayList<Room> containter = new ArrayList<>(roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId));
+            roomAdapter = new RoomCardViewAdapter(this,containter, hotelId);
             LinearLayoutManager lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             lim.setStackFromEnd(true);
             roomsRecView.setLayoutManager(lim);
@@ -402,7 +405,6 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     public void openWebPage(String url) {
         Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
         intent.putExtra(SearchManager.QUERY, url);
-        Log.e("INTENTA ", " dasdfasdgfas54w253$4w%$%$SFD " + intent.resolveActivity(getPackageManager()));
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }

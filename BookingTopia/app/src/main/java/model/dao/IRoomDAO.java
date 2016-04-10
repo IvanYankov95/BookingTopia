@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import model.Hotel;
 import model.Room;
@@ -20,7 +21,7 @@ public interface IRoomDAO {
 
     public ArrayList<Room> getAllRoomsByHotelID(long hotelID);
 
-    public ArrayList<Room> getAllRoomsByHotelWithAvailableDates(long hotelID);
+    public HashSet<Room> getAllRoomsByHotelWithAvailableDates(long hotelID);
 
     public void registerTakenDate(Room room, long reservationID);
 }

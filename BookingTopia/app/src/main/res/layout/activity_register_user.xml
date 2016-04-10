@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorAccent"
     tools:context="bg.ittalents.bookingTopia.Register">
 
     <Button
@@ -17,22 +18,140 @@
     <include layout="@layout/register_user_toolbar"
         android:id="@+id/tolbarr"/>
 
-    <include layout="@layout/register_user_scroll_view"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_below="@id/tolbarr"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/register_user_register_button"/>
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/register_scroll_view"
+        android:padding="16dp"
+        tools:showIn="@layout/activity_register_user">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/register_user_register_intro_text"
+                android:textSize="20sp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:background="@color/colorPrimaryDark"
+                android:id="@+id/register_user_avatar_button"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_weight="1" />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/register_user_username"
+                android:layout_marginTop="10dp"
+                android:hint="@string/usernameHint"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/register_user_email"
+                android:hint="@string/emailHint"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/register_user_password"
+                android:hint="@string/passwordHint"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/register_user_confirm_password"
+                android:hint="@string/confirmPasswordHint"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/register_user_first_name"
+                android:hint="@string/firstNameHint"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/register_user_last_name"
+                android:hint="@string/lastNameHint"
+                android:layout_weight="1" />
+
+            <EditText
+                android:editable="false"
+                android:id="@+id/register_user_date_of_birth_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/dateOfBirth"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/register_user_country"
+                android:hint="@string/addressHint"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/register_user_phone"
+                android:hint="@string/phoneHint"
+                android:layout_weight="1" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="Gender: "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/register_user_gender_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </Spinner>
+
+            </LinearLayout>
+
+
+            <CheckBox
+                android:id="@+id/register_user_smoker_checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Smoker"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 
 
-    <ProgressBar
-        android:id="@+id/register_user_progress_bar"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
+
 
 </RelativeLayout>
 

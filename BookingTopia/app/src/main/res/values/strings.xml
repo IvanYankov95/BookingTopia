@@ -31,4 +31,5 @@
     <string name="BGN">BGN</string>
     <string name="company_home">companyphone</string>
     <string name="company_phones">Company phone</string>
+    <string name="dateOfBirth">Date of birth</string>
 </resources>

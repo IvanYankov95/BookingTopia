@@ -101,7 +101,6 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
         smokerCheckBox = (CheckBox) findViewById(R.id.register_user_smoker_checkbox);
         dateOfBirth = (EditText) findViewById(R.id.register_user_date_of_birth_text);
         avatar = (ImageButton) findViewById(R.id.register_user_avatar_button);
-        progressBar = (ProgressBar) findViewById(R.id.register_user_progress_bar);
 
         userDAO = UserDAO.getInstance(RegisterUserActivity.this);
 

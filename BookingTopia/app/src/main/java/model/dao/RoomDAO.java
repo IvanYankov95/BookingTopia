@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.TreeSet;
 
 import model.CalendarHelper;
@@ -181,7 +182,7 @@ public class RoomDAO implements IRoomDAO {
         return rooms;
     }
 
-    public ArrayList<Room> getAllRoomsByHotelWithAvailableDates(long hotelID){
+    public HashSet<Room> getAllRoomsByHotelWithAvailableDates(long hotelID){
         SQLiteDatabase db = mDb.getReadableDatabase();
 
         String test = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN " + CalendarHelper.fromDate.minusDays(1) + " AND " + CalendarHelper.toDate.plusDays(1);
@@ -194,15 +195,11 @@ public class RoomDAO implements IRoomDAO {
 
         if(c.moveToFirst()){
             do{
-                Log.e("vuv DO-to ----" , "" + c.getLong(c.getColumnIndex(mDb.ROOM_ID)));
-
                 takenIDs.add(c.getLong(c.getColumnIndex(mDb.ROOM_ID)));
             } while (c.moveToNext());
         }
 
-        Log.e("Vurnati zaeti dati" , takenIDs.toString());
 
-        //select all room IDs by hotel
 
         String idSelects = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.ROOMS + " WHERE " + mDb.HOTEL_ID + " = \"" + hotelID + "\"";
 
@@ -220,7 +217,7 @@ public class RoomDAO implements IRoomDAO {
             allIDs.remove(l);
         }
 
-        ArrayList<Room> rooms = new ArrayList<>();
+        HashSet<Room> rooms = new HashSet<>();
 
         for(long l : allIDs){
             rooms.add(getRoomById(l));

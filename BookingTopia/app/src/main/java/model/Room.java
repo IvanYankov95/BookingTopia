@@ -11,22 +11,22 @@ import java.util.Date;
 /**
  * Created by user-17 on 4/2/16.
  */
-public class Room implements Serializable{
+public class Room implements Serializable {
 
-    private long    roomId;
-    private long    hotelId;
-    private double  pricePerDay;
-    private String  description;
-    private int     maxGuests;
-    private String  beds;
-    private double[]roomSize;
-    private String  extras;
+    private long roomId;
+    private long hotelId;
+    private double pricePerDay;
+    private String description;
+    private int maxGuests;
+    private String beds;
+    private double[] roomSize;
+    private String extras;
     private boolean smoking;
 
     private ArrayList<LocalDate> reservedDates = new ArrayList<>();
     private ArrayList<byte[]> images = new ArrayList<>();
 
-    //fullconstructor
+
     public Room(long roomId, long hotelId, double pricePerDay, String description, int maxGuests, String beds, double x, double y, String extras, boolean smoking, ArrayList<LocalDate> reservedDates, ArrayList<byte[]> images) {
         this.roomId = roomId;
         this.hotelId = hotelId;
@@ -41,19 +41,6 @@ public class Room implements Serializable{
         this.smoking = smoking;
         this.reservedDates = reservedDates;
         this.images = images;
-    }
-
-
-    public void addImage(byte[] image){
-        images.add(image);
-    }
-
-    public void reserveDate(LocalDate date){
-        this.reservedDates.add(date);
-    }
-
-    public void reserveDates(ArrayList<LocalDate> dates){
-        this.reservedDates.addAll(dates);
     }
 
 
@@ -115,10 +102,6 @@ public class Room implements Serializable{
         if (description != null ? !description.equals(room.description) : room.description != null)
             return false;
         if (beds != null ? !beds.equals(room.beds) : room.beds != null) return false;
-        if (!Arrays.equals(roomSize, room.roomSize)) return false;
-        if (extras != null ? !extras.equals(room.extras) : room.extras != null) return false;
-        if (reservedDates != null ? !reservedDates.equals(room.reservedDates) : room.reservedDates != null)
-            return false;
         return !(images != null ? !images.equals(room.images) : room.images != null);
 
     }
@@ -133,10 +116,7 @@ public class Room implements Serializable{
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + maxGuests;
         result = 31 * result + (beds != null ? beds.hashCode() : 0);
-        result = 31 * result + (roomSize != null ? Arrays.hashCode(roomSize) : 0);
-        result = 31 * result + (extras != null ? extras.hashCode() : 0);
         result = 31 * result + (smoking ? 1 : 0);
-        result = 31 * result + (reservedDates != null ? reservedDates.hashCode() : 0);
         result = 31 * result + (images != null ? images.hashCode() : 0);
         return result;
     }

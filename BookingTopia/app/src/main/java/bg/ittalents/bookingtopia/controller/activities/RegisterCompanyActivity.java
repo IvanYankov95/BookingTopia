@@ -48,9 +48,6 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
 
 
     private static Button register;
-    private static ProgressBar progressBar;
-
-    private static String selectedGender;
 
     private static byte[] avatarPic;
     private static boolean avatarCheck;
@@ -78,7 +75,6 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
         address = (EditText) findViewById(R.id.register_comappany_address);
         description = (EditText) findViewById(R.id.register_company_description);
         avatar = (ImageButton) findViewById(R.id.register_company_avatar_button);
-        progressBar = (ProgressBar) findViewById(R.id.register_company_progress_bar);
 
         companyDAO = CompanyDAO.getInstance(RegisterCompanyActivity.this);
 
