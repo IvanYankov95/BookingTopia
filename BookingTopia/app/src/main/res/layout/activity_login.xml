@@ -7,17 +7,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/activity_login"
-    android:background="@drawable/background"
+    android:background="@android:color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <include layout="@layout/login_toolbar"/>
 
     <EditText
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        android:textColorHighlight="@android:color/white"
-        android:textColorLink="@android:color/white"
-        android:shadowColor="@android:color/white"
         android:id="@+id/login_email"
         android:hint="@string/emailHint"
         android:inputType="textEmailAddress"
@@ -31,16 +26,9 @@
         android:layout_margin="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-<!---
+
     <CheckBox
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="35dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Keep me logged"
-        android:id="@+id/keep_me_logged_in" />
-        -->
-    <CheckBox
+
         android:layout_marginLeft="15dp"
         android:layout_marginTop="35dp"
         android:layout_marginBottom="15dp"

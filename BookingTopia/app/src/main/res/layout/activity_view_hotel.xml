@@ -239,6 +239,9 @@
                             android:text="Web Page : " />
 
                         <TextView
+                            android:clickable="true"
+                            android:background="?android:selectableItemBackground"
+                            android:onClick="goToWeb"
                             android:id="@+id/view_hotel_web_page"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
@@ -257,6 +260,8 @@
                             android:text="Facebook: : " />
 
                         <TextView
+                            android:clickable="true"
+                            android:background="?android:selectableItemBackground"
                             android:id="@+id/view_hotel_facebook"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />

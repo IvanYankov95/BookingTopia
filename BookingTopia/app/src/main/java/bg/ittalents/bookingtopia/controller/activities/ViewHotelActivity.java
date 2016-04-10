@@ -326,4 +326,8 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         }
     }
 
+    public void goToWeb(View v) {
+        openWebPage(((TextView)v).getText().toString());
+    }
+
 }

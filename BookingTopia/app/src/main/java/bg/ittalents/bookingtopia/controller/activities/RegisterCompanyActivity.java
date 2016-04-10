@@ -63,9 +63,9 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
         Bundle bundle = getIntent().getExtras();
         Toolbar toolbar = (Toolbar) findViewById(R.id.register_company_toolbar_text);
         if (bundle.getBoolean("edit_mode"))
-            toolbar.setTitle("Edit user");
+            toolbar.setTitle("Regi company");
         else
-            toolbar.setTitle("Register user");
+            toolbar.setTitle("Register company");
         setSupportActionBar(toolbar);
 
         register = (Button) findViewById(R.id.register_company_register_button);
@@ -101,6 +101,16 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
 
             final Company oldCompany = companyDAO.getCompanyById(getLoggedId());
             register.setText("UPDATE");
+
+            email.setVisibility(View.GONE);
+
+            name.setText(oldCompany.getName());
+
+            byte[] image = oldCompany.getAvatar();
+
+            final Bitmap oldAvatarPic = BitmapFactory.decodeByteArray(image, 0, image.length);
+            avatar.setImageBitmap(oldAvatarPic);
+
             register.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
