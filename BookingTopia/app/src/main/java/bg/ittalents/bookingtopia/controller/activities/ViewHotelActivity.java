@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -130,6 +131,12 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         else{
             hotelWebPage.setText(hotel.getWebpage());
         }
+        hotelWebPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWebPage(hotelWebPage.getText().toString());
+            }
+        });
         hotelFacebook = (TextView) findViewById(R.id.view_hotel_facebook);
         if(hotel.getLinkToFacebook().isEmpty()){
             facebookLayout.setVisibility(View.GONE);
@@ -306,6 +313,14 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
                 stars.setImageResource(R.drawable.star1);
                 break;
 
+        }
+    }
+
+    public void openWebPage(String url) {
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
         }
     }
 

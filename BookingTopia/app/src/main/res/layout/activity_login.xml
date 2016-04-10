@@ -7,13 +7,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/activity_login"
-    android:background="#FFAFFA"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.masterycorp.goalprogresstracker.main.HomeActivity">
+    android:background="@drawable/background"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <include layout="@layout/login_toolbar"/>
 
     <EditText
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textColorHighlight="@android:color/white"
+        android:textColorLink="@android:color/white"
+        android:shadowColor="@android:color/white"
         android:id="@+id/login_email"
         android:hint="@string/emailHint"
         android:inputType="textEmailAddress"
