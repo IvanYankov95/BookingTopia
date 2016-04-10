@@ -293,11 +293,15 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId), hotelId);
-        LinearLayoutManager lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        lim.setStackFromEnd(true);
-        roomsRecView.setLayoutManager(lim);
-        roomsRecView.setAdapter(roomAdapter);
+        if (!(isUser() && roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId).size() == 0)) {
+            roomAdapter = new RoomCardViewAdapter(this, roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId), hotelId);
+            LinearLayoutManager lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            lim.setStackFromEnd(true);
+            roomsRecView.setLayoutManager(lim);
+            roomsRecView.setAdapter(roomAdapter);
+        }else {
+            roomsRecView.setVisibility(View.GONE);
+        }
     }
 
     public void communicate() {
