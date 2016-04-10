@@ -25,7 +25,11 @@
                 android:id="@+id/hotel_image"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+
+
                 android:adjustViewBounds="true" />
 
             <TextView
@@ -90,7 +94,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/hotel_image"
-                android:padding="7dp"
+                android:paddingBottom="7dp"
+                android:paddingRight="7dp"
+                android:paddingLeft="7dp"
+
                 card_view:cardCornerRadius="4dp"
                 card_view:cardElevation="5dp"
                 card_view:cardPreventCornerOverlap="false"
@@ -98,7 +105,6 @@
 
                 <TextView
                     android:id="@+id/description"
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp" />

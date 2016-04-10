@@ -9,7 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.text.InputFilter;
+import android.text.Spanned;
 import bg.ittalents.bookingtopia.R;
 import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
 import model.Review;
@@ -54,6 +55,7 @@ public class MakeReviewFragment extends DialogFragment {
         final long user_id = (long) bundle.get("user_id");
 
         rating = (EditText) v.findViewById(R.id.write_rating);
+        rating.setFilters(new InputFilter[]{ new InputFilterMinMax("0", "10")});
         pros = (EditText) v.findViewById(R.id.write_pros);
         cons = (EditText) v.findViewById(R.id.write_cons);
 
@@ -75,4 +77,34 @@ public class MakeReviewFragment extends DialogFragment {
     }
 
 
+
+
+    public class InputFilterMinMax implements InputFilter {
+
+        private int min, max;
+
+        public InputFilterMinMax(int min, int max) {
+            this.min = min;
+            this.max = max;
+        }
+
+        public InputFilterMinMax(String min, String max) {
+            this.min = Integer.parseInt(min);
+            this.max = Integer.parseInt(max);
+        }
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            try {
+                int input = Integer.parseInt(dest.toString() + source.toString());
+                if (isInRange(min, max, input))
+                    return null;
+            } catch (NumberFormatException nfe) { }
+            return "";
+        }
+
+        private boolean isInRange(int a, int b, int c) {
+            return b > a ? c >= a && c <= b : c >= b && c <= a;
+        }
+    }
 }

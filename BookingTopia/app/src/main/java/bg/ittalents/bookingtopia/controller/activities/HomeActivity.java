@@ -70,7 +70,7 @@ public class HomeActivity extends AbstractDrawerActivity {
         checkOutDate.setText(CalendarHelper.toDate.toString());
         Animation slideRight = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
         Animation moveDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
-        moveDown.setDuration(3000);
+        moveDown.setDuration(2000);
         searchLayout.setAnimation(moveDown);
 
         searchButton.setOnClickListener(new View.OnClickListener() {

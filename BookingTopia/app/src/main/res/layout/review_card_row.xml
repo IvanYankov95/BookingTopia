@@ -35,6 +35,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:textStyle="bold"
                         android:id="@+id/review_writer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -62,12 +63,18 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <ImageView
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/tic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
                     <TextView
+                        android:textColor="@color/colorGreen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="pros:     " />
                     <TextView
-
+                        android:textStyle="italic"
                         android:id="@+id/review_pros"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -90,12 +97,18 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <ImageView
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/hix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
                     <TextView
+                        android:textColor="@color/colorRed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="cons:     " />
                     <TextView
-
+                        android:textStyle="italic"
                         android:id="@+id/review_cons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
