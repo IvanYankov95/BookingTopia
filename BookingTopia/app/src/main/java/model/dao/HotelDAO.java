@@ -238,8 +238,8 @@ public class HotelDAO implements IHotelDAO {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
         String selectQuery = "SELECT "+ mDb.HOTEL_ID +" FROM " + mDb.HOTELS
-                + " WHERE " + mDb.HOTEL_NAME + " = \"" + name + "\" " +
-                " OR " + mDb.HOTEL_CITY + " = \"" + name + "\" ";
+                + " WHERE " + mDb.HOTEL_NAME + " LIKE \"%" + name + "%\" " +
+                " OR " + mDb.HOTEL_CITY + " LIKE \"" + name + "\" ";
 
         Cursor c = db.rawQuery(selectQuery, null);
 

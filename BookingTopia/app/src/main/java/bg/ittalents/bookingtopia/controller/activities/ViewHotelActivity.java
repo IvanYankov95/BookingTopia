@@ -360,7 +360,6 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
     public void openWebPage(String url) {
         Uri webpage = Uri.parse(url);
-        Log.e("url ---" ,"" + webpage);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,11 +37,12 @@ public class HomeActivity extends AbstractDrawerActivity {
     private static EditText checkOutDate;
     private static Spinner starsNumber;
     private static Button searchButton;
+    private static LinearLayout searchLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_result_drawer);
+        setContentView(R.layout.activity_home_drawer);
         onCreateDrawer();
         getSupportActionBar().setTitle("Home");
 
@@ -53,17 +56,22 @@ public class HomeActivity extends AbstractDrawerActivity {
         starsNumber.add("6");
         starsNumber.add("7");
 
+        searchLayout = (LinearLayout) findViewById(R.id.search_layout);
         lm = (LinearLayout) findViewById(R.id.search_layout);
         searchField = (EditText) findViewById(R.id.search_field);
 
         HomeActivity.starsNumber = (Spinner)  findViewById(R.id.stars_number_spinner);
-        searchButton = (Button) findViewById(R.id.search_button);
 
+        searchButton = (Button) findViewById(R.id.search_button);
         checkInDate = (EditText) findViewById(R.id.check_in_date);
         checkOutDate = (EditText) findViewById(R.id.check_out_date);
 
         checkInDate.setText(CalendarHelper.fromDate.toString());
         checkOutDate.setText(CalendarHelper.toDate.toString());
+        Animation slideRight = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
+        Animation moveDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+        moveDown.setDuration(3000);
+        searchLayout.setAnimation(moveDown);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
