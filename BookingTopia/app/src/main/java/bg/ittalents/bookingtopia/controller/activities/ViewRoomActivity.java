@@ -63,6 +63,7 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
         bundle = getIntent().getExtras();
         final long room_id  = (long) bundle.get("room_id");
 
+        ReservationFragment.context = this;
         room = RoomDAO.getInstance(this).getRoomById(room_id);
         images = room.getImages();
         imagesCount = images.size();
@@ -159,4 +160,9 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
         Drawable d = new BitmapDrawable(getResources(), bmp);
         imageSwitcher.setImageDrawable(d);
     }
+
+    public void communicate(){
+        finish();
+    }
+
 }

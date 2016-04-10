@@ -31,12 +31,11 @@ import model.dao.RoomDAO;
 
 public class ReservationFragment extends DialogFragment {
 
-    private Context context;
+    public static ViewRoomActivity context;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context = context;
     }
 
     @Override
@@ -106,6 +105,7 @@ public class ReservationFragment extends DialogFragment {
                 roomDAO.registerTakenDate(room, reservationID);
                 Toast.makeText(context, "Reservation successful", Toast.LENGTH_SHORT).show();
                 dismiss();
+                context.communicate();
             }
         });
 
