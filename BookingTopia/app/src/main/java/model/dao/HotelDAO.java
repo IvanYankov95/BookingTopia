@@ -77,9 +77,7 @@ public class HotelDAO implements IHotelDAO {
 
         long hotelId = db.insert(mDb.HOTELS, null, values);
 
-
         for (byte[] image : hotel.getImages()) {
-            Log.e("---image", "" + image.toString());
             ContentValues values2 = new ContentValues();
 
             values2.put(mDb.HOTEL_ID, hotelId);
@@ -139,6 +137,24 @@ public class HotelDAO implements IHotelDAO {
         return companyId;
     }
 
+    public String getHotelPhoneFromCompanyByHotel(Hotel hotel) {
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT "+ mDb.TELEPHONE +" FROM " + mDb.COMPANIES
+                + " WHERE " + mDb.COMPANY_ID + " = \"" + hotel.getCompanyId() + "\"";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        String phone = new String("");
+
+        if (c.moveToFirst()) {
+            phone = c.getString(c.getColumnIndex(mDb.TELEPHONE));
+        }
+        c.close();
+        db.close();
+        return phone;
+    }
+
     public Hotel getHotel(long hotelId) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
@@ -186,11 +202,11 @@ public class HotelDAO implements IHotelDAO {
 
                 double rate = 0.0;
                 double rating = 0.0;
-                for(Review r : reviews){
+                for (Review r : reviews) {
                     rate += r.getRating();
                 }
-                if(reviews.size()!=0)
-                    rating = rate/reviews.size();
+                if (reviews.size() != 0)
+                    rating = rate / reviews.size();
 
 
                 ArrayList<byte[]> images = this.getHotelImages(hotelId);
@@ -237,7 +253,7 @@ public class HotelDAO implements IHotelDAO {
     public ArrayList<Hotel> getAllHotelsByNameAndCity(String name) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        String selectQuery = "SELECT "+ mDb.HOTEL_ID +" FROM " + mDb.HOTELS
+        String selectQuery = "SELECT " + mDb.HOTEL_ID + " FROM " + mDb.HOTELS
                 + " WHERE " + mDb.HOTEL_NAME + " LIKE \"%" + name + "%\" " +
                 " OR " + mDb.HOTEL_CITY + " LIKE \"" + name + "\" ";
 
@@ -259,7 +275,7 @@ public class HotelDAO implements IHotelDAO {
     public ArrayList<Hotel> getAllHotels() {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        String selectQuery = "SELECT "+ mDb.HOTEL_ID +" FROM " + mDb.HOTELS;
+        String selectQuery = "SELECT " + mDb.HOTEL_ID + " FROM " + mDb.HOTELS;
 
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -279,8 +295,8 @@ public class HotelDAO implements IHotelDAO {
     public ArrayList<Hotel> getAllHotelsByStars(int stars) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        String selectQuery = "SELECT "+ mDb.HOTEL_ID +" FROM " + mDb.HOTELS
-                + " WHERE " + mDb.HOTEL_STARS + " = \"" + stars +  "\" ";
+        String selectQuery = "SELECT " + mDb.HOTEL_ID + " FROM " + mDb.HOTELS
+                + " WHERE " + mDb.HOTEL_STARS + " = \"" + stars + "\" ";
 
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -297,7 +313,6 @@ public class HotelDAO implements IHotelDAO {
         return hotels;
 
     }
-
 
 
     private ArrayList<byte[]> getHotelImages(long hotelId) {

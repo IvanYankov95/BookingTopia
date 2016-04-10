@@ -26,5 +26,9 @@ public interface IHotelDAO {
 
     public ArrayList<Hotel> getAllHotels() ;
 
+    public String getHotelPhoneFromCompanyByHotel(Hotel hotel);
+
+
+
 
     }

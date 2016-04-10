@@ -1,20 +1,15 @@
 package bg.ittalents.bookingtopia.controller.activities;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
-import android.os.Bundle;
-
-import android.util.Log;
-
 import android.support.v7.widget.Toolbar;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -86,7 +81,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
         setContentView(R.layout.activity_register_user);
         Bundle bundle = getIntent().getExtras();
         Toolbar toolbar = (Toolbar) findViewById(R.id.register_user_toolbar_text);
-        if(bundle.getBoolean("edit_mode"))
+        if (bundle.getBoolean("edit_mode"))
             toolbar.setTitle("Edit user");
         else
             toolbar.setTitle("Register user");
@@ -146,7 +141,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
             }
         });
 
-        if(bundle.getBoolean("edit_mode")){
+        if (bundle.getBoolean("edit_mode")) {
             username.setVisibility(View.GONE);
             email.setVisibility(View.GONE);
 
@@ -159,10 +154,10 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
             final Bitmap oldAvatarPic = BitmapFactory.decodeByteArray(image, 0, image.length);
             avatar.setImageBitmap(oldAvatarPic);
 
-            if(!user.getNames().isEmpty()) {
+            if (!user.getNames().isEmpty()) {
                 String[] names = user.getNames().split(" ");
                 firstName.setText(names[0]);
-                if(names.length > 1)
+                if (names.length > 1)
                     lastName.setText(names[1]);
             }
 
@@ -174,11 +169,11 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
 
             phone.setText(user.getMobilePhone());
 
-            if(user.getGender().equalsIgnoreCase("male")) {
+            if (user.getGender().equalsIgnoreCase("male")) {
                 genderSpinner.setSelection(1);
                 selectedGender = "Male";
             }
-            if(user.getGender().equalsIgnoreCase("female")) {
+            if (user.getGender().equalsIgnoreCase("female")) {
                 genderSpinner.setSelection(2);
                 selectedGender = "Female";
             }
@@ -203,7 +198,6 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
                     boolean passwordCheck = false;
                     boolean nameCheck = false;
 
-                    // password check
                     if (!passwordTxt.equalsIgnoreCase("new password")) {
                         if (passwordTxt.isEmpty())
                             password.setError("This field is required");
@@ -254,87 +248,87 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
 
         }
 
-        if(!bundle.getBoolean("edit_mode"))
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RegisterHelper helper = RegisterHelper.getInstance();
+        if (!bundle.getBoolean("edit_mode"))
+            register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RegisterHelper helper = RegisterHelper.getInstance();
 
-                String usernameTxt = username.getText().toString();
-                String passwordTxt = password.getText().toString();
-                String confirmPasswordTxt = RegisterUserActivity.confirmPassword.getText().toString();
-                String emailTxt = email.getText().toString();
-                String firstNameTxt = firstName.getText().toString();
-                String lastNameTxt = lastName.getText().toString();
-                String phoneTxt = phone.getText().toString();
-                String countryTxt = country.getText().toString();
+                    String usernameTxt = username.getText().toString();
+                    String passwordTxt = password.getText().toString();
+                    String confirmPasswordTxt = RegisterUserActivity.confirmPassword.getText().toString();
+                    String emailTxt = email.getText().toString();
+                    String firstNameTxt = firstName.getText().toString();
+                    String lastNameTxt = lastName.getText().toString();
+                    String phoneTxt = phone.getText().toString();
+                    String countryTxt = country.getText().toString();
 
-                boolean usernameCheck = false;
-                boolean emailCheck = false;
-                boolean passwordCheck = false;
-                boolean nameCheck = false;
+                    boolean usernameCheck = false;
+                    boolean emailCheck = false;
+                    boolean passwordCheck = false;
+                    boolean nameCheck = false;
 
-                // username check
-                if (usernameTxt.isEmpty())
-                    username.setError("This field is required");
-                else if (userDAO.checkUsername(usernameTxt))
-                    username.setError("Username is already taken");
-                else
-                    usernameCheck = true;
-                // username check
+                    // username check
+                    if (usernameTxt.isEmpty())
+                        username.setError("This field is required");
+                    else if (userDAO.checkUsername(usernameTxt))
+                        username.setError("Username is already taken");
+                    else
+                        usernameCheck = true;
+                    // username check
 
-                // email check
-                if (emailTxt.isEmpty())
-                    email.setError("This field is required");
-                else if (!helper.isEmailValid(emailTxt))
-                    email.setError("Please enter a valid email");
-                else if (userDAO.checkUserEmail(emailTxt))
-                    email.setError("Email is already in use");
-                else
-                    emailCheck = true;
-                // email check
+                    // email check
+                    if (emailTxt.isEmpty())
+                        email.setError("This field is required");
+                    else if (!helper.isEmailValid(emailTxt))
+                        email.setError("Please enter a valid email");
+                    else if (userDAO.checkUserEmail(emailTxt))
+                        email.setError("Email is already in use");
+                    else
+                        emailCheck = true;
+                    // email check
 
-                // password check
-                if (passwordTxt.isEmpty())
-                    password.setError("This field is required");
-                else if (!helper.checkPasswordStrength(passwordTxt))
-                    password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
-                else if (!passwordTxt.equals(confirmPasswordTxt))
-                    confirmPassword.setError("Passwords don't match");
-                else
-                    passwordCheck = true;
-                // password check
+                    // password check
+                    if (passwordTxt.isEmpty())
+                        password.setError("This field is required");
+                    else if (!helper.checkPasswordStrength(passwordTxt))
+                        password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
+                    else if (!passwordTxt.equals(confirmPasswordTxt))
+                        confirmPassword.setError("Passwords don't match");
+                    else
+                        passwordCheck = true;
+                    // password check
 
-                // names check
-                if (firstNameTxt.isEmpty())
-                    firstName.setError("This field is required");
-                else if (lastNameTxt.isEmpty())
-                    lastName.setText("This field is required");
-                else
-                    nameCheck = true;
-                // names check
+                    // names check
+                    if (firstNameTxt.isEmpty())
+                        firstName.setError("This field is required");
+                    else if (lastNameTxt.isEmpty())
+                        lastName.setText("This field is required");
+                    else
+                        nameCheck = true;
+                    // names check
 
-                if (!avatarCheck)
-                    Toast.makeText(RegisterUserActivity.this, "Avatar is required", Toast.LENGTH_SHORT).show();
-                if (usernameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
+                    if (!avatarCheck)
+                        Toast.makeText(RegisterUserActivity.this, "Avatar is required", Toast.LENGTH_SHORT).show();
+                    if (usernameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
 
-                    String names = firstNameTxt + " " + lastNameTxt;
-                    User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, localDate, selectedGender, countryTxt, smokerCheckBox.isChecked());
+                        String names = firstNameTxt + " " + lastNameTxt;
+                        User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, localDate, selectedGender, countryTxt, smokerCheckBox.isChecked());
 
-                    long userId = userDAO.registerUser(user);
+                        long userId = userDAO.registerUser(user);
 
-                    if (user == null)
-                        Toast.makeText(RegisterUserActivity.this, "Register failed", Toast.LENGTH_SHORT).show();
-                    else {
-                        user.setUserId(userId);
-                        Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
-                        finish();
+                        if (user == null)
+                            Toast.makeText(RegisterUserActivity.this, "Register failed", Toast.LENGTH_SHORT).show();
+                        else {
+                            user.setUserId(userId);
+                            Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                        //startActivity(new Intent(Register.this, LogIn.class));
                     }
-                    //startActivity(new Intent(Register.this, LogIn.class));
-                }
 
-            }
-        });
+                }
+            });
 
         dateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -348,13 +342,13 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
 
     public boolean areAllFieldsFilled() {
         return (!username.getText().toString().isEmpty() &&
-        !password.getText().toString().isEmpty()  &&
-        !confirmPassword.getText().toString().isEmpty() &&
-        !email.getText().toString().isEmpty() &&
-        !firstName.getText().toString().isEmpty() &&
-        !lastName.getText().toString().isEmpty() &&
-        !country.getText().toString().isEmpty() &&
-        !phone.getText().toString().isEmpty());
+                !password.getText().toString().isEmpty() &&
+                !confirmPassword.getText().toString().isEmpty() &&
+                !email.getText().toString().isEmpty() &&
+                !firstName.getText().toString().isEmpty() &&
+                !lastName.getText().toString().isEmpty() &&
+                !country.getText().toString().isEmpty() &&
+                !phone.getText().toString().isEmpty());
 
     }
 
@@ -384,7 +378,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
                 monthOfYear++;
                 String date = year + "-" + ((monthOfYear < 10) ? "0" : "") + monthOfYear + "-" + ((dayOfMonth < 10) ? "0" : "") + dayOfMonth;
 
-                localDate = new LocalDate(year,monthOfYear,dayOfMonth);
+                localDate = new LocalDate(year, monthOfYear, dayOfMonth);
                 edt.setText(date);
             }
         }

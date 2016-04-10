@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 import bg.ittalents.bookingtopia.R;
 import bg.ittalents.bookingtopia.controller.activities.AbstractDrawerActivity;
-import bg.ittalents.bookingtopia.controller.activities.CreateRoomActivity;
 import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
 import bg.ittalents.bookingtopia.controller.activities.ViewRoomActivity;
 import model.Hotel;
@@ -48,7 +47,7 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         Hotel hotel = HotelDAO.getInstance(activity).getHotel(hotelId);
 
-        if((!((AbstractDrawerActivity)activity).isUser()) && ( hotel.getCompanyId() == ((AbstractDrawerActivity)activity).getLoggedId() )) {
+        if ((!((AbstractDrawerActivity) activity).isUser()) && (hotel.getCompanyId() == ((AbstractDrawerActivity) activity).getLoggedId())) {
             if (viewType == FOOTER_VIEW) {
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.plus_layout_for_recycler_view_row, parent, false);
 
@@ -103,7 +102,7 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 vh.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((ViewHotelActivity)activity).callCreateRoom();
+                        ((ViewHotelActivity) activity).callCreateRoom();
                     }
                 });
             }
@@ -149,12 +148,11 @@ public class RoomCardViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         if (rooms.size() == 0) {
-            //Return 1 here to show nothing
             return 1;
         }
 
         Hotel hotel = HotelDAO.getInstance(activity).getHotel(hotelId);
-        if((!((AbstractDrawerActivity)activity).isUser()) && ( hotel.getCompanyId() == ((AbstractDrawerActivity)activity).getLoggedId() ))  {
+        if ((!((AbstractDrawerActivity) activity).isUser()) && (hotel.getCompanyId() == ((AbstractDrawerActivity) activity).getLoggedId())) {
             return rooms.size() + 1;
         } else {
             return rooms.size();

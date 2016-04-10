@@ -1,6 +1,7 @@
 package bg.ittalents.bookingtopia.controller.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -35,6 +37,7 @@ import bg.ittalents.bookingtopia.controller.fragments.MakeReviewFragment;
 import model.Hotel;
 import model.Review;
 import model.dao.HotelDAO;
+import model.dao.IHotelDAO;
 import model.dao.IReviewDAO;
 import model.dao.IRoomDAO;
 import model.dao.IUserDAO;
@@ -44,12 +47,15 @@ import model.dao.UserDAO;
 
 public class ViewHotelActivity extends AbstractDrawerActivity {
 
+    public static final int CALL_REQUEST_CODE = 111;
     public static final int SEND_CODE = 10;
     DecimalFormat df = new DecimalFormat("#0.0");
 
     LinearLayout webPageLayout;
     LinearLayout facebookLayout;
     LinearLayout policiesLayout;
+    LinearLayout fabLayout;
+    LinearLayout phoneLayout;
 
     TextView hotelName;
     TextView hotelCityName;
@@ -59,11 +65,11 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     TextView hotelWebPage;
     TextView hotelFacebook;
     TextView hotelPolicies;
+    TextView hotelPhone;
     ImageView stars;
     FloatingActionButton fab;
     TextView addReview;
     TextView rating;
-    LinearLayout fabLayout;
 
     private ImageSwitcher imageSwitcher;
     private RecyclerView imagesRecView;
@@ -74,7 +80,9 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     IRoomDAO roomDAO;
     IReviewDAO reviewDAO;
     IUserDAO userDAO;
+    IHotelDAO hotelDAO;
 
+    String hPhone;
     boolean isRatingChanged;
     double rate;
     boolean isClicked = true;
@@ -100,18 +108,24 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
         MakeReviewFragment.viewHotActiv = ViewHotelActivity.this;
 
-        bundle = getIntent().getExtras();
-        hotelId = (long) bundle.get("hotel_id");
-        hotel = HotelDAO.getInstance(this).getHotel(hotelId);
-        images = hotel.getImages();
-        imagesCount = images.size();
         roomDAO = RoomDAO.getInstance(this);
         reviewDAO = ReviewDAO.getInstance(this);
         userDAO = UserDAO.getInstance(this);
+        hotelDAO = HotelDAO.getInstance(this);
 
+        bundle = getIntent().getExtras();
+        hotelId = (long) bundle.get("hotel_id");
+        hotel = hotelDAO.getHotel(hotelId);
+        images = hotel.getImages();
+        imagesCount = images.size();
+
+        hPhone = hotelDAO.getHotelPhoneFromCompanyByHotel(hotel);
+
+        phoneLayout = (LinearLayout) findViewById(R.id.view_hotel_phone_layout);
         hotelName = (TextView) findViewById(R.id.view_hotel_name);
         hotelCityName = (TextView) findViewById(R.id.view_hotel_city);
         hotelDesciption = (TextView) findViewById(R.id.view_hotel_description);
+        hotelPhone = (TextView) findViewById(R.id.biew_hotel_phone);
         hotelAddress = (TextView) findViewById(R.id.view_hotel_address);
         hotelExtras = (TextView) findViewById(R.id.view_hotel_extrass);
         hotelWebPage = (TextView) findViewById(R.id.view_hotel_web_page);
@@ -132,6 +146,11 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         hotelDesciption.setText(hotel.getDescription());
         hotelAddress.setText(hotel.getAddress());
         hotelExtras.setText(hotel.getExtras());
+        if (hPhone.isEmpty()) {
+            phoneLayout.setVisibility(View.GONE);
+        } else {
+            hotelPhone.setText(hPhone);
+        }
         if (hotel.getWebpage().isEmpty()) {
             webPageLayout.setVisibility(View.GONE);
         } else {
@@ -256,6 +275,21 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
                 dialog.show(ViewHotelActivity.this.getFragmentManager(), "MyDialogFragment");
             }
         });
+
+        phoneLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("vlizali " , "daaa");
+                String url = "tel:" + hPhone;
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
+
+                int hasCallPermission = ActivityCompat.checkSelfPermission(ViewHotelActivity.this, android.Manifest.permission.CALL_PHONE);
+                if (hasCallPermission != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(ViewHotelActivity.this, new String[]{android.Manifest.permission.CALL_PHONE}, CALL_REQUEST_CODE);
+                } else
+                    startActivity(intent);
+            }
+        });
     }
 
     Runnable r = new Runnable() {
@@ -299,7 +333,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
             lim.setStackFromEnd(true);
             roomsRecView.setLayoutManager(lim);
             roomsRecView.setAdapter(roomAdapter);
-        }else {
+        } else {
             roomsRecView.setVisibility(View.GONE);
         }
     }
@@ -370,5 +404,22 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case CALL_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    String url = "tel:" + hPhone;
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
+                    int hasCallPermission = ActivityCompat.checkSelfPermission(ViewHotelActivity.this, android.Manifest.permission.CALL_PHONE);
+                    if (hasCallPermission != PackageManager.PERMISSION_GRANTED) {
+                        startActivity(intent);
+                    }
+                }
+                return;
 
+        }
+    }
 }
+
+

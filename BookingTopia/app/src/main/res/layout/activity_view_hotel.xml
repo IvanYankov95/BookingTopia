@@ -129,7 +129,8 @@
                             android:layout_toLeftOf="@id/rating_card_view"
                             android:gravity="center"
                             android:textColor="@color/colorRed"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            android:textStyle="italic|bold" />
                     </RelativeLayout>
 
                     <LinearLayout
@@ -137,23 +138,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
                         android:layout_marginTop="6dp"
-                        android:background="@color/colorRed"
-                        >
+                        android:background="@color/colorRed">
 
                         <LinearLayout
-                            android:background="@color/colorDirtWhite"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="1dp"
                             android:layout_marginBottom="1dp"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/colorDirtWhite"
                             android:gravity="center_horizontal">
 
                             <ImageView
                                 android:id="@+id/view_hotel_stars"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:adjustViewBounds="true"
-                                />
+                                android:adjustViewBounds="true" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -186,6 +185,26 @@
 
                         <TextView
                             android:id="@+id/view_hotel_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/view_hotel_phone_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:clickable="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="7dp"
+                            android:text="Phone : " />
+
+                        <TextView
+                            android:id="@+id/biew_hotel_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -225,11 +244,11 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:clickable="true"
-                        android:background="?android:selectableItemBackground"
                         android:id="@+id/web_page_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:clickable="true"
                         android:orientation="horizontal">
 
                         <TextView
@@ -239,18 +258,18 @@
                             android:text="Web Page : " />
 
                         <TextView
-                            android:onClick="goToWeb"
                             android:id="@+id/view_hotel_web_page"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:onClick="goToWeb" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:clickable="true"
-                        android:background="?android:selectableItemBackground"
                         android:id="@+id/facebook_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:clickable="true"
                         android:orientation="horizontal">
 
                         <TextView

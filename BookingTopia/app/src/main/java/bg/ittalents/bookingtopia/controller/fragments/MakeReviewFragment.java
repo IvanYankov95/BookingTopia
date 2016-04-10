@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.widget.Toast;
+
 import bg.ittalents.bookingtopia.R;
 import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
 import model.Review;
@@ -64,6 +66,12 @@ public class MakeReviewFragment extends DialogFragment {
                 submitButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        if(rating.getText().toString().isEmpty()){
+                           rating.setError("You need to set rating!");
+                            return;
+                        }
+
                         final String writerName = userDAO.getUserById(user_id).getUsername();
                         final double ratingDouble = Double.valueOf(rating.getText().toString());
                         Review review = new Review(hotel_id, writerName, pros.getText().toString(),cons.getText().toString(), ratingDouble);
