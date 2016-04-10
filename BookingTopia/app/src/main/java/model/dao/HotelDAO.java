@@ -170,7 +170,7 @@ public class HotelDAO implements IHotelDAO {
                 calWorkTo.setTime(date3);
 
                 String extras = c.getString(c.getColumnIndex(mDb.HOTEL_EXTRAS));
-                double rating = c.getDouble(c.getColumnIndex(mDb.HOTEL_RATING));
+
                 double xCoordinate = c.getDouble(c.getColumnIndex(mDb.HOTEL_X));
                 double yCoordinate = c.getDouble(c.getColumnIndex(mDb.HOTEL_Y));
                 String webPage = c.getString(c.getColumnIndex(mDb.HOTEL_WEBPAGE));
@@ -183,6 +183,15 @@ public class HotelDAO implements IHotelDAO {
 
                 HashSet<Review> set = reviewInstance.getAllReviewsByHotelId(hotelId);
                 ArrayList<Review> reviews = new ArrayList<>(set);
+
+                double rate = 0.0;
+                double rating = 0.0;
+                for(Review r : reviews){
+                    rate += r.getRating();
+                }
+                if(reviews.size()!=0)
+                    rating = rate/reviews.size();
+
 
                 ArrayList<byte[]> images = this.getHotelImages(hotelId);
 

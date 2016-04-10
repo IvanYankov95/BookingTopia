@@ -28,8 +28,6 @@ public class HomeActivity extends AbstractDrawerActivity {
     Calendar calendar;
     private static String selectStars = "8";
 
-    boolean areStarsSellected;
-
     private static LinearLayout lm ;
     private static EditText searchField;
     private static EditText checkInDate;

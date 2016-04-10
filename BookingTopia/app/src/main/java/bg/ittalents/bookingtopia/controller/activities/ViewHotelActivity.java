@@ -53,7 +53,11 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     TextView hotelWebPage;
     TextView hotelFacebook;
     TextView hotelPolicies;
+    ImageView stars;
     FloatingActionButton fab;
+    TextView addReview;
+    TextView rating;
+    LinearLayout fabLayout;
 
     private ImageSwitcher imageSwitcher;
     private RecyclerView imagesRecView;
@@ -64,6 +68,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     IRoomDAO roomDAO;
     IReviewDAO reviewDAO;
 
+    double rate;
     boolean isClicked = true;
     Bundle bundle;
     long hotelId;
@@ -101,7 +106,19 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         hotelAddress = (TextView) findViewById(R.id.view_hotel_address);
         hotelExtras = (TextView) findViewById(R.id.view_hotel_extrass);
         hotelWebPage = (TextView) findViewById(R.id.view_hotel_web_page);
+        rating  = (TextView) findViewById(R.id.view_hotel_rating);
+        stars = (ImageView) findViewById(R.id.view_hotel_stars);
+        setStars();
 
+        for(Review r : hotel.getReviews()){
+            rate += r.getRating();
+        }
+        if(hotel.getReviews().size()!=0){
+            rating.setText(String.valueOf(rate/hotel.getReviews().size()));
+        }
+        else{
+            rating.setText(String.valueOf(rate));
+        }
         hotelName.setText(hotel.getName());
         hotelCityName.setText(hotel.getCity());
         hotelDesciption.setText(hotel.getDescription());
@@ -133,8 +150,11 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         policiesLayout = (LinearLayout) findViewById(R.id.policies_layout);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        fabLayout = (LinearLayout) findViewById(R.id.fab_layout);
+        fabLayout.bringToFront();
+        addReview = (TextView) findViewById(R.id.review_add);
         if (!isUser()) {
-            fab.setVisibility(View.GONE);
+            fabLayout.setVisibility(View.GONE);
         }
 
         imagesRecView = (RecyclerView) findViewById(R.id.image_list_view);
@@ -175,10 +195,6 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         imageSwitcher.setAnimateFirstView(false);
 
         myHandler.postDelayed(r, 1000);
-//        if (images.size() == 1) {
-//            myHandler.postDelayed(r, 1000);
-//            myHandler.removeCallbacks(r);
-//        }
 
         imageSwitcher.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,7 +235,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
             }
         }
     };
-    
+
 
     private void updateImageSwitcherImage() {
         currentIndex++;
@@ -250,6 +266,12 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     }
 
     public void communicate() {
+        hotel = HotelDAO.getInstance(this).getHotel(hotelId);
+        for(Review r : hotel.getReviews()){
+            rate += r.getRating();
+        }
+
+        rating.setText(String.valueOf(rate/hotel.getReviews().size()));
 
         reviewsRecView = (RecyclerView) findViewById(R.id.review_cardview_in_viewHotel_rec_view);
         ArrayList<Review> reviews = new ArrayList<>(reviewDAO.getAllReviewsByHotelId(hotelId));
@@ -258,6 +280,33 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         reviewsRecView.setLayoutManager(lim);
         reviewsRecView.setAdapter(reviewAdapter);
 
+    }
+
+    private void setStars(){
+        switch (hotel.getStars()) {
+            case 7:
+                stars.setImageResource(R.drawable.star7);
+                break;
+            case 6:
+                stars.setImageResource(R.drawable.star6);
+                break;
+            case 5:
+                stars.setImageResource(R.drawable.star5);
+                break;
+            case 4:
+                stars.setImageResource(R.drawable.star4);
+                break;
+            case 3:
+                stars.setImageResource(R.drawable.star3);
+                break;
+            case 2:
+                stars.setImageResource(R.drawable.star2);
+                break;
+            case 1:
+                stars.setImageResource(R.drawable.star1);
+                break;
+
+        }
     }
 
 }

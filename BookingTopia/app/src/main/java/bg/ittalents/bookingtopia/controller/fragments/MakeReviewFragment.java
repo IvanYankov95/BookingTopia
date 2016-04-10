@@ -66,6 +66,7 @@ public class MakeReviewFragment extends DialogFragment {
                         final double ratingDouble = Double.valueOf(rating.getText().toString());
                         Review review = new Review(hotel_id, writerName, pros.getText().toString(),cons.getText().toString(), ratingDouble);
                         reviewDAO.addReview(review);
+
                         viewHotActiv.communicate();
                         dismiss();
                     }
