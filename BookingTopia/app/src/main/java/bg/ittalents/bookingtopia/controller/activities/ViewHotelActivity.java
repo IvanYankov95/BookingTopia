@@ -1,5 +1,6 @@
 package bg.ittalents.bookingtopia.controller.activities;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -397,8 +398,9 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     }
 
     public void openWebPage(String url) {
-        Uri webpage = Uri.parse(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+        intent.putExtra(SearchManager.QUERY, url);
+        Log.e("INTENTA ", " dasdfasdgfas54w253$4w%$%$SFD " + intent.resolveActivity(getPackageManager()));
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
