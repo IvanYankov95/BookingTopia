@@ -5,6 +5,7 @@
     tools:context="bg.ittalents.bookingtopia.controller.fragments.ShowReservationFragment">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/show_reservation_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

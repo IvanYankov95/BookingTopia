@@ -143,6 +143,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
 

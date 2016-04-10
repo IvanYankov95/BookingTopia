@@ -244,18 +244,6 @@ class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    //IMAGES
-    //create image
-//    long createImage(byte[] array, int offerId){
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put(COMPANY_ID, offerId);
-//        values.put(CONTENT, array);
-//
-//        long id = db.insert(HOTEL_IMAGES, null, values);
-//        return id;
-//    }
-
     // closing database
     void closeDB() {
         SQLiteDatabase db = this.getReadableDatabase();

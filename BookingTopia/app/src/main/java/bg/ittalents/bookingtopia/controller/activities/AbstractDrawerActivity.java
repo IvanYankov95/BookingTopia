@@ -71,6 +71,9 @@ public class AbstractDrawerActivity extends AppCompatActivity
                 navigationView.getMenu().getItem(4).setVisible(false);
             }
         }
+
+        ShowReservationFragment.context = this;
+        ShowReservationFragment.loggedID = getLoggedId();
     }
 
     @Override
@@ -146,8 +149,6 @@ public class AbstractDrawerActivity extends AppCompatActivity
             bundle.putLong("user_id", getLoggedId());
             dialog.setArguments(bundle);
             dialog.show(AbstractDrawerActivity.this.getFragmentManager(), "MyDialogFragment");
-
-        } else if (id == R.id.nav_my_reviews) {
 
         } else if (id == R.id.nav_view_my_hotels) {
             Intent intent = new Intent(this, HotelListActivity.class);

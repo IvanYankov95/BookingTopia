@@ -5,7 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+
+import java.util.ArrayList;
+
+import model.Hotel;
 import model.Reservation;
+import model.Room;
 import model.User;
 
 /**
@@ -51,28 +58,39 @@ public class ReservationDAO implements IReservationDAO {
         db.close();
     }
 
-    public Reservation getReservationsByUser(User user) {
+    public ArrayList<Reservation> getReservationsByUser(long userId) {
+        Context context = null;
+        ArrayList<Reservation> reservations = new ArrayList<>();
 
         SQLiteDatabase db = mDb.getReadableDatabase();
 
         String selectQuery = "SELECT * FROM " + mDb.BOOKINGS
-                + " WHERE " + mDb.USER_ID + " = \"" + user.getUserId() + "\" ";
+                + " WHERE " + mDb.USER_ID + " = \"" + userId + "\" ";
 
         Cursor c = db.rawQuery(selectQuery, null);
 
         Reservation reservation = null;
 
         if (c.moveToFirst()) {
-            long id = c.getLong(c.getColumnIndex(mDb.BOOKING_ID));
-            long room_id = c.getLong(c.getColumnIndex(mDb.ROOM_ID));
-            long user_id = c.getLong(c.getColumnIndex(mDb.USER_ID));
+            do {
+                long id = c.getLong(c.getColumnIndex(mDb.BOOKING_ID));
+                long room_id = c.getLong(c.getColumnIndex(mDb.ROOM_ID));
+                long user_id = c.getLong(c.getColumnIndex(mDb.USER_ID));
 
-            reservation = new Reservation(id, room_id, user_id);
+                Room room = RoomDAO.getInstance(context).getRoomById(room_id);
+                Hotel hotel = HotelDAO.getInstance(context).getHotel(room.getHotelId());
+                ArrayList<LocalDate> dates = getAllReservedDatesByReservation(id);
+                reservation = new Reservation(id, room_id, user_id);
+                reservation.setRoom(room);
+                reservation.setHotel(hotel);
+                reservation.setDates(dates);
+                reservations.add(reservation);
+            } while (c.moveToNext());
         }
 
         c.close();
         db.close();
-        return reservation;
+        return reservations;
     }
 
     public Reservation getReservationsByID(long bookID) {
@@ -98,4 +116,25 @@ public class ReservationDAO implements IReservationDAO {
         return reservation;
     }
 
+    @Override
+    public ArrayList<LocalDate> getAllReservedDatesByReservation(long reservationID) {
+        ArrayList<LocalDate> dates = new ArrayList<>();
+
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT " + mDb.DATE + " FROM " + mDb.TAKEN_DATES
+                + " WHERE " + mDb.BOOKING_ID + " = \"" + reservationID + "\" ";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst()){
+            do {
+                String dateString = c.getString(c.getColumnIndex(mDb.DATE));
+                LocalDate date = new LocalDate(dateString);
+                dates.add(date);
+            } while (c.moveToNext());
+        }
+
+        return dates;
+    }
 }

@@ -18,10 +18,6 @@
         android:id="@+id/nav_my_reservations"
         android:icon="@drawable/ic_menu_manage"
         android:title="My Reservations" />
-    <item
-        android:id="@+id/nav_my_reviews"
-        android:icon="@drawable/ic_menu_manage"
-        android:title="My reviews" />
 
 </group>
 

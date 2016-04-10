@@ -1,11 +1,17 @@
 package model;
 
 
-public class Reservation {
-    long bookID;
-    long roomID;
-    long userID;
+import org.joda.time.LocalDate;
 
+import java.util.ArrayList;
+
+public class Reservation {
+    private long bookID;
+    private long roomID;
+    private long userID;
+    private Hotel hotel;
+    private Room room;
+    private ArrayList<LocalDate> dates;
 
     public Reservation(long bookID, long roomID, long userID) {
         this.bookID = bookID;
@@ -30,4 +36,27 @@ public class Reservation {
         return userID;
     }
 
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public ArrayList<LocalDate> getDates() {
+        return dates;
+    }
+
+    public void setDates(ArrayList<LocalDate> dates) {
+        this.dates = dates;
+    }
 }

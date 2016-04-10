@@ -1,5 +1,9 @@
 package model.dao;
 
+import org.joda.time.LocalDate;
+
+import java.util.ArrayList;
+
 import model.Reservation;
 import model.User;
 
@@ -12,7 +16,9 @@ public interface IReservationDAO {
 
     public void removeReservation(Reservation reservation);
 
-    public Reservation getReservationsByUser(User user);
+    public ArrayList<Reservation> getReservationsByUser(long userId);
 
     public Reservation getReservationsByID(long bookID);
+
+    public ArrayList<LocalDate> getAllReservedDatesByReservation(long reservationID);
 }
