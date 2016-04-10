@@ -152,8 +152,6 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
 
             long userId = getLoggedId();
 
-
-
             final User user = userDAO.getUserById(userId);
 
             byte[] image = user.getAvatar();

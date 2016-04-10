@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -114,17 +115,16 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         hotelAddress = (TextView) findViewById(R.id.view_hotel_address);
         hotelExtras = (TextView) findViewById(R.id.view_hotel_extrass);
         hotelWebPage = (TextView) findViewById(R.id.view_hotel_web_page);
-        rating  = (TextView) findViewById(R.id.view_hotel_rating);
+        rating = (TextView) findViewById(R.id.view_hotel_rating);
         stars = (ImageView) findViewById(R.id.view_hotel_stars);
         setStars();
 
-        for(Review r : hotel.getReviews()){
+        for (Review r : hotel.getReviews()) {
             rate += r.getRating();
         }
-        if(hotel.getReviews().size()!=0){
+        if (hotel.getReviews().size() != 0) {
             rating.setText(String.valueOf(df.format(hotel.getRating())));
-        }
-        else{
+        } else {
             rating.setText(String.valueOf(df.format(rate)));
         }
         hotelName.setText(hotel.getName());
@@ -132,24 +132,27 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         hotelDesciption.setText(hotel.getDescription());
         hotelAddress.setText(hotel.getAddress());
         hotelExtras.setText(hotel.getExtras());
-        if(hotel.getWebpage().isEmpty()){
+        if (hotel.getWebpage().isEmpty()) {
             webPageLayout.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             hotelWebPage.setText(hotel.getWebpage());
         }
+        hotelWebPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWebPage(hotelWebPage.getText().toString());
+            }
+        });
         hotelFacebook = (TextView) findViewById(R.id.view_hotel_facebook);
-        if(hotel.getLinkToFacebook().isEmpty()){
+        if (hotel.getLinkToFacebook().isEmpty()) {
             facebookLayout.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             hotelFacebook.setText(hotel.getWebpage());
         }
         hotelPolicies = (TextView) findViewById(R.id.view_hotel_policies);
-        if(hotel.getPolicies().isEmpty()) {
+        if (hotel.getPolicies().isEmpty()) {
             policiesLayout.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             hotelPolicies.setText(hotel.getWebpage());
         }
 
@@ -160,15 +163,24 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         webPageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ViewHotelActivity.this, "DA", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewHotelActivity.this, "asd", Toast.LENGTH_SHORT).show();
+                openWebPage(hotelWebPage.getText().toString());
+            }
+        });
+        facebookLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ViewHotelActivity.this, "dsa", Toast.LENGTH_SHORT).show();
+
+                openWebPage(hotelWebPage.getText().toString());
             }
         });
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fabLayout = (LinearLayout) findViewById(R.id.fab_layout);
         final String userName = userDAO.getUserById(getLoggedId()).getUsername();
-        for(Review r: hotel.getReviews()){
-            if(r.getWriter().equals(userName)){
+        for (Review r : hotel.getReviews()) {
+            if (r.getWriter().equals(userName)) {
                 fabLayout.setVisibility(View.GONE);
                 break;
             }
@@ -252,7 +264,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
                 updateImageSwitcherImage();
             } finally {
                 myHandler.postDelayed(this, 3000);
-                if(images.size() == 1){
+                if (images.size() == 1) {
                     myHandler.removeCallbacks(this);
                 }
             }
@@ -293,12 +305,12 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         isRatingChanged = true;
         rate = 0.0;
         ArrayList<Review> reviews = new ArrayList<>(reviewDAO.getAllReviewsByHotelId(hotelId));
-        for(Review r : reviews){
+        for (Review r : reviews) {
             rate += r.getRating();
         }
 
         fabLayout.setVisibility(View.GONE);
-        rating.setText(String.valueOf(df.format(rate/reviews.size())));
+        rating.setText(String.valueOf(df.format(rate / reviews.size())));
 
         reviewsRecView = (RecyclerView) findViewById(R.id.review_cardview_in_viewHotel_rec_view);
         reviewAdapter = new ReviewAdapter(this, reviews);
@@ -308,7 +320,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
     }
 
-    private void setStars(){
+    private void setStars() {
         switch (hotel.getStars()) {
             case 7:
                 stars.setImageResource(R.drawable.star7);
@@ -334,14 +346,26 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         }
     }
 
+
     @Override
     public void onBackPressed() {
-        Intent i=new Intent();
-        if(isRatingChanged) {
+        Intent i = new Intent();
+        if (isRatingChanged) {
             setResult(HotelListActivity.CHANGE_RATING_CODE, i);
         }
         finish();
         super.onBackPressed();
 
     }
+
+    public void openWebPage(String url) {
+        Uri webpage = Uri.parse(url);
+        Log.e("url ---" ,"" + webpage);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+
 }

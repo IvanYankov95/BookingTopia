@@ -8,8 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.masterycorp.goalprogresstracker.main.HomeActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <include
         android:id="@+id/tool"
@@ -240,12 +239,15 @@
                             android:text="Web Page : " />
 
                         <TextView
+                            android:onClick="goToWeb"
                             android:id="@+id/view_hotel_web_page"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:clickable="true"
+                        android:background="?android:selectableItemBackground"
                         android:id="@+id/facebook_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
