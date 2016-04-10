@@ -159,6 +159,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fabLayout = (LinearLayout) findViewById(R.id.fab_layout);
         fabLayout.bringToFront();
+
         addReview = (TextView) findViewById(R.id.review_add);
         if (!isUser()) {
             fabLayout.setVisibility(View.GONE);
@@ -278,6 +279,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
             rate += r.getRating();
         }
 
+        fabLayout.setVisibility(View.GONE);
         rating.setText(String.valueOf(rate/hotel.getReviews().size()));
 
         reviewsRecView = (RecyclerView) findViewById(R.id.review_cardview_in_viewHotel_rec_view);
