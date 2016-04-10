@@ -2,19 +2,23 @@ package bg.ittalents.bookingtopia.controller.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -26,8 +30,12 @@ import bg.ittalents.bookingtopia.R;
 import bg.ittalents.bookingtopia.controller.activities.AbstractDrawerActivity;
 import bg.ittalents.bookingtopia.controller.activities.CreateHotelActivity;
 import bg.ittalents.bookingtopia.controller.activities.HotelListActivity;
+import bg.ittalents.bookingtopia.controller.activities.LogInActivity;
+import bg.ittalents.bookingtopia.controller.activities.RegisterCompanyActivity;
+import bg.ittalents.bookingtopia.controller.activities.RegisterUserActivity;
 import bg.ittalents.bookingtopia.controller.activities.ViewHotelActivity;
 import model.Hotel;
+import model.dao.HotelDAO;
 
 /**
  * Created by Preshlen on 4/6/2016.
@@ -79,7 +87,7 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                 vh.bindView(position);
 
-                Hotel hotel = hotels.get(position);
+                final Hotel hotel = hotels.get(position);
                 vh.rating.setText(formatter.format(hotel.getRating()));
                 vh.name.setText(hotel.getName());
                 vh.city.setText(hotel.getCity());
@@ -129,6 +137,41 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 });
 
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if(hotel.getCompanyId() == ((AbstractDrawerActivity)activity).getLoggedId() )
+                        new AlertDialog.Builder(v.getContext())
+                                .setTitle("Do you want to delete the hotel?")
+                                .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(activity, "Hotel deleted", Toast.LENGTH_SHORT).show();
+                                        HotelDAO.getInstance(activity).deleteHotel(hotel);
+                                        dialog.cancel();
+                                    }
+                                })
+                                .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        
+                                        dialog.cancel();
+                                    }
+                                }).show();
+
+                        return false;
+                    }
+                });
+
+                holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+
+
+                        return false;
+                    }
+                });
+
 
             } else if (holder instanceof FooterViewHolder) {
                 FooterViewHolder vh = (FooterViewHolder) holder;
@@ -144,7 +187,6 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
     }
-
 
     @Override
     public int getItemCount() {
