@@ -60,7 +60,7 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
         Bundle bundle = getIntent().getExtras();
         Toolbar toolbar = (Toolbar) findViewById(R.id.register_company_toolbar_text);
         if (bundle.getBoolean("edit_mode"))
-            toolbar.setTitle("Regi company");
+            toolbar.setTitle("Edit company");
         else
             toolbar.setTitle("Register company");
         setSupportActionBar(toolbar);

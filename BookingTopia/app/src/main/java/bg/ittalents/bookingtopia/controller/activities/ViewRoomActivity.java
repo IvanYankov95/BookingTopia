@@ -120,9 +120,6 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
         imageSwitcher.setOutAnimation(out);
 
         myHandler.postDelayed(r, 1000);
-        if(images.size()==1) {
-            myHandler.removeCallbacks(r);
-        }
 
         imageSwitcher.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +143,9 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
                 updateImageSwitcherImage();
             } finally {
                 myHandler.postDelayed(this, 3000);
+                if (images.size() == 1) {
+                    myHandler.removeCallbacks(this);
+                }
             }
         }
     };

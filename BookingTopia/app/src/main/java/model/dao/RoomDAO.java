@@ -8,14 +8,9 @@ import android.util.Log;
 
 import org.joda.time.LocalDate;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.TreeSet;
 
 import model.CalendarHelper;
@@ -30,30 +25,32 @@ public class RoomDAO implements IRoomDAO {
 
     private DatabaseHelper mDb;
 
-    private RoomDAO(Context context){this.mDb = DatabaseHelper.getInstance(context);}
+    private RoomDAO(Context context) {
+        this.mDb = DatabaseHelper.getInstance(context);
+    }
 
-    public static RoomDAO getInstance(Context context){
-        if(instance == null)
+    public static RoomDAO getInstance(Context context) {
+        if (instance == null)
             instance = new RoomDAO(context);
 
         return instance;
     }
 
-    public long registerRoom(Room room){
+    public long registerRoom(Room room) {
 
         SQLiteDatabase db = mDb.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(mDb.HOTEL_ID,           room.getHotelId());
+        values.put(mDb.HOTEL_ID, room.getHotelId());
         values.put(mDb.ROOM_PRICE_PER_DAY, room.getPricePerDay());
-        values.put(mDb.ROOM_DESCRIPTION,   room.getDescription());
-        values.put(mDb.ROOM_MAX_GUESTS,    room.getMaxGuests());
-        values.put(mDb.ROOM_BEDS,          room.getBeds());
-        values.put(mDb.ROOM_X,             room.getRoomSize()[0]);
-        values.put(mDb.ROOM_Y,             room.getRoomSize()[1]);
-        values.put(mDb.ROOM_EXTRAS,        room.getExtras());
-        values.put(mDb.ROOM_SMOKING,       room.isSmoking() ? 1 : 0);
+        values.put(mDb.ROOM_DESCRIPTION, room.getDescription());
+        values.put(mDb.ROOM_MAX_GUESTS, room.getMaxGuests());
+        values.put(mDb.ROOM_BEDS, room.getBeds());
+        values.put(mDb.ROOM_X, room.getRoomSize()[0]);
+        values.put(mDb.ROOM_Y, room.getRoomSize()[1]);
+        values.put(mDb.ROOM_EXTRAS, room.getExtras());
+        values.put(mDb.ROOM_SMOKING, room.isSmoking() ? 1 : 0);
 
         long roomId = db.insert(mDb.ROOMS, null, values);
 
@@ -72,7 +69,7 @@ public class RoomDAO implements IRoomDAO {
         return roomId;
     }
 
-    public void deleteRoom(Room room){
+    public void deleteRoom(Room room) {
         SQLiteDatabase db = mDb.getWritableDatabase();
         db.delete(mDb.ROOMS, mDb.ROOM_ID + " = ?",
                 new String[]{String.valueOf(room.getRoomId())});
@@ -80,21 +77,21 @@ public class RoomDAO implements IRoomDAO {
         db.close();
     }
 
-    public long changeRoomData(Room room){
+    public long changeRoomData(Room room) {
         SQLiteDatabase db = mDb.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(mDb.ROOM_ID,            room.getRoomId());
-        values.put(mDb.HOTEL_ID,           room.getHotelId());
+        values.put(mDb.ROOM_ID, room.getRoomId());
+        values.put(mDb.HOTEL_ID, room.getHotelId());
         values.put(mDb.ROOM_PRICE_PER_DAY, room.getPricePerDay());
-        values.put(mDb.ROOM_DESCRIPTION,   room.getDescription());
-        values.put(mDb.ROOM_MAX_GUESTS,    room.getMaxGuests());
-        values.put(mDb.ROOM_BEDS,          room.getBeds());
-        values.put(mDb.ROOM_X,             room.getRoomSize()[0]);
-        values.put(mDb.ROOM_Y,             room.getRoomSize()[1]);
-        values.put(mDb.ROOM_EXTRAS,        room.getExtras());
-        values.put(mDb.ROOM_SMOKING,       room.isSmoking() ? 1 : 0);
+        values.put(mDb.ROOM_DESCRIPTION, room.getDescription());
+        values.put(mDb.ROOM_MAX_GUESTS, room.getMaxGuests());
+        values.put(mDb.ROOM_BEDS, room.getBeds());
+        values.put(mDb.ROOM_X, room.getRoomSize()[0]);
+        values.put(mDb.ROOM_Y, room.getRoomSize()[1]);
+        values.put(mDb.ROOM_EXTRAS, room.getExtras());
+        values.put(mDb.ROOM_SMOKING, room.isSmoking() ? 1 : 0);
 
         long companyId = db.update(mDb.ROOMS, values, mDb.ROOM_ID + " = ? ", new String[]{String.valueOf(room.getRoomId())});
         db.close();
@@ -102,7 +99,7 @@ public class RoomDAO implements IRoomDAO {
         return companyId;
     }
 
-    public Room getRoomById (long roomId) {
+    public Room getRoomById(long roomId) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
         String selectQuery = "SELECT * FROM " + mDb.ROOMS
@@ -112,7 +109,7 @@ public class RoomDAO implements IRoomDAO {
 
         Room room = null;
 
-        if(c.moveToFirst()){
+        if (c.moveToFirst()) {
             long id = c.getLong(c.getColumnIndex(mDb.ROOM_ID));
             long hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
             double pricePerDay = c.getDouble(c.getColumnIndex(mDb.ROOM_PRICE_PER_DAY));
@@ -130,7 +127,7 @@ public class RoomDAO implements IRoomDAO {
             ArrayList<byte[]> images = getImages(roomId);
             ArrayList<LocalDate> dates = new ArrayList<>();
 
-            room = new Room(id,hotelId,pricePerDay,description,maxGuests,beds,x,y,extras,smoking,dates,images);
+            room = new Room(id, hotelId, pricePerDay, description, maxGuests, beds, x, y, extras, smoking, dates, images);
 
         }
 
@@ -139,7 +136,7 @@ public class RoomDAO implements IRoomDAO {
         return room;
     }
 
-    public ArrayList<Room> getAllRoomsByHotelID(long hotelID){
+    public ArrayList<Room> getAllRoomsByHotelID(long hotelID) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
         String selectQuery = "SELECT * FROM " + mDb.ROOMS
@@ -149,7 +146,7 @@ public class RoomDAO implements IRoomDAO {
 
         ArrayList<Room> rooms = new ArrayList<>();
         HashSet<Room> set = new HashSet<>();
-        if(c.moveToFirst()){
+        if (c.moveToFirst()) {
             do {
                 Room room = null;
 
@@ -174,7 +171,7 @@ public class RoomDAO implements IRoomDAO {
                 room = new Room(id, hotelId, pricePerDay, description, maxGuests, beds, x, y, extras, smoking, dates, images);
 
                 set.add(room);
-            }while (c.moveToNext());
+            } while (c.moveToNext());
         }
         rooms.addAll(set);
         c.close();
@@ -182,23 +179,20 @@ public class RoomDAO implements IRoomDAO {
         return rooms;
     }
 
-    public HashSet<Room> getAllRoomsByHotelWithAvailableDates(long hotelID){
+    public HashSet<Room> getAllRoomsByHotelWithAvailableDates(long hotelID) {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        String test = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN " + CalendarHelper.fromDate.minusDays(1) + " AND " + CalendarHelper.toDate.plusDays(1);
-
-         String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN '" + CalendarHelper.fromDate.minusDays(1) + "' AND '" + CalendarHelper.toDate.plusDays(1) + "'";
+        String datesSelect = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.TAKEN_DATES + " WHERE " + mDb.DATE + " BETWEEN '" + CalendarHelper.fromDate.minusDays(1) + "' AND '" + CalendarHelper.toDate.plusDays(1) + "'";
 
         Cursor c = db.rawQuery(datesSelect, null);
 
         TreeSet<Long> takenIDs = new TreeSet<>();
 
-        if(c.moveToFirst()){
-            do{
+        if (c.moveToFirst()) {
+            do {
                 takenIDs.add(c.getLong(c.getColumnIndex(mDb.ROOM_ID)));
             } while (c.moveToNext());
         }
-
 
 
         String idSelects = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.ROOMS + " WHERE " + mDb.HOTEL_ID + " = \"" + hotelID + "\"";
@@ -207,19 +201,19 @@ public class RoomDAO implements IRoomDAO {
 
         TreeSet<Long> allIDs = new TreeSet<>();
 
-        if(c2.moveToFirst()){
-            do{
+        if (c2.moveToFirst()) {
+            do {
                 allIDs.add(c2.getLong(c2.getColumnIndex(mDb.ROOM_ID)));
             } while (c2.moveToNext());
         }
 
-        for(long l : takenIDs){
+        for (long l : takenIDs) {
             allIDs.remove(l);
         }
 
         HashSet<Room> rooms = new HashSet<>();
 
-        for(long l : allIDs){
+        for (long l : allIDs) {
             rooms.add(getRoomById(l));
         }
 
@@ -227,18 +221,18 @@ public class RoomDAO implements IRoomDAO {
     }
 
 
-    private ArrayList<byte[]> getImages(long roomId){
+    private ArrayList<byte[]> getImages(long roomId) {
         ArrayList<byte[]> images = new ArrayList<byte[]>();
 
         SQLiteDatabase db = mDb.getReadableDatabase();
 
-        String selectQuery = "SELECT "+ mDb.CONTENT +" FROM " + mDb.ROOM_IMAGES
+        String selectQuery = "SELECT " + mDb.CONTENT + " FROM " + mDb.ROOM_IMAGES
                 + " WHERE " + mDb.ROOM_ID + " = \"" + roomId + "\"";
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        if(c.moveToFirst()){
-            do{
+        if (c.moveToFirst()) {
+            do {
                 byte[] image = c.getBlob(c.getColumnIndex(mDb.CONTENT));
                 images.add(image);
             }
@@ -251,7 +245,7 @@ public class RoomDAO implements IRoomDAO {
     }
 
 
-    private long getHotelIdByRoomId(long roomID){
+    private long getHotelIdByRoomId(long roomID) {
 
         SQLiteDatabase db = mDb.getReadableDatabase();
 
@@ -260,8 +254,8 @@ public class RoomDAO implements IRoomDAO {
 
         Cursor c = db.rawQuery(selectQuery, null);
         ArrayList<Calendar> dates = new ArrayList<>();
-        long hotelId =0;
-        if(c.moveToFirst()) {
+        long hotelId = 0;
+        if (c.moveToFirst()) {
             hotelId = c.getLong(c.getColumnIndex(mDb.HOTEL_ID));
         }
 
@@ -275,9 +269,9 @@ public class RoomDAO implements IRoomDAO {
         SQLiteDatabase db = mDb.getReadableDatabase();
 
         LocalDate fromDate = CalendarHelper.fromDate;
-        LocalDate toDate   = CalendarHelper.toDate.plusDays(1);
+        LocalDate toDate = CalendarHelper.toDate.plusDays(1);
 
-        while(fromDate.isBefore(toDate)){
+        while (fromDate.isBefore(toDate)) {
             ContentValues values2 = new ContentValues();
 
             values2.put(mDb.BOOKING_ID, reservationID);

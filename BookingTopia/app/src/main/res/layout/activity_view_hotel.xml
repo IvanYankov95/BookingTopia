@@ -228,6 +228,7 @@
                                 android:textColor="@color/colorBlack" />
 
                             <TextView
+                                android:textColor="@color/colorBlue"
                                 android:id="@+id/biew_hotel_phone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />

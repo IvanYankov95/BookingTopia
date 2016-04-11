@@ -200,19 +200,20 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         });
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorSmoothRed)));
-        fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pen));
         fabLayout = (LinearLayout) findViewById(R.id.fab_layout);
-        final String userName = userDAO.getUserById(getLoggedId()).getUsername();
-        for (Review r : hotel.getReviews()) {
-            if (r.getWriter().equals(userName)) {
-                fabLayout.setVisibility(View.GONE);
-                break;
+        if (isUser()) {
+            fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorSmoothRed)));
+            fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pen));
+            final String userName = userDAO.getUserById(getLoggedId()).getUsername();
+            for (Review r : hotel.getReviews()) {
+                if (r.getWriter().equals(userName)) {
+                    fabLayout.setVisibility(View.GONE);
+                    break;
+                }
             }
-        }
-        fabLayout.bringToFront();
+            fabLayout.bringToFront();
 
-        if (!isUser()) {
+        }else{
             fabLayout.setVisibility(View.GONE);
         }
 
