@@ -5,7 +5,7 @@
     android:id="@+id/create_hotel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
+    android:background="@color/colorAccent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".controller.activities.CreateHotelActivity">
@@ -50,6 +50,7 @@
                         android:layout_weight="2">
 
                         <ImageButton
+                            android:background="@color/colorPrimaryDark"
                             android:id="@+id/add_hotel_main_picture"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -70,6 +71,7 @@
                             android:layout_weight="1">
 
                             <ImageButton
+                                android:background="@color/colorPrimaryDark"
                                 android:id="@+id/add_hotel_picture1"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -79,6 +81,7 @@
                                 android:scaleType="fitCenter" />
 
                             <ImageButton
+                                android:background="@color/colorPrimaryDark"
                                 android:id="@+id/add_hotel_picture2"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -88,6 +91,7 @@
                                 android:scaleType="fitCenter" />
 
                             <ImageButton
+                                android:background="@color/colorPrimaryDark"
                                 android:id="@+id/add_hotel_picture3"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -103,6 +107,7 @@
                             android:layout_weight="1">
 
                             <ImageButton
+                                android:background="@color/colorPrimaryDark"
                                 android:id="@+id/add_hotel_picture4"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -112,6 +117,7 @@
                                 android:scaleType="fitCenter" />
 
                             <ImageButton
+                                android:background="@color/colorPrimaryDark"
                                 android:id="@+id/add_hotel_picture5"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -121,6 +127,7 @@
                                 android:scaleType="fitCenter" />
 
                             <ImageButton
+                                android:background="@color/colorPrimaryDark"
                                 android:id="@+id/add_hotel_picture6"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"

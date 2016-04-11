@@ -94,7 +94,7 @@ public class ReservationFragment extends DialogFragment {
 
         dates.setText(helperFrom.toString() + " - " + helperTo);
 
-        price.setText("Total price : " + (counter * room.getPricePerDay()) + " leva");
+        price.setText(""+ (counter * room.getPricePerDay()) + " BGN");
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override

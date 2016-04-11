@@ -127,7 +127,11 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
         hPhone = hotelDAO.getHotelPhoneFromCompanyByHotel(hotel);
 
+        webPageLayout = (LinearLayout) findViewById(R.id.web_page_layout);
+        facebookLayout = (LinearLayout) findViewById(R.id.facebook_layout);
+        policiesLayout = (LinearLayout) findViewById(R.id.policies_layout);
         phoneLayout = (LinearLayout) findViewById(R.id.view_hotel_phone_layout);
+
         hotelName = (TextView) findViewById(R.id.view_hotel_name);
         hotelCityName = (TextView) findViewById(R.id.view_hotel_city);
         hotelDesciption = (TextView) findViewById(R.id.view_hotel_description);
@@ -181,10 +185,6 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
             hotelPolicies.setText(hotel.getWebpage());
         }
 
-        webPageLayout = (LinearLayout) findViewById(R.id.web_page_layout);
-        facebookLayout = (LinearLayout) findViewById(R.id.facebook_layout);
-        policiesLayout = (LinearLayout) findViewById(R.id.policies_layout);
-
         webPageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,7 +200,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         });
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPurple)));
+        fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorSmoothRed)));
         fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pen));
         fabLayout = (LinearLayout) findViewById(R.id.fab_layout);
         final String userName = userDAO.getUserById(getLoggedId()).getUsername();

@@ -51,7 +51,6 @@ public class HotelListActivity extends AbstractDrawerActivity {
         if (bundle.getBoolean("search")) {
             String searchName = (String) bundle.get("search_name");
             String searchStars = (String) bundle.get("search_stars");
-            Log.e("search stars", "" + searchStars);
             int stars = Integer.valueOf(searchStars);
 
             if (stars == 8) {
@@ -65,7 +64,6 @@ public class HotelListActivity extends AbstractDrawerActivity {
                     hotels = hotelDAO.getAllHotelsByNameCityAndStars(searchName, stars);
                 else
                     hotels = hotelDAO.getAllHotelsByStars(stars);
-
             }
         } else {
             hotels = hotelDAO.getAllHotelsByCompanyID(getLoggedId());
@@ -76,8 +74,8 @@ public class HotelListActivity extends AbstractDrawerActivity {
         orderElems.add("rating");
         orderElems.add("stars");
 
+        recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
         if (!(isUser() && hotels.size() == 0)) {
-            recyclerView = (RecyclerView) findViewById(R.id.hotel_list_rec_view);
             adapter = new HotelsCardViewAdapter(this, hotels);
             lim = new LinearLayoutManager(this);
             lim.setStackFromEnd(false);
@@ -93,7 +91,6 @@ public class HotelListActivity extends AbstractDrawerActivity {
         orderBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, View view, final int position, long id) {
-
 
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override

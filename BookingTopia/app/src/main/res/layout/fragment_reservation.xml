@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="7dp"
-                android:text="hotelname" />
+                android:text="" />
 
             <ImageView
                 android:layout_width="110dp"
@@ -84,7 +84,7 @@
 
             <TextView
                 android:id="@+id/fragment_reservation_dates"
-                android:text="dgdgf"
+                android:text=""
                 android:textSize="22sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -98,13 +98,13 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:text="RTotal price: "
+                android:text="Total price: "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:textSize="22sp"
-                android:text="dgdgf"
+                android:text=""
                 android:id="@+id/fragment_reservation_total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
