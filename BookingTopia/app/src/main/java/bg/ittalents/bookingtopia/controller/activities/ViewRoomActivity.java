@@ -119,7 +119,7 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
         imageSwitcher.setInAnimation(in);
         imageSwitcher.setOutAnimation(out);
 
-        myHandler.postDelayed(r, 1000);
+        myHandler.postDelayed(r, 3000);
 
         imageSwitcher.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +129,7 @@ public class ViewRoomActivity extends AbstractDrawerActivity {
                     myHandler.removeCallbacks(r);
                 }
                 else{
-                    myHandler.postDelayed(r, 1000);
+                    myHandler.postDelayed(r, 6000);
                 }
                 isClicked = !isClicked;
             }

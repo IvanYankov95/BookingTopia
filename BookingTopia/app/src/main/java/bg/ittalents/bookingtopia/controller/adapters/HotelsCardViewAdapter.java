@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -84,8 +86,11 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         try {
             if (holder instanceof CustomViewHolder) {
                 CustomViewHolder vh = (CustomViewHolder) holder;
-
                 vh.bindView(position);
+
+                Animation slideRight = AnimationUtils.loadAnimation(activity, android.R.anim.slide_in_left);
+
+                vh.itemView.setAnimation(slideRight);
 
                 final Hotel hotel = hotels.get(position);
                 vh.rating.setText(formatter.format(hotel.getRating()));
@@ -148,17 +153,22 @@ public class HotelsCardViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     public void onClick(DialogInterface dialog, int which) {
                                         Toast.makeText(activity, "Hotel deleted", Toast.LENGTH_SHORT).show();
                                         HotelDAO.getInstance(activity).deleteHotel(hotel);
+                                        hotels.remove(hotel);
+                                        notifyDataSetChanged();
                                         dialog.cancel();
                                     }
                                 })
                                 .setPositiveButton("No", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        
+
                                         dialog.cancel();
                                     }
                                 }).show();
-
+                        else {
+                            Animation shake = AnimationUtils.loadAnimation(activity, R.anim.shake);
+                            holder.itemView.setAnimation(shake);
+                        }
                         return false;
                     }
                 });

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,6 +70,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
             hotels = hotelDAO.getAllHotelsByCompanyID(getLoggedId());
         }
 
+
         ArrayList<String> orderElems = new ArrayList<>();
         orderElems.add("Order by:");
         orderElems.add("rating");
@@ -83,6 +85,11 @@ public class HotelListActivity extends AbstractDrawerActivity {
             recyclerView.setAdapter(adapter);
         }
         orderBy = (Spinner) findViewById(R.id.order_by);
+        if(hotels.size() == 0) {
+            orderBy.setVisibility(View.GONE);
+        }else {
+            orderBy.setVisibility(View.GONE);
+        }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, orderElems);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         orderBy.setAdapter(dataAdapter);
@@ -140,14 +147,11 @@ public class HotelListActivity extends AbstractDrawerActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == SEND_CODE) {
 
-            hotels = hotelDAO.getAllHotelsByCompanyID(getLoggedId());
-            adapter = new HotelsCardViewAdapter(this, hotels);
-            lim.setStackFromEnd(true);
-            recyclerView.setAdapter(adapter);
 
+            finish();
         }
         if (resultCode == CHANGE_RATING_CODE) {
-
+         //   Log.e(" tursq --- " , " v hotelList poemam result code");
             finish();
         }
         adapter.notifyAdapter();

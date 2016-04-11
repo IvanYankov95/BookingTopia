@@ -228,10 +228,10 @@
                                 android:textColor="@color/colorBlack" />
 
                             <TextView
-                                android:textColor="@color/colorBlue"
                                 android:id="@+id/biew_hotel_phone"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorBlue" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -343,7 +343,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="7dp"
-                                android:text="Facebook: : "
+                                android:text="Facebook:  "
                                 android:textColor="@color/colorBlack" />
 
                             <TextView
@@ -365,7 +365,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="Policies: : "
+                            android:text="Policies:  "
                             android:textColor="@color/colorBlack" />
 
                         <TextView
@@ -378,6 +378,7 @@
             </android.support.v7.widget.CardView>
 
             <TextView
+                android:id="@+id/hotel_rooms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
@@ -385,15 +386,22 @@
                 android:gravity="center"
                 android:text="Available rooms" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/room_cardview_in_viewHotel_rec_view"
+            <LinearLayout
+                android:id="@+id/rooms_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_height="wrap_content">
 
-            </android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/room_cardview_in_viewHotel_rec_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
 
             <TextView
+                android:id="@+id/hotel_comments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
@@ -401,14 +409,19 @@
                 android:gravity="center"
                 android:text="Comments" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/review_cardview_in_viewHotel_rec_view"
+            <LinearLayout
+                android:id="@+id/comments_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_height="wrap_content">
 
-            </android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/review_cardview_in_viewHotel_rec_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
 
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

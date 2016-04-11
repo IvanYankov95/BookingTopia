@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".controller.activities.RegisterUserActivity" />
+
         <activity android:name=".controller.activities.LogInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.activities.RegisterCompanyActivity" />
+
         <activity
             android:name=".controller.activities.AbstractDrawerActivity"
             android:label="@string/title_activity_abstract_drawer"
@@ -32,6 +32,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity android:name=".controller.activities.RegisterCompanyActivity" />
+        <activity android:name=".controller.activities.RegisterUserActivity" />
         <activity android:name=".controller.activities.ViewHotelActivity" />
         <activity android:name=".controller.activities.HomeActivity" />
         <activity android:name=".controller.activities.HotelListActivity" />

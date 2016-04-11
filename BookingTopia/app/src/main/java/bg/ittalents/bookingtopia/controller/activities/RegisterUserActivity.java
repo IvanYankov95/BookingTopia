@@ -22,7 +22,10 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -72,7 +75,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
     private static byte[] avatarPic;
     private static boolean avatarCheck;
 
-    private static Calendar calendar;
+    boolean dateCheck = false;
     private static LocalDate localDate;
 
     @Override
@@ -160,7 +163,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
                     lastName.setText(names[1]);
             }
 
-            password.setText("New password");
+            password.setText("");
 
             dateOfBirth.setText(user.getDateOfBirth().toString());
 
@@ -195,19 +198,19 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
                     String countryTxt = country.getText().toString();
 
                     boolean passwordCheck = false;
+                    boolean isPassChanging = false;
                     boolean nameCheck = false;
 
-                    if (!passwordTxt.equalsIgnoreCase("new password")) {
-                        if (passwordTxt.isEmpty())
-                            password.setError("This field is required");
-                        else if (!helper.checkPasswordStrength(passwordTxt))
+                    if (!passwordTxt.isEmpty()) {
+                        if (!helper.checkPasswordStrength(passwordTxt))
                             password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
                         else if (!passwordTxt.equals(confirmPasswordTxt))
                             confirmPassword.setError("Passwords don't match");
                         else
                             passwordCheck = true;
-                        // password check
+                        isPassChanging = true;
                     } else {
+                        isPassChanging = false;
                         passwordCheck = true;
                     }
 
@@ -224,6 +227,10 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
                     if (passwordCheck && nameCheck) {
 
                         String names = firstNameTxt + " " + lastNameTxt;
+
+                        if (!isPassChanging) {
+                            passwordTxt = user.getPassword();
+                        }
 
                         byte[] selectedAvatar;
                         if (avatarCheck)
@@ -261,11 +268,17 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
                     String lastNameTxt = lastName.getText().toString();
                     String phoneTxt = phone.getText().toString();
                     String countryTxt = country.getText().toString();
+                    String date = dateOfBirth.getText().toString();
 
                     boolean usernameCheck = false;
                     boolean emailCheck = false;
                     boolean passwordCheck = false;
                     boolean nameCheck = false;
+
+                    if(date.isEmpty())
+                        dateOfBirth.setError("This field is required");
+                    else
+                        dateCheck = true;
 
                     // username check
                     if (usernameTxt.isEmpty())
@@ -309,7 +322,8 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
 
                     if (!avatarCheck)
                         Toast.makeText(RegisterUserActivity.this, "Avatar is required", Toast.LENGTH_SHORT).show();
-                    if (usernameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
+                    if (usernameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck && dateCheck) {
+
 
                         String names = firstNameTxt + " " + lastNameTxt;
                         User user = new User(names, helper.md5(passwordTxt), avatarPic, emailTxt, usernameTxt, phoneTxt, localDate, selectedGender, countryTxt, smokerCheckBox.isChecked());
@@ -367,7 +381,6 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
-                calendar = c;
 
                 return new DatePickerDialog(getActivity(), this, year, month, day);
             }
@@ -376,7 +389,7 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 monthOfYear++;
                 String date = year + "-" + ((monthOfYear < 10) ? "0" : "") + monthOfYear + "-" + ((dayOfMonth < 10) ? "0" : "") + dayOfMonth;
-
+                dateCheck = true;
                 localDate = new LocalDate(year, monthOfYear, dayOfMonth);
                 edt.setText(date);
             }

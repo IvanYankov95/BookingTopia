@@ -194,7 +194,6 @@ public class RoomDAO implements IRoomDAO {
             } while (c.moveToNext());
         }
 
-
         String idSelects = "SELECT " + mDb.ROOM_ID + " FROM " + mDb.ROOMS + " WHERE " + mDb.HOTEL_ID + " = \"" + hotelID + "\"";
 
         Cursor c2 = db.rawQuery(idSelects, null);

@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -52,58 +53,69 @@ import model.dao.ReviewDAO;
 import model.dao.RoomDAO;
 import model.dao.UserDAO;
 
-public class ViewHotelActivity extends AbstractDrawerActivity {
+public class ViewHotelActivity extends AbstractDrawerActivity implements View.OnClickListener {
 
     public static final int CALL_REQUEST_CODE = 111;
     public static final int SEND_CODE = 10;
-    DecimalFormat df = new DecimalFormat("#0.0");
+    private static DecimalFormat df = new DecimalFormat("#0.0");
 
-    LinearLayout webPageLayout;
-    LinearLayout facebookLayout;
-    LinearLayout policiesLayout;
-    LinearLayout fabLayout;
-    LinearLayout phoneLayout;
+    private static LinearLayout webPageLayout;
+    private static LinearLayout facebookLayout;
+    private static LinearLayout policiesLayout;
+    private static LinearLayout fabLayout;
+    private static LinearLayout phoneLayout;
+    private static LinearLayout roomsLayout;
+    private static LinearLayout commentsLayout;
 
-    TextView hotelName;
-    TextView hotelCityName;
-    TextView hotelDesciption;
-    TextView hotelAddress;
-    TextView hotelExtras;
-    TextView hotelWebPage;
-    TextView hotelFacebook;
-    TextView hotelPolicies;
-    TextView hotelPhone;
-    ImageView stars;
-    FloatingActionButton fab;
-    TextView rating;
 
-    private ImageSwitcher imageSwitcher;
-    private RecyclerView imagesRecView;
-    private RecyclerView roomsRecView;
-    private RecyclerView reviewsRecView;
-    private LinearLayoutManager lim;
+    private static TextView hotelInfo;
+    private static TextView hotelRooms;
+    private static TextView hotelComments;
+    private static TextView hotelName;
+    private static TextView hotelCityName;
+    private static TextView hotelDesciption;
+    private static TextView hotelAddress;
+    private static TextView hotelExtras;
+    private static TextView hotelWebPage;
+    private static TextView hotelFacebook;
+    private static TextView hotelPolicies;
+    private static TextView hotelPhone;
+    private static ImageView stars;
+    private static FloatingActionButton fab;
+    private static TextView rating;
 
-    IRoomDAO roomDAO;
-    IReviewDAO reviewDAO;
-    IUserDAO userDAO;
-    IHotelDAO hotelDAO;
+    private static ImageSwitcher imageSwitcher;
+    private static RecyclerView imagesRecView;
+    private static RecyclerView roomsRecView;
+    private static RecyclerView reviewsRecView;
+    private static LinearLayoutManager lim;
+    private static CardView hotelInfoCardView;
 
-    String hPhone;
-    boolean isRatingChanged;
-    double rate;
-    boolean isClicked = true;
-    Bundle bundle;
-    long hotelId;
-    Hotel hotel;
-    ArrayList<byte[]> images;
-    int imagesCount;
-    int currentIndex = -1;
-    Animation in, out;
-    private Handler myHandler = new Handler();
+    private static IRoomDAO roomDAO;
+    private static IReviewDAO reviewDAO;
+    private static IUserDAO userDAO;
+    private static IHotelDAO hotelDAO;
 
-    ImageAdapter imageAdapter;
-    RoomCardViewAdapter roomAdapter;
-    ReviewAdapter reviewAdapter;
+    private static String hPhone;
+    private static boolean isRatingChanged = false;
+    private static boolean isHotelInfoClicked;
+    private static boolean isAvailableRoomsClicked;
+    private static boolean isCommentsClicked;
+
+    private static double rate;
+    private static boolean isClicked = true;
+    private static Bundle bundle;
+    private static long hotelId;
+    private static Hotel hotel;
+    private static ArrayList<byte[]> images;
+    private static int imagesCount;
+    private static int currentIndex = -1;
+    private static Animation in, out;
+    private static Handler myHandler = new Handler();
+
+    private static ImageAdapter imageAdapter;
+    private static RoomCardViewAdapter roomAdapter;
+    private static ReviewAdapter reviewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,10 +139,23 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
         hPhone = hotelDAO.getHotelPhoneFromCompanyByHotel(hotel);
 
+        hotelInfoCardView = (CardView) findViewById(R.id.room_list_card_view);
         webPageLayout = (LinearLayout) findViewById(R.id.web_page_layout);
         facebookLayout = (LinearLayout) findViewById(R.id.facebook_layout);
         policiesLayout = (LinearLayout) findViewById(R.id.policies_layout);
         phoneLayout = (LinearLayout) findViewById(R.id.view_hotel_phone_layout);
+        commentsLayout = (LinearLayout) findViewById(R.id.comments_layout);
+        roomsLayout = (LinearLayout) findViewById(R.id.rooms_layout);
+        if (!isUser() && hotel.getCompanyId() != getLoggedId()) {
+            roomsLayout.setVisibility(View.GONE);
+        }
+
+        hotelInfo = (TextView) findViewById(R.id.hotel_info_text);
+        hotelInfo.setOnClickListener(this);
+        hotelRooms = (TextView) findViewById(R.id.hotel_rooms);
+        hotelRooms.setOnClickListener(this);
+        hotelComments = (TextView) findViewById(R.id.hotel_comments);
+        hotelComments.setOnClickListener(this);
 
         hotelName = (TextView) findViewById(R.id.view_hotel_name);
         hotelCityName = (TextView) findViewById(R.id.view_hotel_city);
@@ -182,7 +207,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
         if (hotel.getPolicies().isEmpty()) {
             policiesLayout.setVisibility(View.GONE);
         } else {
-            hotelPolicies.setText(hotel.getWebpage());
+            hotelPolicies.setText(hotel.getPolicies());
         }
 
         webPageLayout.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +238,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
             }
             fabLayout.bringToFront();
 
-        }else{
+        } else {
             fabLayout.setVisibility(View.GONE);
         }
 
@@ -314,7 +339,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
     private void updateImageSwitcherImage() {
         currentIndex++;
-        if (currentIndex == imagesCount)
+        if (currentIndex >= imagesCount)
             currentIndex = 0;
         byte[] imageA = images.get(currentIndex);
         Bitmap bmp = BitmapFactory.decodeByteArray(imageA, 0, imageA.length);
@@ -335,7 +360,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
 
         if (!(isUser() && roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId).size() == 0)) {
             ArrayList<Room> containter = new ArrayList<>(roomDAO.getAllRoomsByHotelWithAvailableDates(hotelId));
-            roomAdapter = new RoomCardViewAdapter(this,containter, hotelId);
+            roomAdapter = new RoomCardViewAdapter(this, containter, hotelId);
             LinearLayoutManager lim = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             lim.setStackFromEnd(true);
             roomsRecView.setLayoutManager(lim);
@@ -396,6 +421,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
     public void onBackPressed() {
         Intent i = new Intent();
         if (isRatingChanged) {
+            Log.e(" tursq --- ", " vuv ViewHotel if is rating changed = true prashtam result code");
             setResult(HotelListActivity.CHANGE_RATING_CODE, i);
         }
         finish();
@@ -425,6 +451,38 @@ public class ViewHotelActivity extends AbstractDrawerActivity {
                 }
                 return;
 
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.hotel_info_text:
+                if (!isHotelInfoClicked) {
+                    hotelInfoCardView.setVisibility(View.GONE);
+                } else {
+                    hotelInfoCardView.setVisibility(View.VISIBLE);
+                }
+                isHotelInfoClicked = !isHotelInfoClicked;
+                break;
+            case R.id.hotel_rooms:
+                if (!(!isUser() && hotel.getCompanyId() != getLoggedId())) {
+                    if (!isAvailableRoomsClicked) {
+                        roomsLayout.setVisibility(View.GONE);
+                    } else {
+                        roomsLayout.setVisibility(View.VISIBLE);
+                    }
+                    isAvailableRoomsClicked = !isAvailableRoomsClicked;
+                }
+                break;
+            case R.id.hotel_comments:
+                if (!isCommentsClicked) {
+                    commentsLayout.setVisibility(View.GONE);
+                } else {
+                    commentsLayout.setVisibility(View.VISIBLE);
+                }
+                isCommentsClicked = !isCommentsClicked;
+                break;
         }
     }
 }

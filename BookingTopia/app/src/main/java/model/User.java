@@ -25,13 +25,6 @@ public class User {
 
     }
 
-//    for(Reservation booking, user.getBookings()){
-//        for(Room room, booking.getRooms()){
-//            for(Calendar date, room.getReservedDates()){
-//                // 'date' sa vsichki zaeti dati ot tozi potrebitel za 'room' , a rooms sa vs zaeti ot usera stai
-//            }
-//        }
-//    }
 
     public User(long userId, String names, String password, byte[] avatar, String email, String username, String mobilePhone, LocalDate dateOfBirth, String gender, String country, boolean smoking) {
         this.userId = userId;

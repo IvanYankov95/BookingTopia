@@ -107,7 +107,7 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
             final Bitmap oldAvatarPic = BitmapFactory.decodeByteArray(image, 0, image.length);
             avatar.setImageBitmap(oldAvatarPic);
 
-            password.setText("new password");
+            password.setText("");
             phone.setText(oldCompany.getPhone());
             address.setText(oldCompany.getAddress());
             description.setText(oldCompany.getDescription());
@@ -125,27 +125,30 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
 
                     boolean nameCheck = false;
                     boolean passwordCheck = false;
+                    boolean isPasswordChanged = false;
 
                     if (companyNameTxt.isEmpty())
                         name.setError("This field is required");
                     else
                         nameCheck = true;
 
-                    if (!passwordTxt.equalsIgnoreCase("new password")) {
-                        if (passwordTxt.isEmpty())
-                            password.setError("This field is required");
-                        else if (!helper.checkPasswordStrength(passwordTxt))
+                    if (!passwordTxt.equalsIgnoreCase("")) {
+                        if (!helper.checkPasswordStrength(passwordTxt))
                             password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
                         else if (!passwordTxt.equals(confirmPasswordTxt))
                             confirmPassword.setError("Passwords don't match");
                         else
                             passwordCheck = true;
-                        // password check
+                        isPasswordChanged = true;
                     } else {
+                        isPasswordChanged = false;
                         passwordCheck = true;
                     }
 
                     if (nameCheck &&  passwordCheck ) {
+
+                        if(!isPasswordChanged)
+                            passwordTxt = oldCompany.getPassword();
 
                         byte[] selectedAvatar;
                         if (avatarCheck)
