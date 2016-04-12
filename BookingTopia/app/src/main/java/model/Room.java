@@ -26,7 +26,6 @@ public class Room implements Serializable {
     private ArrayList<LocalDate> reservedDates = new ArrayList<>();
     private ArrayList<byte[]> images = new ArrayList<>();
 
-
     public Room(long roomId, long hotelId, double pricePerDay, String description, int maxGuests, String beds, double x, double y, String extras, boolean smoking, ArrayList<LocalDate> reservedDates, ArrayList<byte[]> images) {
         this.roomId = roomId;
         this.hotelId = hotelId;

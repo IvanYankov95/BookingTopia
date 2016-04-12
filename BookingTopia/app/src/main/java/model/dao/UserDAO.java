@@ -16,7 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import model.User;
-import model.connectionhelper.ConnectionHelper;
 
 /**
  * Created by user-17 on 4/2/16.

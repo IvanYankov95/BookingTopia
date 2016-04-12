@@ -19,7 +19,6 @@ public class Review implements Serializable {
     private double rating;
 
     public Review(long hotelID, String writer, String pros, String cons, double rating)  {
-        //shte se setva direktno pri suzdavane ot lognatiq user
         this.writer = writer;
         this.hotelID = hotelID;
         this.pros = pros;

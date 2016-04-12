@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -197,7 +198,6 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
                     String countryTxt = country.getText().toString();
 
                     boolean passwordCheck = false;
-                    boolean isPassChanging = false;
                     boolean nameCheck = false;
 
                     if (!passwordTxt.isEmpty()) {
@@ -205,11 +205,13 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
                             password.setError("Password is too weak\n At least 8 symbols\n At least one uppercase\n At least one lowercase\n At least one digit");
                         else if (!passwordTxt.equals(confirmPasswordTxt))
                             confirmPassword.setError("Passwords don't match");
-                        else
+                        else {
+                            passwordTxt = helper.md5(passwordTxt);
                             passwordCheck = true;
-                        isPassChanging = true;
+                        }
+
                     } else {
-                        isPassChanging = false;
+                        passwordTxt = user.getPassword();
                         passwordCheck = true;
                     }
 
@@ -227,17 +229,14 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
 
                         String names = firstNameTxt + " " + lastNameTxt;
 
-                        if (!isPassChanging) {
-                            passwordTxt = user.getPassword();
-                        }
-
                         byte[] selectedAvatar;
                         if (avatarCheck && avatarPic.size() != 0)
-                            selectedAvatar = avatarPic.get(avatarPic.size()-1);
+                            selectedAvatar = avatarPic.get(avatarPic.size() - 1);
                         else
                             selectedAvatar = user.getAvatar();
                         localDate = new LocalDate(dateOfBirth.getText().toString());
-                        User user2 = new User(names, helper.md5(passwordTxt), selectedAvatar, user.getEmail(), user.getUsername(), phoneTxt, localDate, selectedGender, countryTxt, smokerCheckBox.isChecked());
+                        Log.e("New password", passwordTxt);
+                        User user2 = new User(names, passwordTxt, selectedAvatar, user.getEmail(), user.getUsername(), phoneTxt, localDate, selectedGender, countryTxt, smokerCheckBox.isChecked());
 
                         long userId = userDAO.updateUser(user2);
 

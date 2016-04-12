@@ -110,7 +110,6 @@ public class HomeActivity extends AbstractDrawerActivity {
             }
         });
 
-
         checkInDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -145,7 +144,6 @@ public class HomeActivity extends AbstractDrawerActivity {
         });
 
     }
-
 
     private void picDate(final EditText edt, final boolean isFromDate) {
         class FragmentDatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener {

@@ -21,11 +21,6 @@ public class User {
     private String   country;
     private boolean  smoking;
 
-    public void addReservation(){
-
-    }
-
-
     public User(long userId, String names, String password, byte[] avatar, String email, String username, String mobilePhone, LocalDate dateOfBirth, String gender, String country, boolean smoking) {
         this.userId = userId;
         this.names = username;
