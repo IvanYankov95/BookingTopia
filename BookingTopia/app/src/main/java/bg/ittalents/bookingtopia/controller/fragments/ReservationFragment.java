@@ -100,6 +100,7 @@ public class ReservationFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Reservation reservation = new Reservation(0, room.getRoomId(), user_id);
+                reservation.setCompanyID(hotel.getCompanyId());
                 long reservationID = reservationDAO.reserve(reservation);
 
                 roomDAO.registerTakenDate(room, reservationID);

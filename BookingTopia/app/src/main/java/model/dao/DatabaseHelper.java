@@ -14,7 +14,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     // database name and version
     public static final String DATABASE_NAME = "BOOKINGTOPIA_DATABASE";
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
 
     // tables
     public static final String USERS        = "users";
@@ -97,6 +97,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
     //TAKEN_DATES table columns
     public static final String DATE = "date";
 
+    //Booking table columns
+    public static final String NOTIFICATION_SHOWED = "notification_showed";
+
     
     // CREATE statements
     private static final String CREATE_USERS_TABLE = "CREATE TABLE IF NOT EXISTS " + USERS + " ("
@@ -173,9 +176,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
             +") ";
 
     private static final String CREATE_BOOKINGS_TABLE =  "CREATE TABLE IF NOT EXISTS " + BOOKINGS + " ("
-            + BOOKING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + ROOM_ID    + " INTEGER, "
-            + USER_ID    + " INTEGER, "
+            + BOOKING_ID            + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + ROOM_ID               + " INTEGER, "
+            + USER_ID               + " INTEGER, "
+            + COMPANY_ID            + " INTEGER, "
+            + NOTIFICATION_SHOWED   + " INTEGER, "
             + "FOREIGN KEY ("+ ROOM_ID +") REFERENCES "+ ROOMS +"("+ ROOM_ID +")"
             + "FOREIGN KEY ("+ USER_ID +") REFERENCES "+ USERS +"("+ USER_ID +")"
             +") ";

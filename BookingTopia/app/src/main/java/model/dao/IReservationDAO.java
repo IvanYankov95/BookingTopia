@@ -18,7 +18,11 @@ public interface IReservationDAO {
 
     public ArrayList<Reservation> getReservationsByUser(long userId);
 
+    public ArrayList<Reservation> getReservationsByCompany(long companyId);
+
     public Reservation getReservationsByID(long bookID);
+
+    public void setReservationAsShowed(Reservation reservation);
 
     public ArrayList<LocalDate> getAllReservedDatesByReservation(long reservationID);
 }

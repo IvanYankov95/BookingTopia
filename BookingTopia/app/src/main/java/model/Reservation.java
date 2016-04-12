@@ -9,6 +9,8 @@ public class Reservation {
     private long bookID;
     private long roomID;
     private long userID;
+    private long companyID;
+    private boolean isNotificationShowed;
     private Hotel hotel;
     private Room room;
     private ArrayList<LocalDate> dates;
@@ -58,5 +60,21 @@ public class Reservation {
 
     public void setDates(ArrayList<LocalDate> dates) {
         this.dates = dates;
+    }
+
+    public long getCompanyID() {
+        return companyID;
+    }
+
+    public void setCompanyID(long companyID) {
+        this.companyID = companyID;
+    }
+
+    public boolean isNotificationShowed() {
+        return isNotificationShowed;
+    }
+
+    public void setNotificationShowed(boolean notificationShowed) {
+        isNotificationShowed = notificationShowed;
     }
 }

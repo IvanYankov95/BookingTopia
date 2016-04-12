@@ -44,11 +44,28 @@ public class ReservationDAO implements IReservationDAO {
 
         values.put(mDb.ROOM_ID, reservation.getRoomID());
         values.put(mDb.USER_ID, reservation.getUserID());
+        values.put(mDb.COMPANY_ID, reservation.getCompanyID());
+        values.put(mDb.NOTIFICATION_SHOWED, 0);
 
         long bookId = db.insert(mDb.BOOKINGS, null, values);
         db.close();
 
         return bookId;
+    }
+
+    @Override
+    public void setReservationAsShowed(Reservation reservation) {
+        SQLiteDatabase db = mDb.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(mDb.BOOKING_ID, reservation.getBookID());
+        values.put(mDb.ROOM_ID, reservation.getRoomID());
+        values.put(mDb.USER_ID, reservation.getUserID());
+        values.put(mDb.COMPANY_ID, reservation.getCompanyID());
+        values.put(mDb.NOTIFICATION_SHOWED, reservation.isNotificationShowed() ? 1 : 0);
+
+        long bookId = db.update(mDb.BOOKINGS, values, mDb.BOOKING_ID + " = ? ", new String[]{String.valueOf(reservation.getBookID())});
+        db.close();
     }
 
     public void removeReservation(Reservation reservation) {
@@ -84,6 +101,46 @@ public class ReservationDAO implements IReservationDAO {
                 reservation.setRoom(room);
                 reservation.setHotel(hotel);
                 reservation.setDates(dates);
+                reservations.add(reservation);
+            } while (c.moveToNext());
+        }
+
+        c.close();
+        db.close();
+        return reservations;
+    }
+
+    @Override
+    public ArrayList<Reservation> getReservationsByCompany(long companyId) {
+        Context context = null;
+        ArrayList<Reservation> reservations = new ArrayList<>();
+
+        SQLiteDatabase db = mDb.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + mDb.BOOKINGS
+                + " WHERE " + mDb.COMPANY_ID + " = \"" + companyId + "\" ";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        Reservation reservation = null;
+
+        if (c.moveToFirst()) {
+            do {
+                long id = c.getLong(c.getColumnIndex(mDb.BOOKING_ID));
+                long room_id = c.getLong(c.getColumnIndex(mDb.ROOM_ID));
+                long user_id = c.getLong(c.getColumnIndex(mDb.USER_ID));
+                long company_id = c.getLong(c.getColumnIndex(mDb.COMPANY_ID));
+                boolean notificationShowed = c.getInt(c.getColumnIndex(mDb.NOTIFICATION_SHOWED)) == 1 ? true : false;
+
+                Room room = RoomDAO.getInstance(context).getRoomById(room_id);
+                Hotel hotel = HotelDAO.getInstance(context).getHotel(room.getHotelId());
+                ArrayList<LocalDate> dates = getAllReservedDatesByReservation(id);
+                reservation = new Reservation(id, room_id, user_id);
+                reservation.setRoom(room);
+                reservation.setHotel(hotel);
+                reservation.setDates(dates);
+                reservation.setCompanyID(company_id);
+                reservation.setNotificationShowed(notificationShowed);
                 reservations.add(reservation);
             } while (c.moveToNext());
         }

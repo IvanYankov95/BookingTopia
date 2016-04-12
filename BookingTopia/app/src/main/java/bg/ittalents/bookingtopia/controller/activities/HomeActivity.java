@@ -1,10 +1,17 @@
 package bg.ittalents.bookingtopia.controller.activities;
 
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -24,9 +31,12 @@ import java.util.Calendar;
 
 import bg.ittalents.bookingtopia.R;
 import model.CalendarHelper;
+import model.Reservation;
+import model.User;
+import model.dao.ReservationDAO;
+import model.dao.UserDAO;
 
 public class HomeActivity extends AbstractDrawerActivity {
-
 
     Calendar calendar;
     private static String selectStars = "8";
@@ -55,6 +65,18 @@ public class HomeActivity extends AbstractDrawerActivity {
         starsNumber.add("5");
         starsNumber.add("6");
         starsNumber.add("7");
+
+        if(!isUser()){
+            ArrayList<Reservation> reservations = ReservationDAO.getInstance(this).getReservationsByCompany(getLoggedId());
+
+            for(Reservation res : reservations){
+                if(!res.isNotificationShowed()){
+                    notifyCompanyForReservation(res);
+                }
+            }
+
+            reservations = null;
+        }
 
         searchLayout = (LinearLayout) findViewById(R.id.search_layout);
         lm = (LinearLayout) findViewById(R.id.search_layout);
@@ -159,6 +181,34 @@ public class HomeActivity extends AbstractDrawerActivity {
             dateFragment.show(getSupportFragmentManager(), "datePicker");
 
         }
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void notifyCompanyForReservation(Reservation reservation) {
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+        nBuilder.setSmallIcon(R.drawable.icon);
+        nBuilder.setContentTitle("New reservation");
+        User user = UserDAO.getInstance(this).getUserById(reservation.getUserID());
+        String userName = user.getNames();
+        nBuilder.setContentText(userName + " reserved a room in " + reservation.getHotel().getName());
+        nBuilder.setAutoCancel(true);
+
+        Intent resultIntent = new Intent(this, HomeActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(HomeActivity.class);
+
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        nBuilder.setContentIntent(resultPendingIntent);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(1, nBuilder.build());
 
     }
 
