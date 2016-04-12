@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -152,8 +153,8 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
                             passwordTxt = oldCompany.getPassword();
 
                         byte[] selectedAvatar;
-                        if (avatarCheck)
-                            selectedAvatar = avatarPic.get(0);
+                        if (avatarCheck && avatarPic.size() != 0)
+                            selectedAvatar = avatarPic.get(avatarPic.size()-1);
                         else
                             selectedAvatar = oldCompany.getAvatar();
 
@@ -233,7 +234,9 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
                     if (nameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
 
                         //public Company(String name, String email, String password, String address, byte[] avatar, String phone, String description)
-                        Company company = new Company(usernameTxt, emailTxt, helper.md5(passwordTxt), addressTxt, avatarPic.get(0), phoneTxt, descriptionTxt);
+                        String md5Pass = helper.md5(passwordTxt);
+                        Log.e("Register company ", md5Pass);
+                        Company company = new Company(usernameTxt, emailTxt, md5Pass, addressTxt, avatarPic.get(avatarPic.size()-1), phoneTxt, descriptionTxt);
 
                         long companyID = companyDAO.registerCompany(company);
 

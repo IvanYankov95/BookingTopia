@@ -300,11 +300,11 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
                     workToCal.set(9999, getNumberFromMonth(selectedToMonth), Integer.valueOf(selectedToDate));
 
                     Hotel hotel = new Hotel(0, getLoggedId(), nameTxt, Integer.valueOf(selectedStars), addressTxt, 0, 0, workFromCal, workToCal, extrasTxt, 0, webPageTxt, facebookPageTxt, descriptionTxt, policiesTxt, null, pictures, null, cityTxt);
-
                     hotelDAO.registerHotel(hotel);
 
+                    Toast.makeText(CreateHotelActivity.this, "Hotel created successfully", Toast.LENGTH_SHORT).show();
 
-                    Intent i=new Intent();
+                    Intent i = new Intent();
                     setResult(HotelListActivity.SEND_CODE, i);
                     finish();
 
@@ -369,8 +369,6 @@ public class CreateHotelActivity extends AbstractDrawerActivity implements View.
                 break;
         }
     }
-
-
 
 
     private int getNumberFromMonth(String month) {

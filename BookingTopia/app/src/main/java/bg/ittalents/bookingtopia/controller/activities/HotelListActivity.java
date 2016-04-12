@@ -88,7 +88,7 @@ public class HotelListActivity extends AbstractDrawerActivity {
         if(hotels.size() == 0) {
             orderBy.setVisibility(View.GONE);
         }else {
-            orderBy.setVisibility(View.GONE);
+            orderBy.setVisibility(View.VISIBLE);
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, orderElems);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -11,10 +11,10 @@ import java.util.List;
  */
 public class Hotel implements Serializable{
 
-    private long hotelId;
-    private long companyId;
+    private long   hotelId;
+    private long   companyId;
     private String name = new String();
-    private int stars;
+    private int    stars;
     private String address = new String();
     private double xCoordinate;
     private double yCoordinate;

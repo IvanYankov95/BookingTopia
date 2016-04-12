@@ -11,6 +11,4 @@ public class CalendarHelper {
 
     public static LocalDate fromDate = LocalDate.now();
     public static LocalDate toDate = LocalDate.now().plusDays(1);
-
-
 }

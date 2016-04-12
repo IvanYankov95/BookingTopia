@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorAccent"
     android:orientation="vertical"
-    tools:context="bg.ittalents.bookingTopia.Register">
+    tools:context="bg.ittalents.bookingTopia.RegisterUser">
 
     <Button
         android:id="@+id/register_user_register_button"

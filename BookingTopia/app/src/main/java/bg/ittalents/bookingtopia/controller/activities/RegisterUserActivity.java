@@ -232,10 +232,11 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
                         }
 
                         byte[] selectedAvatar;
-                        if (avatarCheck)
-                            selectedAvatar = avatarPic.get(0);
+                        if (avatarCheck && avatarPic.size() != 0)
+                            selectedAvatar = avatarPic.get(avatarPic.size()-1);
                         else
                             selectedAvatar = user.getAvatar();
+                        localDate = new LocalDate(dateOfBirth.getText().toString());
                         User user2 = new User(names, helper.md5(passwordTxt), selectedAvatar, user.getEmail(), user.getUsername(), phoneTxt, localDate, selectedGender, countryTxt, smokerCheckBox.isChecked());
 
                         long userId = userDAO.updateUser(user2);
@@ -325,7 +326,8 @@ public class RegisterUserActivity extends AbstractDrawerActivity {
 
 
                         String names = firstNameTxt + " " + lastNameTxt;
-                        User user = new User(names, helper.md5(passwordTxt), avatarPic.get(0), emailTxt, usernameTxt, phoneTxt, localDate, selectedGender, countryTxt, smokerCheckBox.isChecked());
+
+                        User user = new User(names, helper.md5(passwordTxt), avatarPic.get(avatarPic.size()-1), emailTxt, usernameTxt, phoneTxt, localDate, selectedGender, countryTxt, smokerCheckBox.isChecked());
 
                         long userId = userDAO.registerUser(user);
 

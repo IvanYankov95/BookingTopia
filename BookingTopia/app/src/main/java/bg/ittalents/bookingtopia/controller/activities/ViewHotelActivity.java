@@ -67,7 +67,6 @@ public class ViewHotelActivity extends AbstractDrawerActivity implements View.On
     private static LinearLayout roomsLayout;
     private static LinearLayout commentsLayout;
 
-
     private static TextView hotelInfo;
     private static TextView hotelRooms;
     private static TextView hotelComments;
@@ -174,7 +173,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity implements View.On
         if (hotel.getReviews().size() != 0) {
             rating.setText(String.valueOf(df.format(hotel.getRating())));
         } else {
-            rating.setText(String.valueOf(df.format(rate)));
+            rating.setText("0.0");
         }
         hotelName.setText(hotel.getName());
         hotelCityName.setText(hotel.getCity());
@@ -280,7 +279,7 @@ public class ViewHotelActivity extends AbstractDrawerActivity implements View.On
         imageSwitcher.setOutAnimation(out);
         imageSwitcher.setAnimateFirstView(false);
 
-        myHandler.postDelayed(r, 1000);
+        myHandler.postDelayed(r, 3000);
 
         imageSwitcher.setOnClickListener(new View.OnClickListener() {
             @Override

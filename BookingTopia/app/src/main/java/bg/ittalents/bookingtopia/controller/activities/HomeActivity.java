@@ -190,7 +190,7 @@ public class HomeActivity extends AbstractDrawerActivity {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void notifyCompanyForReservation(Reservation reservation) {
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
-        nBuilder.setSmallIcon(R.drawable.icon);
+        nBuilder.setSmallIcon(R.drawable.logo);
         nBuilder.setContentTitle("New reservation");
         User user = UserDAO.getInstance(this).getUserById(reservation.getUserID());
         String userName = user.getNames();

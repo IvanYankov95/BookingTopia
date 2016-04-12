@@ -32,7 +32,6 @@ public class LogInActivity extends AbstractDrawerActivity {
     private static CheckBox logInAsCompany;
     private static Button register;
     private static Button logIn;
-   // private static CheckBox keepMeLoggedIn;
 
     private static EditText email;
     private static EditText password;
@@ -78,6 +77,7 @@ public class LogInActivity extends AbstractDrawerActivity {
                     if (user == null) {
                         Toast.makeText(LogInActivity.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
                     } else {
+                        Log.e(" checking reg --- ", "" + emailText + " " + passwordText + " " + RegisterHelper.md5(passwordText));
                         Toast.makeText(LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                       //  if(keepMeLoggedIn.isChecked()){
                              session.createUserLoginSession(user.getUserId(), "true");
@@ -85,6 +85,7 @@ public class LogInActivity extends AbstractDrawerActivity {
                         startActivity(new Intent(LogInActivity.this, HomeActivity.class));
                     }
                 } else {
+
                     Company company = companyDAO.login(emailText, RegisterHelper.md5(passwordText));
                     if (company == null) {
                         Toast.makeText(LogInActivity.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
