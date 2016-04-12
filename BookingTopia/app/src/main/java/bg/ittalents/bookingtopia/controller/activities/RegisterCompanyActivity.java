@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import bg.ittalents.bookingtopia.R;
@@ -30,8 +31,6 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
 
     // constants
     protected static final int IMAGE_GALLERY_REQUEST_1 = 21;
-    protected static final int REQ_WIDTH = 200;
-    protected static final int REQ_HEIGHT = 200;
 
     private static ICompanyDAO companyDAO;
 
@@ -49,7 +48,7 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
 
     private static Button register;
 
-    private static byte[] avatarPic;
+    private static ArrayList<byte[]> avatarPic;
     private static boolean avatarCheck;
 
 
@@ -64,6 +63,8 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
         else
             toolbar.setTitle("Register company");
         setSupportActionBar(toolbar);
+
+        avatarPic = new ArrayList<>();
 
         register = (Button) findViewById(R.id.register_company_register_button);
 
@@ -152,7 +153,7 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
 
                         byte[] selectedAvatar;
                         if (avatarCheck)
-                            selectedAvatar = avatarPic;
+                            selectedAvatar = avatarPic.get(0);
                         else
                             selectedAvatar = oldCompany.getAvatar();
 
@@ -232,7 +233,7 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
                     if (nameCheck && emailCheck && passwordCheck && nameCheck && avatarCheck) {
 
                         //public Company(String name, String email, String password, String address, byte[] avatar, String phone, String description)
-                        Company company = new Company(usernameTxt, emailTxt, helper.md5(passwordTxt), addressTxt, avatarPic, phoneTxt, descriptionTxt);
+                        Company company = new Company(usernameTxt, emailTxt, helper.md5(passwordTxt), addressTxt, avatarPic.get(0), phoneTxt, descriptionTxt);
 
                         long companyID = companyDAO.registerCompany(company);
 
@@ -245,7 +246,6 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
                         }
                         //startActivity(new Intent(Register.this, LogIn.class));
                     }
-
                 }
             });
 
@@ -260,89 +260,11 @@ public class RegisterCompanyActivity extends AbstractDrawerActivity {
 
             switch (requestCode) {
                 case IMAGE_GALLERY_REQUEST_1:
-                    setPicture(avatar, data);
+                    setPicture(avatar, data, avatarPic);
+                    avatarCheck = true;
                     break;
             }
         }
-    }
-
-    private void setPicture(ImageButton button, Intent data) {
-        Uri imageUrl = data.getData();
-
-        InputStream inputStream = null;
-        InputStream inputStream2 = null;
-        ByteArrayOutputStream stream = null;
-        try {
-            inputStream = getContentResolver().openInputStream(imageUrl);
-            inputStream2 = getContentResolver().openInputStream(imageUrl);
-
-            Bitmap image = decodeSampledBitmapFromStream(inputStream, inputStream2, REQ_WIDTH, REQ_HEIGHT);
-
-            stream = new ByteArrayOutputStream();
-
-            image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-
-            avatarPic = stream.toByteArray();
-            avatarCheck = true;
-
-            button.setImageBitmap(image);
-
-        } catch (FileNotFoundException e) {
-            Toast.makeText(RegisterCompanyActivity.this, "Unable to open image", Toast.LENGTH_SHORT).show();
-        } finally {
-            try {
-                if (inputStream != null)
-                    inputStream.close();
-            } catch (Exception e) {
-            }
-            try {
-                if (inputStream2 != null)
-                    inputStream2.close();
-            } catch (Exception e) {
-            }
-            try {
-                if (stream != null)
-                    stream.close();
-            } catch (Exception e) {
-            }
-        }
-    }
-
-    protected static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
-
-    protected static Bitmap decodeSampledBitmapFromStream(InputStream inputStream, InputStream inputStream2, int reqWidth, int reqHeight) {
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(inputStream, null, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeStream(inputStream2, null, options);
     }
 
 }

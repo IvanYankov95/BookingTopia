@@ -32,8 +32,11 @@ public class ShowReservationFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_show_reservation, container, false);
-
-        ArrayList<Reservation> reservations = ReservationDAO.getInstance(context).getReservationsByUser(loggedID);
+        ArrayList<Reservation> reservations;
+        if( ( (AbstractDrawerActivity)context).isUser() )
+            reservations = ReservationDAO.getInstance(context).getReservationsByUser(loggedID);
+        else
+            reservations = ReservationDAO.getInstance(context).getReservationsByCompany(loggedID);
 
         RecyclerView imagesRecView = (RecyclerView) v.findViewById(R.id.show_reservation_recycler_view);
         ShowReservationAdapter adapter = new ShowReservationAdapter((AbstractDrawerActivity)context, reservations);

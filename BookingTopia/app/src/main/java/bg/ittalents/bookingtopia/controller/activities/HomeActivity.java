@@ -33,6 +33,7 @@ import bg.ittalents.bookingtopia.R;
 import model.CalendarHelper;
 import model.Reservation;
 import model.User;
+import model.dao.IReservationDAO;
 import model.dao.ReservationDAO;
 import model.dao.UserDAO;
 
@@ -68,10 +69,12 @@ public class HomeActivity extends AbstractDrawerActivity {
 
         if(!isUser()){
             ArrayList<Reservation> reservations = ReservationDAO.getInstance(this).getReservationsByCompany(getLoggedId());
-
+            IReservationDAO resDao = ReservationDAO.getInstance(this);
             for(Reservation res : reservations){
                 if(!res.isNotificationShowed()){
                     notifyCompanyForReservation(res);
+                    res.setNotificationShowed(true);
+                    resDao.setReservationAsShowed(res);
                 }
             }
 

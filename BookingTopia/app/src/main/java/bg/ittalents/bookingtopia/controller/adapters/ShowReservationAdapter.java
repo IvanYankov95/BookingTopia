@@ -18,6 +18,8 @@ import bg.ittalents.bookingtopia.controller.activities.AbstractDrawerActivity;
 import model.Hotel;
 import model.Reservation;
 import model.Room;
+import model.User;
+import model.dao.UserDAO;
 
 /**
  * Created by Ivan on 10-Apr-16.
@@ -71,11 +73,11 @@ public class ShowReservationAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         Reservation reservation = reservations.get(position);
         Room room = reservation.getRoom();
         Hotel hotel = reservation.getHotel();
-
+        User user = UserDAO.getInstance(activity).getUserById(reservation.getUserID());
         Bitmap image = BitmapFactory.decodeByteArray(room.getImages().get(0) , 0, room.getImages().get(0).length);
         vh.image.setImageBitmap(image);
         vh.title.setText(hotel.getName());
-        vh.city.setText(hotel.getCity());
+        vh.city.setText(hotel.getCity() + "\nRes by: " + user.getNames());
         vh.price.setText("Price per day: " + room.getPricePerDay());
         vh.dates.setText(reservation.getDates().get(0) + " " + reservation.getDates().get(reservation.getDates().size() - 1));
 

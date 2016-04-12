@@ -8,7 +8,9 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,9 +20,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import bg.ittalents.bookingtopia.R;
@@ -33,6 +42,9 @@ import model.dao.UserDAO;
 
 public class AbstractDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    protected static final int REQ_WIDTH = 200;
+    protected static final int REQ_HEIGHT = 200;
 
     UserSessionManager session;
     UserDAO udao = UserDAO.getInstance(this);
@@ -67,7 +79,8 @@ public class AbstractDrawerActivity extends AppCompatActivity
                 Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
                 ((ImageView) navigationView.getHeaderView(0).findViewById(R.id.avatar)).setImageBitmap(getCroppedBitmap(bmp));
                 ((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(cdao.getName(getLoggedId()));
-                navigationView.getMenu().getItem(3).setVisible(false);
+                //navigationView.getMenu().getItem(3).setVisible(false);
+                navigationView.getMenu().getItem(3).setTitle("Reservations in my hotels");
                 navigationView.getMenu().getItem(4).setVisible(false);
             }
         }
@@ -144,11 +157,11 @@ public class AbstractDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_home) {
             startActivity(new Intent(this, HomeActivity.class));
         } else if (id == R.id.nav_my_reservations) {
-            ShowReservationFragment dialog = new ShowReservationFragment();
-            Bundle bundle = new Bundle();
-            bundle.putLong("user_id", getLoggedId());
-            dialog.setArguments(bundle);
-            dialog.show(AbstractDrawerActivity.this.getFragmentManager(), "MyDialogFragment");
+                ShowReservationFragment dialog = new ShowReservationFragment();
+                Bundle bundle = new Bundle();
+                bundle.putLong("user_id", getLoggedId());
+                dialog.setArguments(bundle);
+                dialog.show(AbstractDrawerActivity.this.getFragmentManager(), "MyDialogFragment");
 
         } else if (id == R.id.nav_view_my_hotels) {
             Intent intent = new Intent(this, HotelListActivity.class);
@@ -200,7 +213,6 @@ public class AbstractDrawerActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-
     }
 
     @Override
@@ -211,6 +223,96 @@ public class AbstractDrawerActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+    }
+
+    protected void askForPhotoWithIntent(int request) {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        String pictureDirectoryPath = pictureDirectory.getPath();
+        Uri data = Uri.parse(pictureDirectoryPath);
+
+        photoPickerIntent.setDataAndType(data, "image/*");
+
+        startActivityForResult(photoPickerIntent, request);
+    }
+
+    protected void setPicture(ImageButton button, Intent data, ArrayList<byte[]> pictures) {
+        Uri imageUrl = data.getData();
+
+        InputStream inputStream = null;
+        InputStream inputStream2 = null;
+        ByteArrayOutputStream stream = null;
+        try {
+            inputStream = getContentResolver().openInputStream(imageUrl);
+            inputStream2 = getContentResolver().openInputStream(imageUrl);
+
+            Bitmap image = decodeSampledBitmapFromStream(inputStream, inputStream2, REQ_WIDTH, REQ_HEIGHT);
+
+            stream = new ByteArrayOutputStream();
+
+            image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+            pictures.add(stream.toByteArray());
+
+            button.setImageBitmap(image);
+
+        } catch (FileNotFoundException e) {
+            Toast.makeText(AbstractDrawerActivity.this, "Unable to open image", Toast.LENGTH_SHORT).show();
+        } finally {
+            try {
+                if (inputStream != null)
+                    inputStream.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (inputStream2 != null)
+                    inputStream2.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (stream != null)
+                    stream.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    protected static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
+    protected static Bitmap decodeSampledBitmapFromStream(InputStream inputStream, InputStream inputStream2, int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream(inputStream, null, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeStream(inputStream2, null, options);
 
     }
 
